@@ -110,6 +110,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="algorithm_utilities.h" />
+    <ClInclude Include="dynamic_matrix.h" />
+    <ClInclude Include="dynamic_r3_tensor.h" />
+    <ClInclude Include="file_loader.h" />
+    <ClInclude Include="file_manipulator.h" />
+    <ClInclude Include="string_utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
