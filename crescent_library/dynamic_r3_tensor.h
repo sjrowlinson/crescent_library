@@ -28,11 +28,11 @@ namespace crsc {
 		typedef typename std::vector<_Ty, _Alloc>::reverse_iterator reverse_iterator;
 	private:
 		/**
-		* \class proxy_column_vector
-		*
-		* \brief Proxy class used for enabling operator[][][] overload on dynamic_r3_tensor objects, represents
-		*        a "column-vector" of the rank-3 tensor.
-		*/
+		 * \class proxy_column_vector
+		 *
+		 * \brief Proxy class used for enabling operator[][][] overload on dynamic_r3_tensor objects, represents
+		 *        a "column-vector" of the rank-3 tensor.
+		 */
 		class proxy_column_vector {
 		public:
 			proxy_column_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _col_index, size_type _cols, size_type _rows)
@@ -52,11 +52,11 @@ namespace crsc {
 			size_type tensor_rows;
 		};
 		/**
-		* \class proxy_row_vector
-		*
-		* \brief Proxy class used for enabling operator[][][] overload on dynamic_r3_tensor objects, represents
-		*        a "row-vector" of the rank-3 tensor.
-		*/
+		 * \class proxy_row_vector
+		 *
+		 * \brief Proxy class used for enabling operator[][][] overload on dynamic_r3_tensor objects, represents
+		 *        a "row-vector" of the rank-3 tensor.
+		 */
 		class proxy_row_vector {
 		public:
 			proxy_row_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _cols, size_type _rows)
@@ -97,7 +97,16 @@ namespace crsc {
 		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const _Alloc& alloc)
 			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {
 		}
-		// TODO: copy and move assignment operators => need swap(dynamic_r3_tensor&) method for copy-swap idiom.
+		dynamic_r3_tensor& operator=(const dynamic_r3_tensor& _other) {
+			if (this != &_other)
+				dynamic_r3_tensor(_other).swap(*this);
+			return *this;
+		}
+		dynamic_r3_tensor& operator=(dynamic_r3_tensor&& _other) {
+			if (this != &_other)
+				dynamic_r3_tensor(std::move(_other)).swap(*this);
+			return *this;
+		}
 		allocator_type get_allocator() const {
 			return tnsr.get_allocator();
 		}
@@ -235,6 +244,18 @@ namespace crsc {
 			crsc::dynamic_matrix<value_type> resized = _plane_mtx;
 			resized.resize(slices_, cols_);
 			return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
+		}
+		void swap(dynamic_r3_tensor& _other) {
+			tnsr.swap(_other.tnsr);
+			size_type tmp_rows = rows_;
+			size_type tmp_cols = cols_;
+			size_type tmp_slices = slices_;
+			rows_ = _other.rows_;
+			cols_ = _other.cols_;
+			slices_ = _other.slices_;
+			_other.rows_ = tmp_rows;
+			_other.cols_ = tmp_cols;
+			_other.slices_ = tmp_slices;
 		}
 
 	private:
