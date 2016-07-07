@@ -7,7 +7,12 @@
 
 namespace crsc {
 
-	// sorts a generic std::vector by index tags
+	/**
+	 * \brief Tag-sorts a `std::vector` returning the sorted vector of indices.
+	 *
+	 * \param _vec `std::vector` of data.
+	 * \return `std::vector` of indices ordered by sorting of `_vec`.
+	 */
 	template<typename _Ty> std::vector<std::size_t> tag_sort(const std::vector<_Ty>& _vec) {
 		// allocate std::vector for tag indices with capacity of _vec
 		std::vector<std::size_t> tag_vec(_vec.size());

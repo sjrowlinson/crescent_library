@@ -9,6 +9,37 @@
 
 namespace crsc {
 
+	/**
+	 * \class dynamic_r3_tensor
+	 *
+	 * \brief A container encapsulating a `std::vector` using a row-major configuration to store a rank 3 tensor-style object. The
+	 *        number of elements in every row are equal, number of elements in every column are equal and number of elements in 
+	 *        every slice are equal such that no holes occur in the structure.
+	 *
+	 * The elements of the `dynamic_r3_tensor` are stored contiguously such that they can be accessed through iterators as well as
+	 * offsets on regular pointers to elements. Storage of a `dynamic_r3_tensor` is handled automatically allowing expansion and
+	 * contraction when required. The total amount of allocated memory for the entire tensor can be queried via the `capacity()` 
+	 * method. Extra memory currently not in use by the `dynamic_r3_tensor` instance can be released back to the system via calling
+	 * `shrink_to_fit()`.
+	 *
+	 * Rellocations occur when additional memory is exhausted, these can be costly in terms of performance - minimum time complexity
+	 * of linear in the size of the tensor. To avoid reallocations use `reserve()` if the dimensions of the matrix will be known 
+	 * beforehand (i.e. before using `push` or `insert` operations).
+	 *
+	 * Iteration support is via a `std::bidirectional_iterator` from the `std::vector` data structure, therefore both random access
+	 * iteration and forward iteration are allowed. The order of iteration uses an "in-order traversal" such that elements of the 
+	 * `dynamic_r3_tensor` are iterated through by rows from left to right, top to bottom with slices traversed from front to back.
+	 *
+	 * \tparam _Ty The type of the elements.
+	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements of 
+	 *         `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \remark As this is a dynamic data structure the dimensions of the `dynamic_r3_tensor` do NOT need to be known at compile-time,
+	 *         these dimensions can be manipulated at run-time.
+	 * \invariant Every row shall have an equal number of elements, every column shall have an equal number of elements and every
+	 *            slices shall have an equal number of elements such that no holes occur in the structure.
+	 * \author Samuel Rowlinson
+	 * \date July, 2016
+	 */
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>
 	> class dynamic_r3_tensor {
@@ -244,6 +275,21 @@ namespace crsc {
 			crsc::dynamic_matrix<value_type> resized = _plane_mtx;
 			resized.resize(slices_, cols_);
 			return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
+		}
+		void rows_resize(size_type _rows, const value_type& _val = value_type()) {
+			size_type tmp_local_rows = rows_;
+			if (_rows == tmp_local_rows) return;
+			if (_rows > rows_) {
+				for (size_type i = 0; i < (_rows - tmp_local_rows); ++i) {
+					insert_row(rows_, val);
+				}
+			}
+			else {
+				for (size_type i = 0; i < (tmp_local_rows - _rows); ++i) {
+					//pop_row();
+				}
+			}
+			tnsr.resize(_rows*cols_*slices_);
 		}
 		void swap(dynamic_r3_tensor& _other) {
 			tnsr.swap(_other.tnsr);

@@ -33,7 +33,7 @@ namespace crsc {
 	 * The complexity of common operations on `dynamic_matrix` objects are:
 	 *
 	 * - Random access - constant O(1).
-	 * - Insertion or removal of rows/columns at the end - amortized constant O(1).
+	 * - Insertion or removal of rows/columns at the end - linear in number of columns/rows respectively: \[O(n_c)\], \[O(n_r)\]. 
 	 * - Insertion or removal of rows/columns - linear in `std::distance` to the end of the `dynamic_matrix` O(n).
 	 *
 	 * \tparam _Ty The type of the elements.
@@ -46,7 +46,7 @@ namespace crsc {
 	 * \invariant Every row shall have an equal number of elements and every column shall have an equal number of elements
 	 *            such that no holes occur in the structure.
 	 * \author Samuel Rowlinson
-	 * \data July, 2016
+	 * \date July, 2016
 	 */
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>
