@@ -753,16 +753,13 @@ namespace crsc {
 			size_type tmp_local_rows = rows_;
 			if (_rows == tmp_local_rows) return;
 			if (_rows > rows_) {
-				for (size_type i = 0; i < (_rows - tmp_local_rows); ++i) {
+				for (size_type i = 0; i < (_rows - tmp_local_rows); ++i) 
 					insert_row(rows_, _val);
-				}
 			}
 			else {
-				for (size_type i = 0; i < (tmp_local_rows - _rows); ++i) {
+				for (size_type i = 0; i < (tmp_local_rows - _rows); ++i)
 					pop_row();
-				}
 			}
-			mtx.resize(_rows*cols_);
 		}
 		/**
 		 * \brief Resizes the container to contain `_cols` column vectors, with any extra values
@@ -780,16 +777,13 @@ namespace crsc {
 			size_type tmp_local_cols = cols_;
 			if (_cols == tmp_local_cols) return;
 			if (_cols > cols_) {
-				for (size_type i = 0; i < (_cols - tmp_local_cols); ++i) {
+				for (size_type i = 0; i < (_cols - tmp_local_cols); ++i)
 					insert_column(cols_, _val);
-				}
 			}
 			else {
-				for (size_type i = 0; i < (tmp_local_cols - _cols); ++i) {
+				for (size_type i = 0; i < (tmp_local_cols - _cols); ++i)
 					pop_column();
-				}
 			}
-			mtx.resize(rows_*_cols);
 		}
 		/**
 		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors with
