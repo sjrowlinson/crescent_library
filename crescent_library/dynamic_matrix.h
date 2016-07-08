@@ -100,8 +100,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 */
 		explicit dynamic_matrix(const _Alloc& alloc)
-			: mtx(alloc), rows_(0), cols_(0) {
-		}
+			: mtx(alloc), rows_(0), cols_(0) {}
 		/**
 		 * \brief Constructs the container with `_rows*_cols` default-inserted
 		 *        instances of `_Ty`.
@@ -111,8 +110,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 */
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
-			: mtx(_rows*_cols, alloc), rows_(_rows), cols_(_cols) {
-		}
+			: mtx(_rows*_cols, value_type(), alloc), rows_(_rows), cols_(_cols) {}	// temporarily using 3-arg constructor due to MSVC2015 bug
 		/**
 		 * \brief Constructs the container with `_rows*_cols` copies of elements
 		 *        with value `_val`.
@@ -123,8 +121,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 */
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const value_type& _val, const _Alloc& alloc = _Alloc())
-			: mtx(_rows*_cols, _val, alloc), rows_(_rows), cols_(_cols) {
-		}
+			: mtx(_rows*_cols, _val, alloc), rows_(_rows), cols_(_cols) {}
 		/**
 		 * \brief Copy constructor. Constructs the container with the copy of the
 		 *        contents of `_other`. Allocator is obtained through calling
@@ -134,8 +131,7 @@ namespace crsc {
 		 *               initialise elements of the container with.
 		 */
 		dynamic_matrix(const dynamic_matrix& _other)
-			: mtx(_other.mtx), rows_(_other.rows_), cols_(_other.cols_) {
-		}
+			: mtx(_other.mtx), rows_(_other.rows_), cols_(_other.cols_) {}
 		/**
 		 * \brief Copy constructor. Constructs the container with the copy of the
 		 *        contents of `_other`.
@@ -145,8 +141,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 */
 		dynamic_matrix(const dynamic_matrix& _other, const _Alloc& alloc)
-			: mtx(_other.mtx, alloc), rows_(_other.rows_), cols_(_other.cols_) {
-		}
+			: mtx(_other.mtx, alloc), rows_(_other.rows_), cols_(_other.cols_) {}
 		/**
 		 * \brief Move constructor. Constructs the containers with the contents
 		 *        of `_other` using move-semantics. Allocator is obtained by
@@ -156,8 +151,7 @@ namespace crsc {
 		 *               initialise elements of the container with.
 		 */
 		dynamic_matrix(dynamic_matrix&& _other)
-			: mtx(std::move(_other.mtx)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {
-		}
+			: mtx(std::move(_other.mtx)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
 		/**
 		 * \brief Move constructor. Constructs the containers with the contents
 		 *        of `_other` using move-semantics.
@@ -167,8 +161,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 */
 		dynamic_matrix(dynamic_matrix&& _other, const _Alloc& alloc)
-			: mtx(std::move(_other.mtx), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {
-		}
+			: mtx(std::move(_other.mtx), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
 		/**
 		 * \brief Copy-assignment operator. Replaces the contents of the container with a
 		 *        copy of the contents of `_other`.
