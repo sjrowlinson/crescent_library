@@ -108,26 +108,19 @@ namespace crsc {
 	public:
 		dynamic_r3_tensor() : dynamic_r3_tensor(_Alloc()) {}
 		explicit dynamic_r3_tensor(const _Alloc& alloc)
-			: tnsr(alloc), rows_(0), cols_(0), slices_(0) {
-		}
+			: tnsr(alloc), rows_(0), cols_(0), slices_(0) {}
 		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const _Alloc& alloc = _Alloc())
-			: tnsr(_rows*_cols*_slices, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {
-		}
+			: tnsr(_rows*_cols*_slices,  value_type(), alloc), rows_(_rows), cols_(_cols), slices_(_slices) {} // temporarily using 3-arg constructor due to MSVC2015 bug
 		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const value_type& _val, const _Alloc& alloc = _Alloc())
-			: tnsr(_rows*_cols*_slices, _val, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {
-		}
+			: tnsr(_rows*_cols*_slices, _val, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {}
 		dynamic_r3_tensor(const dynamic_r3_tensor& _other)
-			: tnsr(_other.tnsr), rows_(_other.rows_), cols_(_other.cols_), slices_(_other.slices_) {
-		}
+			: tnsr(_other.tnsr), rows_(_other.rows_), cols_(_other.cols_), slices_(_other.slices_) {}
 		dynamic_r3_tensor(const dynamic_r3_tensor& _other, const _Alloc& alloc)
-			: tnsr(_other.tnsr, alloc), rows_(_other.rows_), cols_(_other.cols_), slices_(_other.slices_) {
-		}
+			: tnsr(_other.tnsr, alloc), rows_(_other.rows_), cols_(_other.cols_), slices_(_other.slices_) {}
 		dynamic_r3_tensor(dynamic_r3_tensor&& _other)
-			: tnsr(std::move(_other.tnsr)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {
-		}
+			: tnsr(std::move(_other.tnsr)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
 		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const _Alloc& alloc)
-			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {
-		}
+			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
 		dynamic_r3_tensor& operator=(const dynamic_r3_tensor& _other) {
 			if (this != &_other)
 				dynamic_r3_tensor(_other).swap(*this);

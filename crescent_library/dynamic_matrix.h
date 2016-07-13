@@ -74,8 +74,7 @@ namespace crsc {
 		class proxy_row_vector {
 		public:
 			proxy_row_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _cols)
-				: vec(_vec), row_index(_row_index), columns(_cols) {
-			}
+				: vec(_vec), row_index(_row_index), columns(_cols) {}
 			const_reference operator[](size_type _col_index) const {
 				return vec[row_index*columns + _col_index];
 			}
@@ -91,6 +90,8 @@ namespace crsc {
 		/**
 		 * \brief Default constructor, initialises emtpy container (zero rows and columns) using
 		 *        default constructed allocator.
+		 *
+		 * \complexity Constant.
 	 	 */
 		dynamic_matrix() : dynamic_matrix(_Alloc()) {}
 		/**
@@ -98,6 +99,7 @@ namespace crsc {
 		 *        specified allocator.
 		 *
 		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Constant.
 		 */
 		explicit dynamic_matrix(const _Alloc& alloc)
 			: mtx(alloc), rows_(0), cols_(0) {}
@@ -108,6 +110,7 @@ namespace crsc {
 		 * \param _rows Number of rows.
 		 * \param _cols Number of columns.
 		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Linear in `_rows*_cols`.
 		 */
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
 			: mtx(_rows*_cols, value_type(), alloc), rows_(_rows), cols_(_cols) {}	// temporarily using 3-arg constructor due to MSVC2015 bug
@@ -119,6 +122,7 @@ namespace crsc {
 		 * \param _cols Number of columns.
 		 * \param _val Value to initialise elements of the container with.
 		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Linear in `_rows*_cols`.
 		 */
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const value_type& _val, const _Alloc& alloc = _Alloc())
 			: mtx(_rows*_cols, _val, alloc), rows_(_rows), cols_(_cols) {}
@@ -129,6 +133,7 @@ namespace crsc {
 		 *
 		 * \param _other Another `dynamic_matrix` container to be used as source to
 		 *               initialise elements of the container with.
+		 * \complexity Linear in `_other.rows()*_other.columns()`.
 		 */
 		dynamic_matrix(const dynamic_matrix& _other)
 			: mtx(_other.mtx), rows_(_other.rows_), cols_(_other.cols_) {}
@@ -139,6 +144,7 @@ namespace crsc {
 		 * \param _other Another `dynamic_matrix` container to be used as source to
 		 *               initialise elements of the container with.
 		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Linear in `_other.rows()*_other.columns()`.
 		 */
 		dynamic_matrix(const dynamic_matrix& _other, const _Alloc& alloc)
 			: mtx(_other.mtx, alloc), rows_(_other.rows_), cols_(_other.cols_) {}
@@ -149,6 +155,7 @@ namespace crsc {
 		 *
 		 * \param _other Another `dynamic_matrix` container to be used as source to
 		 *               initialise elements of the container with.
+		 * \complexity Constant.
 		 */
 		dynamic_matrix(dynamic_matrix&& _other)
 			: mtx(std::move(_other.mtx)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
@@ -159,15 +166,25 @@ namespace crsc {
 		 * \param _other Another `dynamic_matrix` container to be used as source to
 		 *               initialise elements of the container with.
 		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity If `alloc != _other.get_allocator()` linear, otherwise constant.
 		 */
 		dynamic_matrix(dynamic_matrix&& _other, const _Alloc& alloc)
 			: mtx(std::move(_other.mtx), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
+		/**
+		 * \brief Destructs the container. The destructors of the elements are called and the used storage is deallocated.
+		 *        Note that if the elements are raw pointers, the pointed-to objects are not destroyed. Use smart pointers
+		 *        instead of raw pointers to ensure memory handling takes place.
+		 *
+		 * \complexity Linear in `rows()*columns()`.
+		 */
+		~dynamic_matrix() {}
 		/**
 		 * \brief Copy-assignment operator. Replaces the contents of the container with a
 		 *        copy of the contents of `_other`.
 		 *
 		 * \param _other Another `dynamic_matrix` container to use as data source.
 		 * \return `*this`.
+		 * \complexity Linear in the size of `*this` and `_other`.
 		 */
 		dynamic_matrix& operator=(const dynamic_matrix& _other) {
 			if (this != &_other)
@@ -180,6 +197,8 @@ namespace crsc {
 		 *
 		 * \param _other Another `dynamic_matrix` container to use as data source.
 		 * \return `*this`.
+		 * \complexity Linear in the size of `*this` unless the allocators do not compare equal and do not propagate,
+		 *             in which case linear in the size of `*this` and `_other`.
 		 */
 		dynamic_matrix& operator=(dynamic_matrix&& _other) {
 			if (this != &_other)
@@ -190,6 +209,7 @@ namespace crsc {
 		 * \brief Returns the allocator associated with the container.
 		 *
 		 * \return The associated allocator.
+		 * \complexity Constant.
 		 */
 		allocator_type get_allocator() const {
 			return mtx.get_allocator();
@@ -201,6 +221,8 @@ namespace crsc {
 		 * \brief Checks if the container has no elements.
 		 *
 		 * \return `true` if the container is empty, `false` otherwise.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		bool empty() const noexcept {
 			return mtx.empty();
@@ -209,6 +231,8 @@ namespace crsc {
 		 * \brief Returns the number of rows in the container.
 		 *
 		 * \return Number of rows.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type rows() const noexcept {
 			return rows_;
@@ -217,6 +241,8 @@ namespace crsc {
 		 * \brief Returns the number of columns in the container.
 		 *
 		 * \return Number of columns.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type columns() const noexcept {
 			return cols_;
@@ -225,6 +251,8 @@ namespace crsc {
 		 * \brief Returns the size of the container in terms of number of elements it holds.
 		 *
 		 * \return Number of elements in the container.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type size() const noexcept {
 			return mtx.size();
@@ -234,6 +262,8 @@ namespace crsc {
 		 *        system or library implementation limitations.
 		 *
 		 * \return Maximum number of elements.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type max_size() const noexcept {
 			return mtx.max_size();
@@ -242,6 +272,8 @@ namespace crsc {
 		 * \brief Returns the number of elements that the container has currently allocated space for.
 		 *
 		 * \return Size of the current allocated storage.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type capacity() const noexcept {
 			return mtx.capacity();
@@ -253,6 +285,12 @@ namespace crsc {
 		 *
 		 * \param _rows Number of rows to allocate storage for.
 		 * \param _cols Number of columns to allocate storage for.
+		 * \throw Throws `std::length_error` if `_rows*_cols > max_size()`. Or any exception
+		 *        thrown by `_Alloc::allocate()` (typically `std::bad_alloc`).
+		 * \exceptionsafety If no reallocations happen of if the type of the elements has either a 
+		 *                  non-throwing move constructor or a copy constructor, then there is a 
+		 *                  strong guarantee (no changes in container if exception is thrown). Otherwise
+		 *                  there is a basic guarantee (container guaranteed to end in a valid state).
 		 */
 		void reserve(size_type _rows, size_type _cols) {
 			mtx.reserve(_rows*_cols);
@@ -262,6 +300,12 @@ namespace crsc {
 		 *
 		 * A non-binding request to reduce `capacity()` to `size()`. It is implementation-defined therefore
 		 * the request may or may not be fulfilled depending upon the implementation.
+		 *
+		 * \complexity At most linear in `rows()*columns()`.
+		 * \exceptionsafety Technically implementation-dependent but typically if the type of the elements is
+		 *                  either copyable or no-throw moveable then there is a strong guarantee (no changes
+		 *                  in container if exception is thrown). Otherwise there is a basic guarantee (container
+		 *                  guaranteed to end in a valid state).
 		 */
 		void shrink_to_fit() {
 			mtx.shrink_to_fit();
@@ -377,6 +421,8 @@ namespace crsc {
 		 * even if the container is empty - `data()` is non-dereferencable in this case.
 		 *
 		 * \return Constant pointer to underlying element storage, for non empty container => `&front()`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		const_pointer data() const noexcept {
 			return mtx.data();
@@ -388,6 +434,8 @@ namespace crsc {
 		 * even if the container is empty - `data()` is non-dereferencable in this case.
 		 *
 		 * \return Pointer to underlying element storage, for non empty container = > `&front()`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		pointer data() noexcept {
 			return mtx.data();
@@ -398,6 +446,8 @@ namespace crsc {
 		 * \param _os Instance of `std::ostream` to write to.
 	 	 * \param _delim Delimiter separating elements on each line of the `dynamic_matrix`.
 		 * \return Modified reference to `_os` containing the container data.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
 			size_type count = 0;
@@ -417,8 +467,10 @@ namespace crsc {
 		 *
 		 * \remark If the container is empty, the return value will be equal to `cend()`.
 		 * \return Constant iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cbegin() const {
+		const_iterator cbegin() const noexcept {
 			return mtx.cbegin();
 		}
 		/**
@@ -426,24 +478,30 @@ namespace crsc {
 		 *
 		 * \remark If the container is empty, the return value will be equal to `end()`.
 		 * \return Iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator begin() {
+		iterator begin() noexcept {
 			return mtx.begin();
 		}
 		/**
 		 * \brief Returns a const_iterator to the past-the-end element of the container.
 		 *
 		 * \return Constant iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cend() const {
+		const_iterator cend() const noexcept {
 			return mtx.cend();
 		}
 		/**
 		 * \brief Returns an iterator to the past-the-end element of the container.
 		 *
 		 * \return Iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator end() {
+		iterator end() noexcept {
 			return mtx.end();
 		}
 		/**
@@ -451,8 +509,10 @@ namespace crsc {
 		 *        corresponds to the last element of the non-reversed container.
 		 *
 		 * \return Constant reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crbegin() const {
+		const_reverse_iterator crbegin() const noexcept {
 			return mtx.crbegin();
 		}
 		/**
@@ -460,8 +520,10 @@ namespace crsc {
 		 *        corresponds to the last element of the non-reversed container.
 		 *
 		 * \return Reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rbegin() {
+		reverse_iterator rbegin() noexcept {
 			return mtx.rbegin();
 		}
 		/**
@@ -469,8 +531,10 @@ namespace crsc {
 		 *        corresponds to the element preceding the first element of the non-reversed container.
 		 *
 		 * \return Constance reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crend() const {
+		const_reverse_iterator crend() const noexcept {
 			return mtx.crend();
 		}
 		/**
@@ -478,8 +542,10 @@ namespace crsc {
 		 *        corresponds to the element preceding the first element of the non-reversed container.
 		 *
 		 * \return Reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rend() {
+		reverse_iterator rend() noexcept {
 			return mtx.rend();
 		}
 
@@ -487,8 +553,11 @@ namespace crsc {
 
 		/**
 		 * \brief Removes all elements from the container but leaves the `capacity()` unchanged.
+		 *
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		void clear() {
+		void clear() noexcept {
 			mtx.clear();
 			rows_ = static_cast<size_type>(0);
 			cols_ = static_cast<size_type>(0);
@@ -502,6 +571,8 @@ namespace crsc {
 	 	 * \param _val Value to initialise all elements of the newly inserted row with.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::invalid_argument` exception if `_row_pos > rows()`.
+		 * \complexity Linear in `columns()` plus linear in distance between `_row_pos` and `end` of the container.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
@@ -523,6 +594,11 @@ namespace crsc {
 		 * \param _row_vec Instance of `std::vector` row to insert.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::invalid_argument` exception if `_row_pos > rows() || _row_vec.size() > columns()`.
+		 * \complexity If `_row_vec.size() == columns()` then linear in `columns()` plus linear in distance between
+		 *             `_row_pos` and `end` of the container, else if `_row_vec.size() < columns()` then linear in
+		 *             `columns()` plus linear in distance between `_row_pos` and `end` of the container plus linear
+		 *             in `columns() - _row_vec.size()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 	 	 */
 		iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
 			if (_row_pos > rows_)
@@ -546,6 +622,10 @@ namespace crsc {
 		 * \param _val Value to initialise all elements of the newly inserted column with.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::invalid_argument` exception if `_col_pos > columns()`.
+		 * \complexity Linear in `rows()` multiplied by linear in distance between `_col_pos` and 
+		 *             `end` of the container.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
@@ -567,6 +647,12 @@ namespace crsc {
 		 * \param _row_vec Instance of `std::vector` column to insert.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::invalid_argument` exception if `_col_pos > columns() || _col_vec.size() > rows()`.
+		 * \complexity If `_col_vec.size() == rows()` then linear in `rows()` multiplied by linear in distance
+		 *             between `_cols_pos` and `end` of the container, else if `_col_vec.size() < rows()` then
+		 *             linear in `rows()` multiplied by linear in distance between `_col_pos` and `end` of the 
+		 *             container plus linear in `rows() - _col_vec.size()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
 		 */
 		iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
 			if (_col_pos > cols_)
@@ -607,6 +693,10 @@ namespace crsc {
 		 * \return Iterator following the last removed element, i.e. the iterator pointing to
 		 *         to the first element of the next row or `end()` if last row was erased.
 		 * \throw Throws `std::invalid_argument` exception if `_row_pos >= rows()`.
+		 * \complexity Linear in `columns()` plus linear in distance between last element of
+		 *             the row and `end` of the container.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
@@ -623,6 +713,10 @@ namespace crsc {
 		 * \return Iterator following the last removed element, i.e. the iterator pointing
 		 *         to the next element along from the last row of the erased column.
 		 * \throw Throws `std::invalid_argument` exception if `_col_pos >= columns()`.
+		 * \complexity Linear in `rows()` multiplied by linearly decreasing factor given
+		 *             by distance between each element in column and `end` of container.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
@@ -642,8 +736,10 @@ namespace crsc {
 		 * \brief Assigns the given value `_val` to all elements in the container.
 		 *
 		 * \param _val Value to assign to all elements.
+		 * \complexity Exactly `rows()*columns()` assignments.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		void fill(const value_type& _val) {
+		void fill(const value_type& _val) noexcept {
 			std::fill(mtx.begin(), mtx.end(), _val);
 		}
 		/**
@@ -652,6 +748,12 @@ namespace crsc {
 		 *
 		 * \remark Equivalent to `insert_row(rows(), _val)`.
 		 * \param _val Value to initialise all elements of the newly inserted row with.
+		 * \complexity Amortized linear in `columns()`.
+		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not 
+		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
+		 *                  move constructor. If it throws, any guarantee is waived and the effects
+		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
+		 *                  is thrown there are no changes in the container).
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
@@ -669,6 +771,14 @@ namespace crsc {
 		 * \remark Equivalent to `insert_row(rows(), _row_vec).
 		 * \param _row_vec Instance of `std::vector` row to insert.
 	 	 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() > columns()`.
+		 * \complexity If `_row_vec.size() == columns()` then amortized linear in `columns()`, else
+		 *             if `_row_vec.size() < columns()` then amortized linear in `columns()` plus
+		 *             linear in `columns() - _row_vec.size()`.
+		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not
+		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
+		 *                  move constructor. If it throws, any guarantee is waived and the effects
+		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
+		 *                  is thrown there are no changes in the container).
 		 */
 		void push_row(const std::vector<value_type>& _row_vec) {
 			if (_row_vec.size() > cols_)
@@ -693,6 +803,10 @@ namespace crsc {
 		 *
 		 * \remark Equivalent to `insert_column(columns(), _val)`.
 		 * \param _val Value to initialise all elements of the newly inserted column with.
+		 * \complexity Amortized linear in `rows()`.
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_most_constructible<_Ty>::value == true`,
+		 *                  there is a strong guarantee (no changes in the container).
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
@@ -708,6 +822,13 @@ namespace crsc {
 		 * \remark Equivalent to `insert_column(columns(), _col_vec)`.
 		 * \param _col_vec Instance of `std::vector` column to insert.
 		 * \throw Throws `std::invalid_argument` exception if `_col_vec.size() > rows()`.
+		 * \complexity If `_col_vec.size() == rows()` then amortized linear in `rows()`, else if
+		 *             `_col_vec.size() < rows()` then amortized linear in `rows()` plus linear in
+		 *             `rows() - _col_vec.size()`.
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_most_constructible<_Ty>::value == true`,
+		 *                  there is a strong guarantee (no changes in the container). Additionally, if
+		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
 		 */
 		void push_column(const std::vector<value_type>& _col_vec) {
 			insert_column(cols_, _col_vec);
@@ -716,6 +837,9 @@ namespace crsc {
 		 * \brief Pops the last row from the back of the container.
 		 *
 		 * \remark Equivalent to `erase_row(rows() - 1)`.
+		 * \complexity Linear in `columns()`. 
+		 * \exceptionsafety If container is `empty()` then no-throw guarantee, otherwise
+		 *                  undefined behaviour.
 		 */
 		void pop_row() {
 			for (size_type i = 0; i < cols_; ++i)
@@ -726,6 +850,11 @@ namespace crsc {
 		 * \brief Pops the last column from the back of the container.
 		 *
 		 * \remark Equivalent to `erase_columns(columns() - 1)`.
+		 * \complexity Linear in `rows()` multiplied by linearly decreasing factor given
+		 *             by distance between each element in column and `end` of container.
+		 * \exceptionsafety No-throw guarantee unless an exception is thrown by the copy constructor, 
+		 *                  move constructor, copy-assignment operator or move-assignment operator of
+		 *                  `_Ty`.
 		 */
 		void pop_column() {
 			erase_column(cols_ - 1);
@@ -741,6 +870,10 @@ namespace crsc {
 		 *
 		 * \param _rows New number of rows in the container.
 		 * \param _val Value to initialise all elements of new row vectors with (if any).
+		 * \complexity Linear in `_rows - rows()` multiplied by linear in `columns()`.
+		 * \exceptionsafety If `_rows > rows()` then no-throw guarantee, else if `_rows < row()` and
+		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
+		 *                  guarantee.
 		 */
 		void rows_resize(size_type _rows, const value_type& _val = value_type()) {
 			size_type tmp_local_rows = rows_;
@@ -765,6 +898,12 @@ namespace crsc {
 		 *
 		 * \param _cols New number of columns in the container.
 		 * \param _val Value to initialise all elements of new column vectors with (if any).
+		 * \complexity If `_cols > columns()` then linear in `_cols - columns()` multiplied by amortized
+		 *             linear in `rows()`, else if `_cols < columns()` then linear in `columns() - _cols` 
+		 *             multiplied by complexity of `pop_column()`.
+		 * \exceptionsafety If `_cols > columns()` then no-throw guarantee, else if `_cols < columns()`
+		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
+		 *                  guarantee.
 		 */
 		void columns_resize(size_type _cols, const value_type& _val = value_type()) {
 			size_type tmp_local_cols = cols_;
@@ -787,6 +926,9 @@ namespace crsc {
 		 * \param _rows New number of rows in the container.
 		 * \param _cols New number of columns in the container.
 		 * \param _val Value to initialise all elements of new row and column vectors with (if any).
+		 * \complexity Complexity of `rows_resize(_rows, _val)` plus complexity
+		 *             of `columns_resize(_cols, _val)`.
+		 * \exceptionsafety See exception-safeties of `rows_resize` and `columns_resize`.
 		 */
 		void resize(size_type _rows, size_type _cols, const value_type& _val = value_type()) {
 			rows_resize(_rows, _val);
@@ -797,6 +939,8 @@ namespace crsc {
 		 *        and references to associate with the other container.
 		 *
 	 	 * \param _other `dynamic_matrix` container to swap with.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee.
 		 */
 		void swap(dynamic_matrix& _other) {
 			mtx.swap(_other.mtx);
@@ -814,8 +958,11 @@ namespace crsc {
 		 * \param _row_index Index of row to remove.
 		 * \param _col_index Index of column to remove.
 		 * \return Submatrix of the container with specified row, column removed.
+		 * \complexity Linear in `(rows()-1)*(columns()-1)` plus complexity of containers'
+		 *             copy constructor (subject to RVO).
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		dynamic_matrix submatrix(size_type _row_index, size_type _col_index) const {
+		dynamic_matrix submatrix(size_type _row_index, size_type _col_index) const noexcept {
 			dynamic_matrix<value_type> sub(rows_ - 1, cols_ - 1);
 			size_type row_erased = 0;
 			size_type col_erased = 0;
@@ -837,6 +984,8 @@ namespace crsc {
 		 * \param _row_index Index of row to remove.
 		 * \param _col_index Index of column to remove.
 		 * \return `*this`.
+		 * \complexity Complexity of `erase_row(_row_index` plus complexity of `erase_column(_col_index)`.
+		 * \exceptionsafety See exception safeties of `erase_row` and `erase_column`.
 		 */
 		dynamic_matrix& submatrix(size_type _row_index, size_type _col_index) {
 			erase_row(_row_index);
@@ -848,6 +997,9 @@ namespace crsc {
 		 *
 		 * \return The trace of the matrix-container.
 		 * \throw Throws `std::logic_error` if `rows() != columns()`.
+		 * \complexity Linear in `rows()`.
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes 
+		 *                  in the container.
 		 */
 		value_type trace() const {
 			if (rows_ != cols_)
@@ -943,6 +1095,8 @@ namespace crsc {
 	 * \param alloc Allocator to use for all memory allocations of this container.
 	 * \return Identity `dynamic_matrix` of given dimensions.
 	 * \throw Throws `std::logic_error` if `_rows != _cols`.
+	 * \complexity Linear in `rows()*columns()` plus complexity of container's copy constructor (subject to RVO).
+	 * \exceptionsafety See exception safeties of `dynamic_matrix(_rows, _cols, alloc)` constructor and copy constructor.
 	 */
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>,
@@ -950,7 +1104,7 @@ namespace crsc {
 	> dynamic_matrix<_Ty, _Alloc> make_identity_matrix(std::size_t _rows, std::size_t _cols, const _Alloc& alloc = _Alloc()) {
 		if (_rows != _cols)
 			throw std::logic_error("identity_matrix must have _rows == _cols.");
-		dynamic_matrix<_Ty, _Alloc> identity_matrix(_rows, _cols);
+		dynamic_matrix<_Ty, _Alloc> identity_matrix(_rows, _cols, alloc);
 		for (std::size_t i = 0; i < _rows; ++i) {
 			for (std::size_t j = 0; j < _cols; ++j)
 				if (i == j) identity_matrix[i][j] = static_cast<_Ty>(1);
