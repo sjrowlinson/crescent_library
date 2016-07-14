@@ -42,8 +42,8 @@ namespace crsc {
 		};
 	public:
 		fixed_matrix() : mtx() {}
-		fixed_matrix(const value_type& _val) : mtx() { fill(_val); }
-		fixed_matrix(const value_type** _c_arr_2d) : mtx() {
+		explicit fixed_matrix(const value_type& _val) : mtx() { fill(_val); }
+		explicit fixed_matrix(value_type** _c_arr_2d) : mtx() {
 			for (size_type i = 0; i < _Rows; ++i) {
 				for (size_type j = 0; j < _Cols; ++j)
 					mtx[i*_Cols + j] = _c_arr_2d[i][j];
@@ -67,6 +67,12 @@ namespace crsc {
 		
 		constexpr bool empty() const noexcept {
 			return mtx.empty();
+		}
+		constexpr size_type rows() const noexcept {
+			return _Rows;
+		}
+		constexpr size_type columns() const noexcept {
+			return _Cols;
 		}
 		constexpr size_type size() const noexcept {
 			return mtx.size();
@@ -252,7 +258,7 @@ namespace crsc {
 	template<typename _Ty,
 		std::size_t _rows,
 		std::size_t _cols
-	> fixed_matrix<_Ty, _rows, _cols> to_fixed_matrix(const _Ty** c_arr_2d) {
+	> fixed_matrix<_Ty, _rows, _cols> to_fixed_matrix(_Ty** c_arr_2d) {
 		return fixed_matrix<_Ty, _rows, _cols>(c_arr_2d);
 	}
 

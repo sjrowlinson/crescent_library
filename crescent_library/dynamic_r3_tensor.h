@@ -251,39 +251,6 @@ namespace crsc {
 			cols_ = static_cast<size_type>(0);
 			slices_ = static_cast<size_type>(0);
 		}
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
-		> iterator insert_row(size_type _row_pos, const value_type& _val = value_type()) {
-			crsc::dynamic_matrix<value_type> plane_mtx(slices_, cols_, _val);
-			return insert_row(_row_pos, plane_mtx);
-		}
-		iterator insert_row(size_type _row_pos, const crsc::dynamic_matrix<value_type>& _plane_mtx) {
-			if (_row_pos > rows_)
-				throw std::invalid_argument("_row_pos must be <= current value of rows().");
-			if (_plane_mtx.columns() > cols_ || _plane_mtx.rows() > slices_)
-				throw std::invalid_argument("_plane_mtx.columns() must be <= columns() and _plane_mtx.rows() must be <= slices().");
-			++rows_;
-			if (_plane_mtx.columns() == cols_ && _plane_mtx.rows() == slices_)
-				return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, _plane_mtx.cbegin(), _plane_mtx.cend());
-			crsc::dynamic_matrix<value_type> resized = _plane_mtx;
-			resized.resize(slices_, cols_);
-			return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
-		}
-		void rows_resize(size_type _rows, const value_type& _val = value_type()) {
-			size_type tmp_local_rows = rows_;
-			if (_rows == tmp_local_rows) return;
-			if (_rows > rows_) {
-				for (size_type i = 0; i < (_rows - tmp_local_rows); ++i) {
-					insert_row(rows_, val);
-				}
-			}
-			else {
-				for (size_type i = 0; i < (tmp_local_rows - _rows); ++i) {
-					//pop_row();
-				}
-			}
-			tnsr.resize(_rows*cols_*slices_);
-		}
 		void swap(dynamic_r3_tensor& _other) {
 			tnsr.swap(_other.tnsr);
 			size_type tmp_rows = rows_;

@@ -127,6 +127,28 @@ namespace crsc {
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const value_type& _val, const _Alloc& alloc = _Alloc())
 			: mtx(_rows*_cols, _val, alloc), rows_(_rows), cols_(_cols) {}
 		/**
+		 * \brief Constructs the container with `_rows*cols` elements with values 
+		 *        given by a 2D C-style array `_arr_2d`.
+		 *
+		 * \warning Undefined behaviour invoked if number of rows, columns of `_arr_2d`
+		 *          not equal to `_rows`, `_cols` respectively. Additionally, `_arr_2d`
+		 *          is not deleted after use, memory management of `_arr_2d` is a
+		 *          responsibility of the caller.
+		 * \param _arr_2d Two-dimensional C-style array used as source to 
+		 *                initialise elements of the container with.
+		 * \param _rows Number of rows.
+		 * \param _cols Number of columns.
+		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Linear in `_rows*_cols`.
+		 */
+		explicit dynamic_matrix(value_type** _arr_2d, size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
+			: mtx(_rows*_cols, value_type(), alloc), rows_(_rows), cols_(_cols) {
+			for (size_type i = 0; i < _rows; ++i) {
+				for (size_type j = 0; j < _cols; ++j)
+					mtx[i*_cols + j] = _arr_2d[i][j];
+			}
+		}
+		/**
 		 * \brief Copy constructor. Constructs the container with the copy of the
 		 *        contents of `_other`. Allocator is obtained through calling
 		 *        `std::allocator_traits<allocator_type>::select_on_container_copy_construction(_other.get_allocator())`.
@@ -1095,7 +1117,7 @@ namespace crsc {
 	 * \param alloc Allocator to use for all memory allocations of this container.
 	 * \return Identity `dynamic_matrix` of given dimensions.
 	 * \throw Throws `std::logic_error` if `_rows != _cols`.
-	 * \complexity Linear in `rows()*columns()` plus complexity of container's copy constructor (subject to RVO).
+	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject to RVO).
 	 * \exceptionsafety See exception safeties of `dynamic_matrix(_rows, _cols, alloc)` constructor and copy constructor.
 	 */
 	template<typename _Ty,
@@ -1110,6 +1132,27 @@ namespace crsc {
 				if (i == j) identity_matrix[i][j] = static_cast<_Ty>(1);
 		}
 		return identity_matrix;
+	}
+	/**
+	 * \brief Makes a `dynamic_matrix` object from a 2D C-style array.
+	 *
+	 * \tparam _Ty Type of stored elements.
+	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
+	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \warning This method does not delete `_arr_2d` after use, memory management of `_arr_2d` is a responsibility of the caller.
+	 * \param _arr_2d Two-dimensional C-style array used as source to initialise elements of the container with.
+	 * \param _rows Number of rows.
+	 * \param _cols Number of columns.
+	 * \param alloc Allocator to use for all memory allocations of this container.
+	 * \return A `dynamic_matrix` object constructed using the contents of `_arr_2d`.
+	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject to RVO).
+	 * \exceptionsafety See exception safeties of `dynamic_matrix(_arr_2d, _row, _cols, alloc)` constructor and copy constructor,
+	 *                  additionally undefined behaviour if either of `_rows`, `_cols` is not equal to rows, columns of `_arr_2d`.
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>
+	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** _arr_2d, std::size_t _rows, std::size_t _cols, const _Alloc& alloc = _Alloc()) {
+		return dynamic_matrix<_Ty, _Alloc>(_arr_2d, _rows, _cols, alloc);
 	}
 
 }
