@@ -42,7 +42,7 @@ namespace crsc {
 	 * \remark As this is a dynamic data structure the dimensions of the `dynamic_matrix` do NOT need to be known at
 	 *         compile-time, these dimensions can be manipulated at run-time. This structure occupies slightly more
 	 *         memory than a fixed-size matrix for this reason - if memory is a concern and fixed dimensions are known
-	 *         at compile-time then consider using crsc::matrix instead.
+	 *         at compile-time then consider using crsc::fixed_matrix instead.
 	 * \invariant Every row shall have an equal number of elements and every column shall have an equal number of elements
 	 *            such that no holes occur in the structure.
 	 * \author Samuel Rowlinson
@@ -1114,4 +1114,4 @@ namespace crsc {
 
 }
 
-#endif /* DYNAMIC_MATRIX_H */
+#endif // !DYNAMIC_MATRIX_H

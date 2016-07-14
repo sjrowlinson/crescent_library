@@ -33,5 +33,8 @@
     <ClInclude Include="file_manipulator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="fixed_matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -306,4 +306,4 @@ namespace crsc {
 
 }
 
-#endif /* DYNAMIC_R3_TENSOR_H */
+#endif // !DYNAMIC_R3_TENSOR_H
