@@ -584,7 +584,6 @@ namespace crsc {
 			rows_ = static_cast<size_type>(0);
 			cols_ = static_cast<size_type>(0);
 		}
-
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos` where each
 		 *        element in the inserted row will have the specified value `_val`.
@@ -597,8 +596,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
-		> iterator insert_row(size_type _row_pos, const value_type& _val = value_type()) {
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, const value_type& _val) {
 			std::vector<value_type> row_vec(cols_, _val);
 			return insert_row(_row_pos, row_vec);
 		}
@@ -622,7 +621,9 @@ namespace crsc {
 		 *             in `columns() - _row_vec.size()`.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 	 	 */
-		iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
 			if (_row_pos > rows_)
 				throw std::invalid_argument("_row_pos must be <= current value of rows().");
 			if (_row_vec.size() > cols_)
@@ -635,6 +636,39 @@ namespace crsc {
 			std::vector<value_type> resized = _row_vec;
 			resized.resize(cols_);
 			return mtx.insert(mtx.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
+		}
+		/**
+		 * \brief Inserts a row vector to the position one slot before `_row_pos` using move-semantics.
+		 *
+		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being move-inserted.
+		 *
+		 * \warning Attempting to insert a row vector with size greater than current `columns()` size results
+		 *          in an exception being thrown - a call to columns_resize() passing a size greater than or
+		 *          equal to `_row_vec.size()` is required before calling this method to successfully insert
+		 *          `_row_vec` to the matrix whilst expanding the size of each row vector. 
+		 * \param _row_pos Position one slot after insertion point.
+		 * \param _row_vec rvalue reference to instance of `std::vector` to move-insert.
+		 * \return Iterator pointing to the first element inserted.
+		 * \throw Throws `std::invalid_argument` exception if `_row_pos > rows() || _row_vec.size() > columns()`.
+		 * \complexity If `_row_vec.size() == columns()` then linear in `columns` plus linear in distance between
+		 *             `_row_pos` and `end` of the container, else if `_row_vec.size() < columns()` then linear in
+		 *             `columns()` plus linear in distance between `_row_pos` and `end` of the container plus linear
+		 *             in `columns() - _row_vec.size()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
+		 */
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, std::vector<value_type>&& _row_vec) {
+			if (_row_pos > rows_)
+				throw std::invalid_argument("_row_pos must be <= current value of rows().");
+			if (_row_vec.size() > cols_)
+				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
+			++rows_;
+			// move-insert _row_vec contents to specified row position
+			if (_row_vec.size() < cols_)
+				_row_vec.resize(cols_);
+			return mtx.insert(mtx.cbegin() + _row_pos*cols_, 
+				std::make_move_iterator(_row_vec.begin()), std::make_move_iterator(_row_vec.end()));
 		}
 		/**
 		 * \brief Inserts a column vector to the position one slot before `_col_pos` where each
@@ -650,8 +684,8 @@ namespace crsc {
 		 *                  in the container.
 		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
-		> iterator insert_column(size_type _col_pos, const value_type& _val = value_type()) {
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, const value_type& _val) {
 			std::vector<value_type> col_vec(rows_, _val);
 			return insert_column(_col_pos, col_vec);
 		}
@@ -676,14 +710,16 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
 			if (_col_pos > cols_)
 				throw std::invalid_argument("_col_pos must be <= current value of columns().");
 			if (_col_vec.size() > rows_)
 				throw std::invalid_argument("_col_vec.size() must be <= current value of rows().");
 			iterator rtn; // val to return
-						  // no. of elements in _col_vec matches row size, insert each value of
-						  // _col_vec sequentially into new column of matrix
+			// no. of elements in _col_vec matches row size, insert each value of
+			// _col_vec sequentially into new column of matrix
 			if (_col_vec.size() == rows_) {
 				for (size_type i = 0; i < _col_vec.size(); ++i) {
 					// insert i'th el. of _col_vec at position offset from
@@ -704,6 +740,43 @@ namespace crsc {
 				// account for extra values inserted on previous iteration
 				if (!i) rtn = mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, resized[i]);
 				else mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, resized[i]);
+			}
+			++cols_;
+			return rtn;
+		}
+		/**
+		 * \brief Inserts a column vector to the position one slot before `_col_pos` using move-semantics.
+		 *
+		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being move-inserted.
+		 *
+		 * \warning Attempting to insert a column vector with size greater than current `rows()` size
+		 *          results in an exception being thrown - a call to rows_resize() passing a size greater
+		 *          than or equal to `_col_vec.size()` is required before calling this method to successfully
+		 *          insert `_col_vec` to the matrix whilst expanding the size of each column vector.
+		 * \param _col_pos Position one slot after insertion point.
+		 * \param _col_vec rvalue reference to instance of `std::vector` to move-insert.
+		 * \return Iterator pointing the the first element inserted.
+		 * \complexity If `_col_vec.size() == rows()` then linear in `rows()` multiplied by linear in distance
+		 *             between `_cols_pos` and `end` of the container, else if `_col_vec.size() < rows()` then
+		 *             linear in `rows()` multiplied by linear in distance between `_col_pos` and `end` of the 
+		 *             container plus linear in `rows() - _col_vec.size()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, std::vector<value_type>&& _col_vec) {
+			if (_col_pos > cols_)
+				throw std::invalid_argument("_col_pos must be <= current value of columns().");
+			if (_col_vec.size() > rows_)
+				throw std::invalid_argument("_col_vec.size() must be <= current value of rows().");
+			iterator rtn; // val to return
+			if (_col_vec.size() < rows_)
+				_col_vec.resize(rows_);
+			// move-insert _col_vec contents to specified column position
+			for (size_type i = 0; i < _col_vec.size(); ++i) {
+				if (!i) rtn = mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, std::move(_col_vec[i]));
+				else mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, std::move(_col_vec[i]));
 			}
 			++cols_;
 			return rtn;
@@ -761,7 +834,9 @@ namespace crsc {
 		 * \complexity Exactly `rows()*columns()` assignments.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		void fill(const value_type& _val) noexcept {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void fill(const value_type& _val) noexcept {
 			std::fill(mtx.begin(), mtx.end(), _val);
 		}
 		/**
@@ -778,8 +853,8 @@ namespace crsc {
 		 *                  is thrown there are no changes in the container).
 		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
-		> void push_row(const value_type& _val = value_type()) {
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void push_row(const value_type& _val) {
 			for (size_type i = 0; i < cols_; ++i)
 				mtx.push_back(_val);
 			++rows_;
@@ -802,7 +877,9 @@ namespace crsc {
 		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
 		 *                  is thrown there are no changes in the container).
 		 */
-		void push_row(const std::vector<value_type>& _row_vec) {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void push_row(const std::vector<value_type>& _row_vec) {
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			if (_row_vec.size() == cols_) {
@@ -819,6 +896,16 @@ namespace crsc {
 			}
 			++rows_;
 		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void push_row(std::vector<value_type>&& _row_vec) {
+			if (_row_vec.size() > cols_)
+				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
+			if (_row_vec.size() < cols_)
+				_row_vec.resize(cols_);
+			for (auto& el : _row_vec)
+				mtx.push_back(std::move(el));
+		}
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container where each element
 		 *        in the inserted column will have the specified value `_val`.
@@ -831,8 +918,8 @@ namespace crsc {
 		 *                  there is a strong guarantee (no changes in the container).
 		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_default_constructible<_Uty>::value>
-		> void push_column(const value_type& _val = value_type()) {
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void push_column(const value_type& _val) {
 			insert_column(cols_, _val);
 		}
 		/**
@@ -852,8 +939,15 @@ namespace crsc {
 		 *                  there is a strong guarantee (no changes in the container). Additionally, if
 		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
 		 */
-		void push_column(const std::vector<value_type>& _col_vec) {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void push_column(const std::vector<value_type>& _col_vec) {
 			insert_column(cols_, _col_vec);
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void push_column(std::vector<value_type>&& _col_vec) {
+			insert_column(cols_, std::move(_col_vec));
 		}
 		/**
 		 * \brief Pops the last row from the back of the container.
@@ -881,6 +975,20 @@ namespace crsc {
 		void pop_column() {
 			erase_column(cols_ - 1);
 		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void rows_resize(size_type _rows) {
+			size_type tmp_rows = rows_;
+			if (_rows == rows_) return;
+			if (_rows > rows_) {
+				for (size_type i = 0; i < (_rows - tmp_rows); ++i)
+					insert_row(rows_, std::move(std::vector<value_type>(cols_)));
+			}
+			else {
+				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
+					pop_row();
+			}
+		}
 		/**
 		 * \brief Resizes the container to contain `_rows` row vectors, with any extra values
 		 *        added (if any) being initialised with `_val`.
@@ -897,16 +1005,32 @@ namespace crsc {
 		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		void rows_resize(size_type _rows, const value_type& _val = value_type()) {
-			size_type tmp_local_rows = rows_;
-			if (_rows == tmp_local_rows) return;
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void rows_resize(size_type _rows, const value_type& _val) {
+			size_type tmp_rows = rows_;
+			if (_rows == rows_) return;
 			if (_rows > rows_) {
-				for (size_type i = 0; i < (_rows - tmp_local_rows); ++i) 
+				for (size_type i = 0; i < (_rows - tmp_rows); ++i) 
 					insert_row(rows_, _val);
 			}
 			else {
-				for (size_type i = 0; i < (tmp_local_rows - _rows); ++i)
+				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
 					pop_row();
+			}
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void columns_resize(size_type _cols) {
+			size_type tmp_cols = cols_;
+			if (_cols == cols_) return;
+			if (_cols > cols_) {
+				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
+					insert_column(cols_, std::move(std::vector<value_type>(rows_)));
+			}
+			else {
+				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
+					pop_column();
 			}
 		}
 		/**
@@ -927,17 +1051,25 @@ namespace crsc {
 		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		void columns_resize(size_type _cols, const value_type& _val = value_type()) {
-			size_type tmp_local_cols = cols_;
-			if (_cols == tmp_local_cols) return;
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void columns_resize(size_type _cols, const value_type& _val) {
+			size_type tmp_cols = cols_;
+			if (_cols == cols_) return;
 			if (_cols > cols_) {
-				for (size_type i = 0; i < (_cols - tmp_local_cols); ++i)
+				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
 					insert_column(cols_, _val);
 			}
 			else {
-				for (size_type i = 0; i < (tmp_local_cols - _cols); ++i)
+				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
 					pop_column();
 			}
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void resize(size_type _rows, size_type _cols) {
+			rows_resize(_rows);
+			columns_resize(_cols);
 		}
 		/**
 		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors with
@@ -952,7 +1084,9 @@ namespace crsc {
 		 *             of `columns_resize(_cols, _val)`.
 		 * \exceptionsafety See exception-safeties of `rows_resize` and `columns_resize`.
 		 */
-		void resize(size_type _rows, size_type _cols, const value_type& _val = value_type()) {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void resize(size_type _rows, size_type _cols, const value_type& _val) {
 			rows_resize(_rows, _val);
 			columns_resize(_cols, _val);
 		}
