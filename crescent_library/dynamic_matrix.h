@@ -8,6 +8,29 @@
 #include <vector>
 
 namespace crsc {
+	// implementation to check a type for overloaded operator<<
+	namespace has_insertion_operator_impl {
+		typedef char no;
+		typedef char yes[2];
+		struct any_t {	// any type
+			template<typename _Ty> any_t(const _Ty&);
+		};
+		no operator<<(const std::ostream&, const any_t&);
+		yes& test(std::ostream&);	// overload resolution, operator<< should return its first argument
+		no test(no);
+		// check for insertion operator implicitly
+		template<typename _Ty>
+		struct has_insertion_operator {
+			static std::ostream& os;	// instance of std::ostream
+			static const _Ty& t;	// instance of type to check
+			static const bool value = sizeof(test(s << t)) == sizeof(yes); // check for overloaded operator<<
+		};
+	}
+	// struct to be used to check for overloaded operator<< 
+	// e.g: std::enable_if_t<has_insertion_operator<_Type>::value>
+	template<typename _Ty>
+	struct has_insertion_operator :
+		has_insertion_operator_impl::has_insertion_operator<_Ty> {};
 
 	/**
 	 * \class dynamic_matrix
@@ -471,7 +494,9 @@ namespace crsc {
 		 * \complexity Linear in `rows()*columns()`.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<has_insertion_operator<_Ty>::value>
+		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
 			size_type count = 0;
 			for (const auto& el : mtx) {
 				_os << el << _delim;
@@ -865,7 +890,7 @@ namespace crsc {
 		 * If `_row_vec.size() < columns()` then `_row_vec` is copied locally and resized to
 		 * `columns()` before being pushed back (preserving the class invariant).
 		 *
-		 * \remark Equivalent to `insert_row(rows(), _row_vec).
+		 * \remark Equivalent to `insert_row(rows(), _row_vec)`.
 		 * \param _row_vec Instance of `std::vector` row to insert.
 	 	 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() > columns()`.
 		 * \complexity If `_row_vec.size() == columns()` then amortized linear in `columns()`, else
@@ -896,6 +921,23 @@ namespace crsc {
 			}
 			++rows_;
 		}
+		/**
+		 * \brief Pushes an extra row-vector to the back of the container using move-semantics.
+		 *
+		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being pushed back.
+		 *
+		 * \remark Equivalent to `insert_row(rows(), std::move(_row_vec))`.
+		 * \param _row_vec rvalue reference to instance of `std::vector` to push-back via moving each element.
+		 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() > columns()`.
+		 * \complexity If `_row_vec.size() == columns()` then amortized linear in `columns()`, else
+		 *             if `_row_vec.size() < columns()` then amortized linear in `columns()` plus
+		 *             linear in `columns() - _row_vec.size()`.
+		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not
+		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
+		 *                  move constructor. If it throws, any guarantee is waived and the effects
+		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
+		 *                  is thrown there are no changes in the container).
+		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void push_row(std::vector<value_type>&& _row_vec) {
@@ -935,7 +977,7 @@ namespace crsc {
 		 *             `_col_vec.size() < rows()` then amortized linear in `rows()` plus linear in
 		 *             `rows() - _col_vec.size()`.
 		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
-		 *                  is `CopyInsertable` or `std::is_nothrow_most_constructible<_Ty>::value == true`,
+		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<_Ty>::value == true`,
 		 *                  there is a strong guarantee (no changes in the container). Additionally, if
 		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
 		 */
@@ -944,6 +986,22 @@ namespace crsc {
 		> void push_column(const std::vector<value_type>& _col_vec) {
 			insert_column(cols_, _col_vec);
 		}
+		/**
+		 * \brief Pushes an extra column-vector to the back of the container using move-semantics.
+		 *
+		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being pushed back.
+		 *
+		 * \remark Equivalent to `insert_column(columns(), std::move(_col_vec))`.
+		 * \param _col_vec rvalue reference to instance of `std::vector` column to insert via move-semantics.
+		 * \throw Throws `std::invalid_argument` exception if `_col_vec.size() > rows()`.
+		 * \complexity If `_col_vec.size() == rows()` then amortized linear in `rows()`, else if
+		 *             `_col_vec.size() < rows()` then amortized linear in `rows()` plus linear in
+		 *             `rows() - _col_vec.size()`.
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<_Ty>::value == true`,
+		 *                  there is a strong guarantee (no changes in the container). Additionally, if
+		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
+		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void push_column(std::vector<value_type>&& _col_vec) {
@@ -975,8 +1033,24 @@ namespace crsc {
 		void pop_column() {
 			erase_column(cols_ - 1);
 		}
+		/**
+		 * \brief Resizes the container to contain `_rows` row vectors, where any extra values added
+		 *       (if any) are initialised according to the default constructor of `value_type`.
+		 *
+		 * If `_rows > rows()` the container is expanded to include `rows() - _rows` extra rows 
+		 * with each value in the new row vectors initialised via default-insertion of `value_type`.
+		 * If `_rows < rows()` the container is contracted by `rows() - _rows` rows such that only the
+		 * first `_rows` rows of the container remain. If `_rows == rows()` this method does nothing.
+		 *
+		 * \param _rows New number of rows in the container.
+		 * \complexity Linear in `|_rows - rows()|` multiplied by linear in `columns()`.
+		 * \exceptionsafety If `_rows > rows()` then no-throw guarantee, else if `_rows < rows()` and
+		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
+		 *                  guarantee.
+		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
+				&& std::is_default_constructible<_Uty>::value>
 		> void rows_resize(size_type _rows) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
@@ -990,8 +1064,8 @@ namespace crsc {
 			}
 		}
 		/**
-		 * \brief Resizes the container to contain `_rows` row vectors, with any extra values
-		 *        added (if any) being initialised with `_val`.
+		 * \brief Resizes the container to contain `_rows` row vectors, where any extra values
+		 *        added (if any) are initialised with `_val`.
 		 *
 		 * If `_rows > rows()` the container is expanded to include `rows() - _rows` extra rows
 		 * with each value in the new row vectors initialised with `_val`. If `_rows < rows()` the
@@ -1000,8 +1074,8 @@ namespace crsc {
 		 *
 		 * \param _rows New number of rows in the container.
 		 * \param _val Value to initialise all elements of new row vectors with (if any).
-		 * \complexity Linear in `_rows - rows()` multiplied by linear in `columns()`.
-		 * \exceptionsafety If `_rows > rows()` then no-throw guarantee, else if `_rows < row()` and
+		 * \complexity Linear in `|_rows - rows()|` multiplied by linear in `columns()`.
+		 * \exceptionsafety If `_rows > rows()` then no-throw guarantee, else if `_rows < rows()` and
 		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
@@ -1019,8 +1093,27 @@ namespace crsc {
 					pop_row();
 			}
 		}
+		/**
+		 * \brief Resizes the container to contain `_cols` column vectors, where any extra values added
+		 *        (if any) are initialised according to the default constructor of `value_type`.
+		 *
+		 * If `_cols > columns()` the container is expanded to include `columns() - _cols` extra columns
+		 * with each value in the new column vectors initialised via default-insertion of `value_type`.
+		 * If `_cols < columns()` the container is contracted by `columns() - _cols` columns such that
+		 * only the first `_cols` columns of the container remain. If `_cols == columns()` this method 
+		 * does nothing.
+		 *
+		 * \param _cols New number of columns in the container.
+		 * \complexity If `_cols > columns()` then linear in `|_cols - columns()|` multiplied by amortized
+		 *             linear in `rows()`, else if `_cols < columns()` then linear in `|columns() - _cols|`
+		 *             multiplied by complexity of `pop_column()`.
+		 * \exceptionsafety If `_cols > columns()` then no-throw guarantee, else if `_cols < columns()`
+		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
+		 *                  guarantee.
+		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
+				&& std::is_default_constructible<_Uty>::value>
 		> void columns_resize(size_type _cols) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
@@ -1044,8 +1137,8 @@ namespace crsc {
 		 *
 		 * \param _cols New number of columns in the container.
 		 * \param _val Value to initialise all elements of new column vectors with (if any).
-		 * \complexity If `_cols > columns()` then linear in `_cols - columns()` multiplied by amortized
-		 *             linear in `rows()`, else if `_cols < columns()` then linear in `columns() - _cols` 
+		 * \complexity If `_cols > columns()` then linear in `|_cols - columns()|` multiplied by amortized
+		 *             linear in `rows()`, else if `_cols < columns()` then linear in `|columns() - _cols|` 
 		 *             multiplied by complexity of `pop_column()`.
 		 * \exceptionsafety If `_cols > columns()` then no-throw guarantee, else if `_cols < columns()`
 		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
@@ -1065,15 +1158,26 @@ namespace crsc {
 					pop_column();
 			}
 		}
+		/**
+		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors where
+		 *        any extra valyes added (if any) are initialised according to the default-constructor
+		 *        of `value_type`.
+		 *
+		 * \param _rows New number of rows in the container.
+		 * \param _cols New number of columns in the container.
+		 * \complexity Complexity of `rows_resize(_rows)` plus complexity of `columns_resize(_cols)`.
+		 * \exceptionsafety See exception-safeties of `rows_resize` and `columns_resize`.
+		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
+				&& std::is_default_constructible<_Uty>::value>
 		> void resize(size_type _rows, size_type _cols) {
 			rows_resize(_rows);
 			columns_resize(_cols);
 		}
 		/**
-		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors with
-		 *        any extra values added (if any) being initialised with `_val`.
+		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors where
+		 *        any extra values added (if any) are initialised with `_val`.
 		 *
 		 * \see rows_resize
 		 * \see columns_resize
