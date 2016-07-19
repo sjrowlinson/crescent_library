@@ -7,12 +7,39 @@
 #include <stdexcept>
 
 namespace crsc {
-
+	/**
+	 * \class fixed_matrix
+	 *
+	 * \brief A container encapsulating a `std::array` using a row-major configuration to store a fixed size
+	 *        matrix style object. The number of elements in every row are equal and the number of elements
+	 *        in every column are equal, such that no holes occur in the structure.
+	 *
+	 * This container is a fixed-size version of the `crsc::dynamic_matrix` structure which uses the same
+	 * semantics as a class holding a C-style array using a row-major configuration for the matrix. It 
+	 * combines the performance and accessibility of a C-style array with the benefits of a standard container,
+	 * such a knowing its own size, supporting assignment and random access iteration.
+	 *
+	 * Iteration support is via a `std::random_access_iterator` from the `std::array` structure, the order of
+	 * iteration uses an "in-order traversal" such that elements of the `fixed_matrix` are iterated through 
+	 * by rows from left to right, top to bottom.
+	 *
+	 * \tparam _Ty The type of the elements.
+	 * \tparam _Rows Number of matrix rows.
+	 * \tparam _Cols Number of matrix columns.
+	 * \remark The dimensions of the matrix must be known at compile-time and cannot be altered at any time
+	 *         during execution. If you require a matrix-object with run-time dimension manipulation then
+	 *         use crsc::dynamic_matrix instead.
+	 * \invariant Every row shall have an equal number of elements and every column shall have an equal number of elements
+	 *            such that no holes occur in the structure.
+	 * \author Samuel Rowlinson
+	 * \date July, 2016
+	 */
 	template<typename _Ty,
 		std::size_t _Rows,
 		std::size_t _Cols
 	> class fixed_matrix {
 	public:
+		// public API type definitions
 		typedef _Ty value_type;
 		typedef _Ty& reference;
 		typedef const _Ty& const_reference;
@@ -25,6 +52,11 @@ namespace crsc {
 		typedef typename std::array<_Ty, _Rows*_Cols>::const_reverse_iterator const_reverse_iterator;
 		typedef typename std::array<_Ty, _Rows*_Cols>::reverse_iterator reverse_iterator;
 	private:
+		/**
+		 * \class proxy_row_array
+		 *
+		 * \brief Proxy class used for enabling operator[][] overload on fixed_matrix objects.
+		 */
 		class proxy_row_array {
 		public:
 			proxy_row_array(std::array<value_type, _Rows*_Cols>& _row_array, size_type _row_index, size_type _cols)
@@ -41,22 +73,69 @@ namespace crsc {
 			size_type cols;
 		};
 	public:
+		/**
+		 * \brief Default constructor, initialises container with template-specified rows 
+		 *        and columns each taking the default-constructed value of `_Ty`.
+		 */
 		fixed_matrix() : mtx() {}
+		/**
+		 * \brief Fill constructor, initialises container with template-specified rows
+		 *        and columns each taking the value `_val`.
+		 *
+		 * \param _val Value to fill matrix with.
+		 */
 		explicit fixed_matrix(const value_type& _val) : mtx() { fill(_val); }
+		/**
+		 * \brief Converting constructor, intialises container from 2D C-style array.
+		 *
+		 * \warning If number of rows, columns of _c_arr_2d are not consistent
+		 *          with _Rows, _Cols then undefined behaviour is invoked.
+		 * \param _c_arr_2d Two-dimensional C-style array.
+		 */
 		explicit fixed_matrix(value_type** _c_arr_2d) : mtx() {
 			for (size_type i = 0; i < _Rows; ++i) {
 				for (size_type j = 0; j < _Cols; ++j)
 					mtx[i*_Cols + j] = _c_arr_2d[i][j];
 			}
 		}
+		/**
+		 * \brief Copy constructor, constructs the container with the copy of the 
+		 *        contents of `_other`.
+		 *
+		 * \param _other Another `fixed_matrix` container to be used as initialisation source.
+		 */
 		fixed_matrix(const fixed_matrix& _other) : mtx(_other.mtx) {}
+		/**
+		 * \brief Move constructor, constructs the container with the contents of
+		 *        `_other` using move-semantics.
+		 *
+		 * \param _other rvalue reference to a `fixed_matrix` container to move to this.
+		 */
 		fixed_matrix(fixed_matrix&& _other) : mtx(std::move(_other.mtx)) {}
+		/**
+		 * \brief Destructs the container. The destructors of the elements are called and used
+		 *        storage is deallocated.
+		 */
 		~fixed_matrix() {}
+		/**
+		 * \brief Copy-assignment operator. Replaces the contents of the container with
+		 *        a copy of the contents of `_other`.
+		 *
+		 * \param _other Another `fixed_matrix` container to be used as data source.
+		 * \return `*this`.
+		 */
 		fixed_matrix& operator=(const fixed_matrix& _other) {
 			if (this != &_other)
 				return fixed_matrix(_other).swap(*this);
 			return *this;
 		}
+		/**
+		 * \brief Move-assignment operator. Replaces the contents of the container with
+		 *        the contents of `_other` using move-semantics.
+		 *
+		 * \param _other rvalue reference to a `fixed_matrix` container to move to this.
+		 * \return `*this`.
+		 */
 		fixed_matrix& operator=(fixed_matrix&& _other) {
 			if (this != &_other)
 				return fixed_matrix(std::move(_other)).swap(*this);
@@ -116,6 +195,16 @@ namespace crsc {
 		}
 		pointer data() {
 			return mtx.data();
+		}
+		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
+			size_type count = 0;
+			for (const auto& el : mtx) {
+				_os << el << _delim;
+				++count;
+				if (!(count % _Cols))
+					_os << '\n';
+			}
+			return _os;
 		}
 
 		// ITERATORS

@@ -120,6 +120,10 @@ namespace crsc {
 		_s.erase(std::remove_if(_s.begin(), _s.end(), [&_char_set](char x) {return _char_set.find(x) != _char_set.end(); }), _s.end());
 		return _s;
 	}
+	std::string& trim(std::string& _s, const std::string& _str_source) {
+		_s.erase(std::remove_if(_s.begin(), _s.end(), [&_str_source](char x) {return _str_source.find(x) != std::string::npos; }), _s.end());
+		return _s;
+	}
 	/**
 	 * \brief Removes all vowel characters from a std::string.
 	 *

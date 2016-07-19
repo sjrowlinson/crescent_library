@@ -23,7 +23,7 @@ namespace crsc {
 		struct has_insertion_operator {
 			static std::ostream& os;	// instance of std::ostream
 			static const _Ty& t;	// instance of type to check
-			static const bool value = sizeof(test(s << t)) == sizeof(yes); // check for overloaded operator<<
+			static const bool value = sizeof(test(os << t)) == sizeof(yes); // check for overloaded operator<<
 		};
 	}
 	// struct to be used to check for overloaded operator<< 
@@ -1343,6 +1343,21 @@ namespace crsc {
 		size_type cols_;
 	};
 
+	/**
+	 * \brief Stream insertion operator. Inserts formatted `dynamic_matrix` contents to a `std::ostream`.
+	 *
+	 * \param _os Instance of `std::ostream` to write to.
+	 * \param _dm `dynamic_matrix` object to write to stream.
+	 * \return Modified reference to `_os` containing the container data.
+	 * \complexity Linear in `rows()*columns()`.
+	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>,
+		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
+	> std::ostream& operator<<(std::ostream& _os, const dynamic_matrix<_Ty, _Alloc>& _dm) {
+		return _dm.write(_os);
+	}
 	/**
 	 * \brief Makes an identity `dynamic_matrix` of specified size.
 	 *
