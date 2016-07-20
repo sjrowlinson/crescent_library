@@ -300,8 +300,8 @@ namespace crsc {
 			return difference;
 		}
 		template<
-			size_type _Second_Rows,
-			size_type _Second_Cols
+			std::size_t _Second_Rows,
+			std::size_t _Second_Cols
 		> fixed_matrix<value_type, _Rows, _Second_Cols> operator*(const fixed_matrix<value_type, _Second_Rows, _Second_Cols>& _other) const {
 			fixed_matrix<value_type, _Rows, _Second_Cols> product;
 			for (size_type i = 0; i < _Rows; ++i) {
