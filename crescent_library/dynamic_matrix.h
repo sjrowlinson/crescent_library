@@ -136,7 +136,7 @@ namespace crsc {
 		 * \complexity Linear in `_rows*_cols`.
 		 */
 		explicit dynamic_matrix(size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
-			: mtx(_rows*_cols, value_type(), alloc), rows_(_rows), cols_(_cols) {}	// temporarily using 3-arg constructor due to MSVC2015 bug
+			: mtx(_rows*_cols, alloc), rows_(_rows), cols_(_cols) {}
 		/**
 		 * \brief Constructs the container with `_rows*_cols` copies of elements
 		 *        with value `_val`.
