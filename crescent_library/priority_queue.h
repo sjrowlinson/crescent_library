@@ -355,7 +355,8 @@ namespace crsc {
 			auto it = std::find(heap_vec.begin(), heap_vec.end(), _val_find);
 			if (it != heap_vec.end()) {
 				*it = _alter_to_val;
-				bubble_up(std::distance(heap_vec.begin(), it));
+				if (comp(_val_find, _alter_to_val)) bubble_up(std::distance(heap_vec.begin(), it));
+				else bubble_down(std::distance(heap_vec.begin(), it));
 			}
 		}
 		/**
@@ -377,8 +378,10 @@ namespace crsc {
 		> void alter(const value_type& _alter_to_val, UnaryPredicate _p) {
 			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
 			if (it != heap_vec.end()) {
+				auto tmp = it;
 				*it = _alter_to_val;
-				bubble_up(std::distance(heap_vec.begin(), it));
+				if (comp(*tmp, _alter_to_val)) bubble_up(std::distance(heap_vec.begin(), it));
+				else bubble_down(std::distance(heap_vec.begin(), it));
 			}
 		}
 		/**
@@ -398,11 +401,9 @@ namespace crsc {
 			class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void alter(value_type&& _alter_to_val, UnaryPredicate _p) {
-			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
-			if (it != heap_vec.end()) {
-				*it = std::move(_alter_to_val);
-				bubble_up(std::distance(heap_vec.begin(), it));
-			}
+			heap_vec.erase(std::find_if(heap_vec.begin(), heap_vec.end(), _p));
+			enqueue(std::move(_alter_to_val));
+			heapify();
 		}
 		/**
 		 * \brief Alters all instances of the specified value `_val_find` in the container
@@ -419,11 +420,9 @@ namespace crsc {
 		 */
 		void alter_all(const value_type& _val_find, const value_type& _alter_to_val) {
 			for (auto it = heap_vec.begin(); it < heap_vec.end(); ++it) {
-				if (*it == _val_find) {
-					*it = _alter_to_val;
-					bubble_up(std::distance(heap_vec.begin(), it));
-				}
+				if (*it == _val_find) *it = _alter_to_val;
 			}
+			heapify();
 		}
 		/**
 		 * \brief Alters all instances of items in the container for which the unary 
@@ -442,11 +441,9 @@ namespace crsc {
 		template<class UnaryPredicate>
 		void alter_all(const value_type& _alter_to_val, UnaryPredicate _p) {
 			for (auto it = heap_vec.begin(); it < heap_vec.end(); ++it) {
-				if (_p(*it)) {
-					*it = _alter_to_val;
-					bubble_up(std::distance(heap_vec.begin(), it));
-				}
+				if (_p(*it)) *it = _alter_to_val;
 			}
+			heapify();
 		}
 		/** 
 		 * \brief Exchanges the contents of the container with those of `_other`. Does not

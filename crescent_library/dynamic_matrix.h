@@ -1160,7 +1160,7 @@ namespace crsc {
 		}
 		/**
 		 * \brief Resizes the container to contain `_rows` row vectors and `_cols` column vectors where
-		 *        any extra valyes added (if any) are initialised according to the default-constructor
+		 *        any extra values added (if any) are initialised according to the default-constructor
 		 *        of `value_type`.
 		 *
 		 * \param _rows New number of rows in the container.
