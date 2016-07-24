@@ -121,6 +121,7 @@ namespace crsc {
 			: tnsr(std::move(_other.tnsr)), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
 		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const _Alloc& alloc)
 			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
+		~dynamic_r3_tensor() {}
 		dynamic_r3_tensor& operator=(const dynamic_r3_tensor& _other) {
 			if (this != &_other)
 				dynamic_r3_tensor(_other).swap(*this);
@@ -251,6 +252,92 @@ namespace crsc {
 			cols_ = static_cast<size_type>(0);
 			slices_ = static_cast<size_type>(0);
 		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, const value_type& _val) {
+			dynamic_matrix<value_type> row_plane(cols_, slices_, _val);
+			return insert_row(_row_pos, std::move(row_plane));
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, const dynamic_matrix<value_type>& _row_plane) {
+			if (_row_pos > rows_)
+				throw std::invalid_argument("_row_pos must be <= current value of rows().");
+			if (_row_plane.rows() > cols_ || _row_plane.columns() > slices_)
+				throw std::invalid_argument("_row_plane.rows() must be <= columns(), and _row_plane.columns() must be <= slices().");
+			++rows_;
+			if (_row_plane.rows() == cols_ && _row_plane.columns() == slices_)
+				return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, _row_plane.cbegin(), _row_plane.cend());
+			dynamic_matrix<value_type> resized(_row_plane);
+			resized.resize(cols_, slices_);
+			return tnsr.insert(tnsr.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator insert_row(size_type _row_pos, dynamic_matrix<value_type>&& _row_plane) {
+			if (_row_pos > rows_)
+				throw std::invalid_argument("_row_pos must be <= current value of rows().");
+			if (_row_plane.rows() > cols_ || _row_plane.columns() > slices_)
+				throw std::invalid_argument("_row_plane.rows() must be <= columns(), and _row_plane.columns() must be <= slices().");
+			++rows_;
+			if (_row_plane.rows() == cols_ && _row_plane.columns() == slices_)
+				_row_plane.resize(cols_, slices_);
+			return tnsr.insert(tnsr.cbegin() + _row_pos*cols_,
+				std::make_move_iterator(_row_plane.begin()), std::make_move_iterator(_row_plane.end()));
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, const value_type& _val) {
+			dynamic_matrix<value_type> col_plane(rows_, slices_, _val);
+			return insert_column(_col_pos, std::move(col_plane));
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, const dynamic_matrix<value_type>& _col_plane) {
+			// TODO: implement
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator insert_column(size_type _col_pos, dynamic_matrix<value_type>&& _col_plane) {
+			// TODO: implement
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_slice(size_type _slice_pos, const value_type& _val) {
+			dynamic_matrix<value_type> slice_plane(rows_, cols_, _val);
+			return insert_slice(_slice_pos, std::move(slice_plane));
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> iterator insert_slice(size_type _slice_pos, const dynamic_matrix<value_type>& _slice_plane) {
+			// TODO: implement
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator insert_slice(size_type _slice_pos, dynamic_matrix<value_type>&& _slice_plane) {
+			// TODO: implement
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator erase_row(size_type _row_pos) {
+			if (_row_pos >= rows_)
+				throw std::invalid_argument("_row_pos must be < current value of rows().");
+			--rows_;
+			return tnsr.erase(tnsr.cbegin() + _row_pos*cols_, tnsr.cbegin() + cols_*(_row_pos + 1));
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator erase_column(size_type _col_pos) {
+			// TODO: implement
+		}
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> iterator erase_slice(size_type _slice_pos) {
+			// TODO: implement
+		}
+		void fill(const value_type& _val) noexcept {
+			std::fill(tnsr.begin(), tnsr.end(), _val);
+		}
 		void swap(dynamic_r3_tensor& _other) {
 			tnsr.swap(_other.tnsr);
 			size_type tmp_rows = rows_;
@@ -262,6 +349,25 @@ namespace crsc {
 			_other.rows_ = tmp_rows;
 			_other.cols_ = tmp_cols;
 			_other.slices_ = tmp_slices;
+		}
+
+		// Overloaded Operators
+
+		dynamic_r3_tensor& operator+=(const dynamic_r3_tensor& _other) {
+			if (rows_ != _other.rows_ || cols_ != _other.cols_ || slices_ != _other.slices_)
+				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
+			for (size_type i = 0; i < rows_; ++i) {
+				for (size_type j = 0; j < cols_; ++j)
+					tnsr[(k*rows_ + j)*cols_ + i] += _other[i][j][k];
+			}
+		}
+		dynamic_r3_tensor& operator-=(const dynamic_r3_tensor& _other) {
+			if (rows_ != _other.rows_ || cols_ != _other.cols_ || slices_ != _other.slices_)
+				throw std::invalid_argument("dynamic_matrix dimensions must agree for subtraction.");
+			for (size_type i = 0; i < rows_; ++i) {
+				for (size_type j = 0; j < cols_; ++j)
+					tnsr[(k*rows_ + j)*cols_ + i] -= _other[i][j][k];
+			}
 		}
 
 	private:

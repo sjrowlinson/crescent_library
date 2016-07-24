@@ -144,15 +144,43 @@ namespace crsc {
 
 		// CAPACITY
 		
+		/**
+		 * \brief Checks if the container has no elements.
+		 *
+		 * \return `true` if the container is empty, `false` otherwise.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		constexpr bool empty() const noexcept {
 			return mtx.empty();
 		}
+		/**
+		 * \brief Returns the number of rows in the container.
+		 *
+		 * \return Number of rows.
+		 * \complexity Constant.
+	 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		constexpr size_type rows() const noexcept {
 			return _Rows;
 		}
+		/**
+		 * \brief Returns the number of columns in the container.
+		 *
+		 * \return Number of columns.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		constexpr size_type columns() const noexcept {
 			return _Cols;
 		}
+		/**
+		 * \brief Returns the size of the container in terms of number of elements it holds.
+		 *
+		 * \return Number of elements in the container.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		constexpr size_type size() const noexcept {
 			return mtx.size();
 		}
@@ -162,11 +190,35 @@ namespace crsc {
 
 		// ELEMENT ACCESS
 
+		/**
+		 * \brief Gets const_reference to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Constant reference to element at given position.
+		 * \throw Throws std::out_of_range exception if either of `_row_index`, `_col_index`
+		 *        are greater than or equal to rows(), columns() respectively.
+		 * \complexity Constant.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no
+		 *                  changes in the container.
+		 */
 		constexpr const_reference at(size_type _row_index, size_type _col_index) const {
 			if (_row_index >= _Rows || _col_index >= _Cols)
 				throw std::out_of_range("fixed_matrix index out of bounds.");
 			return mtx.at(_row_index*_Cols + _col_index);
 		}
+		/**
+		 * \brief Gets reference to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Constant reference to element at given position.
+		 * \throw Throws std::out_of_range exception if either of `_row_index`, `_col_index`
+		 *        are greater than or equal to rows(), columns() respectively.
+		 * \complexity Constant.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no
+		 *                  changes in the container.
+		 */
 		reference at(size_type _row_index, size_type _col_index) {
 			if (_row_index >= _Rows || _col_index >= _Cols)
 				throw std::out_of_range("fixed_matrix index out of bounds.");
