@@ -184,6 +184,14 @@ namespace crsc {
 		constexpr size_type size() const noexcept {
 			return mtx.size();
 		}
+		/**
+		 * \brief Returns the maximum number of elements the container can hold, this is
+		 *        equivalent to `size()` as the container is of a fixed size.
+		 *
+		 * \return Maximum number of elements.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		constexpr size_type max_size() const noexcept {
 			return mtx.max_size();
 		}
@@ -224,30 +232,107 @@ namespace crsc {
 				throw std::out_of_range("fixed_matrix index out of bounds.");
 			return mtx.at(_row_index*_Cols + _col_index);
 		}
+		/**
+		 * \brief Gets a proxy object representing the row vector of the matrix at a given `_row_index`
+		 *        such that calling the double subscript operator gets a `const_reference` to the 
+		 *        element at the specified position.
+		 *
+		 * \param _row_index Row position.
+		 * \return Object of type `proxy_row_array` corresponding to given `_row_index`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows()`, otherwise undefined behaviour.
+		 */
 		constexpr proxy_row_array operator[](size_type _row_index) const {
 			return proxy_row_array(mtx, _row_index, _Cols);
 		}
+		/**
+		 * \brief Gets a proxy object representing the row vector of the matrix at a given `_row_index`
+		 *        such that calling the double subscript operator gets a `reference` to the element
+		 *        at the specified position.
+		 *
+		 * \param _row_index Row position.
+		 * \return Object of type `proxy_row_array` corresponding to given `_row_index`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows()`, otherwise undefined behaviour.
+		 */
 		proxy_row_array operator[](size_type _row_index) {
 			return proxy_row_array(mtx, _row_index, _Cols);
 		}
+		/**
+		 * \brief Returns a `const_reference` to the first element in the container.
+		 *
+		 * \return Constant reference to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
+		 */
 		constexpr const_reference front() const {
 			return mtx.front();
 		}
+		/**
+		 * \brief Returns a `reference` to the first element in the container.
+		 *
+		 * \return Reference to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
+		 */
 		reference front() {
 			return mtx.front();
 		}
+		/**
+		 * \brief Returns a `const_reference` to the last element in the container.
+		 *
+		 * \return Constant reference to the last element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
+		 */
 		constexpr const_reference back() const {
 			return mtx.back();
 		}
+		/**
+		 * \brief Returns a `reference` to the last element in the container.
+		 *
+		 * \return Reference to the last element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
+		 */
 		reference back() {
 			return mtx.back();
 		}
-		const_pointer data() const {
+		/**
+		 * \brief Returns `const_pointer` to the underlying array `const _Ty*` serving as element storage.
+		 *
+		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range, even if
+		 * the container is empty - `data()` is non-dereferencable in this case.
+		 *
+		 * \return Constant pointer to underlying element storage, for non-empty container => `&front()`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_pointer data() const noexcept {
 			return mtx.data();
 		}
-		pointer data() {
+		/**
+		 * \brief Returns pointer to the underling array `_Ty*` serving as element storage.
+		 *
+		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range, even if
+		 * the container is empty - `data()` is non-dereferencable in this case.
+		 *
+		 * \return Pointer to underlying element storage, for non-empty container => `&front()`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		pointer data() noexcept {
 			return mtx.data();
 		}
+		/**
+		 * \brief Sends the container data to a `std::ostream` instance in a mathematical-matrix style format.
+		 *
+		 * \param _os Instance of `std::ostream` to write to.
+		 * \param _delim Delimiter separating elements on each line of the `fixed_matrix`.
+		 * \return Modified reference to `_os`.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
 			size_type count = 0;
 			for (const auto& el : mtx) {
@@ -261,39 +346,127 @@ namespace crsc {
 
 		// ITERATORS
 
+		/**
+		 * \brief Returns a const_iterator the first element of the container.
+		 *
+		 * \remark If the container is empty, the return value will be equal to `cend()`.
+		 * \return Constant iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		const_iterator cbegin() const {
 			return mtx.cbegin();
 		}
+		/**
+		 * \brief Returns an iterator to the first element of the container.
+		 *
+		 * \remark If the container is empty, the return value will be equal to `end()`.
+		 * \return Iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		iterator begin() {
 			return mtx.begin();
 		}
+		/**
+		 * \brief Returns a const_iterator to the past-the-end element of the container.
+		 *
+		 * \return Constant iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		const_iterator cend() const {
 			return mtx.cend();
 		}
+		/**
+		 * \brief Returns an iterator to the past-the-end element of the container.
+		 *
+		 * \return Iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		iterator end() {
 			return mtx.end();
 		}
+		/**
+		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
+		 *        corresponds to the last element of the non-reversed container.
+		 *
+		 * \return Constant reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		const_reverse_iterator crbegin() const {
 			return mtx.crbegin();
 		}
+		/**
+		 * \brief Returns a reverse_iterator to the first element of the reversed container. It
+		 *        corresponds to the last element of the non-reversed container.
+		 *
+		 * \return Reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		reverse_iterator rbegin() {
 			return mtx.rbegin();
 		}
+		/**
+		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
+		 *        corresponds to the element preceding the first element of the non-reversed container.
+		 *
+		 * \return Constance reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		const_reverse_iterator crend() const {
 			return mtx.crend();
 		}
+		/**
+		 * \brief Returns a reverse_iterator to the past-the-end element of the reversed container. It
+		 *        corresponds to the element preceding the first element of the non-reversed container.
+		 *
+		 * \return Reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		reverse_iterator rend() {
 			return mtx.rend();
 		}
 
 		// OPERATIONS
 
+		/**
+		 * \brief Assigns the given value `_val` to all elements in the container.
+		 *
+		 * \param _val Value to assign to all elements.
+		 * \complexity Exactly `rows()*columns()` assignments.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		void fill(const value_type& _val) {
 			mtx.fill(_val);
 		}
+		/**
+		 * \brief Exchanges the contents of the container with those of `_other`. Does not
+		 *        cause iterators and references to associate with the other container.
+		 *
+		 * \param _other `fixed_matrix` container to swap with.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee.
+		 */
 		void swap(fixed_matrix& _other) {
 			mtx.swap(_other.mtx);
 		}
+		/**
+		 * \brief Gets the submatrix of the container obtained by removing the specified row and column
+		 *        and returning the resulting matrix.
+		 *
+		 * \param _row_index Index of row to remove.
+		 * \param _col_index Index of column to remove.
+		 * \return Submatrix of the container with specified row, column removed.
+		 * \complexity Linear in `(rows()-1)*(columns()-1)` plus complexity of containers'
+		 *             copy constructor (subject to RVO).
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		fixed_matrix<value_type, _Rows - 1, _Cols - 1> submatrix(size_type _row_index, size_type _col_index) const noexcept {
 			fixed_matrix<value_type, _Rows - 1, _Cols - 1> sub;
 			size_type row_erased = 0;
@@ -310,6 +483,15 @@ namespace crsc {
 			}
 			return sub;
 		}
+		/**
+		 * \brief Computes the trace of a square `fixed_matrix` container.
+		 *
+		 * \return The trace of the matrix-container.
+		 * \throw Throws `std::logic_error` if `rows() != columns()`.
+		 * \complexity Linear in `rows()`.
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		value_type trace() const {
 			if (_Rows != _Cols)
 				throw std::logic_error("cannot compute trace() of non-square matrix.");
@@ -380,13 +562,22 @@ namespace crsc {
 	private:
 		std::array<value_type, _Rows*_Cols> mtx;
 	};
-
+	/**
+	 * \brief Makes an identity `fixed_matrix` of template-specified size.
+	 * 
+	 * \tparam _Ty The type of stored elements, must satisfy `std::is_arithmetic<_Ty>::value`.
+	 * \tparam _rows Number of rows.
+	 * \tparam _cols Number of columns.
+	 * \remark Only enabled if `_rows == _columns && std::is_arithmetic<_Ty>::value`.
+	 * \return Identity `fixed_matrix` of given dimensions.
+	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject
+	 *             to RVO).
+	 */
 	template<typename _Ty,
 		std::size_t _rows,
 		std::size_t _cols,
 		class = std::enable_if_t<_rows == _cols
-			&& std::is_arithmetic<_Ty>::value
-		>
+			&& std::is_arithmetic<_Ty>::value>
 	> fixed_matrix<_Ty, _rows, _cols> make_identity_matrix() {
 		fixed_matrix<_Ty, _rows, _cols> identity_matrix();
 		for (std::size_t i = 0; i < _rows; ++i) {
@@ -395,7 +586,18 @@ namespace crsc {
 		}
 		return identity_matrix;
 	}
-
+	/**
+	 * \brief Makes a `fixed_matrix` object from a 2D C-style array.
+	 *
+	 * \warning This method does not delete `c_arr_2d` after use.
+	 * \tparam _Ty The type of stored elements.
+	 * \tparam _rows Number of rows.
+	 * \tparam _cols Number of columns.
+	 * \param c_arr_2d Two-dimensional C-style array used as data source.
+	 * \return A `fixed_matrix` object constructed using the contents of `c_arr_2d`.
+	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject
+	 *             to RVO).
+	 */
 	template<typename _Ty,
 		std::size_t _rows,
 		std::size_t _cols
