@@ -128,7 +128,7 @@ namespace crsc {
 		 */
 		priority_queue& operator=(const priority_queue& _other) {
 			if (this != &_other)
-				priority_queue(_other).swap(*this);
+				priority_queue(_other).swap(*this); // invoke copy-and-swap idiom
 			return *this;
 		}
 		/**
@@ -253,7 +253,28 @@ namespace crsc {
 			return it_vec;
 		}
 		/**
-		 * \brief Writes the contents of the container to a `std::ostream`.
+		 * \brief Writes the contents of the container to a `std::ostream` in heap-order.
+		 *
+		 * \param _os Instance of `std::ostream` to write to.
+		 * \param _delim Delimiter for separation of container elements in stream.
+		 * \return Reference to modified `_os`.
+		 * \complexity Linear in the size of the container.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> std::ostream& write_ordered(std::ostream& _os, char _delim = ' ') const noexcept {
+			priority_queue<value_type, _Pr> tmp(*this);
+			while (!tmp.empty()) {
+				_os << tmp.top() << _delim;
+				tmp.dequeue();
+			}
+			return _os;
+		}
+		/**
+		 * \brief Writes the contents of the container to a `std::ostream` in non-heap-order,
+		 *        the elements shall be written in the order that they are stored in the 
+		 *        underlying contiguous memory block.
 		 *
 		 * \param _os Instance of `std::ostream` to write to.
 		 * \param _delim Delimiter for separation of container elements in stream.
@@ -262,11 +283,8 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
-			priority_queue<value_type, _Pr> tmp(*this);
-			while (!tmp.empty()) {
-				_os << tmp.top() << _delim;
-				tmp.dequeue();
-			}
+			for (const auto& el : heap_vec)
+				_os << el << _delim;
 			return _os;
 		}
 
@@ -505,7 +523,7 @@ namespace crsc {
 
 	private:
 		std::vector<value_type> heap_vec;	// underlying heap container
-		_Pr comp;	// comparator function-object
+		_Pr comp;	// comparator function-object, determines element priorities
 		/**
 		 * \brief Bubbles down the heap from a given vector index, performing
 		 *        swaps based on comparator conditions.
@@ -587,7 +605,7 @@ namespace crsc {
 		}
 	};
 	/**
-	 * \brief Stream insertion operator for `crsc::priority_queue` objects.
+	 * \brief Stream insertion operator for `crsc::priority_queue` of copyable type.
 	 *
 	 * \param _os Instance of `std::ostream` to write to.
 	 * \param _pq `crsc::priority_queue` container to write to stream.
@@ -595,11 +613,27 @@ namespace crsc {
 	 * \complexity Linear in the size of `_pq`.
 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 	 */
-	template<typename _Ty, class _Pr>
-	std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
+	template<typename _Ty,
+		class _Pr,
+		typename = std::enable_if_t<std::is_copy_assignable<_Ty>::value>
+	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
+		return _pq.write_ordered(_os);
+	}
+	/**
+	 * \brief Stream insertion operator for `crsc::priority_queue` of non-copyable type.
+	 *
+	 * \param _os Instance of `std::ostream` to write to.
+	 * \param _pq `crsc::priority_queue` container to write to stream.
+	 * \return Modified reference to `_os`.
+	 * \complexity Linear in the size of `_pq`.
+	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+	 */
+	template<typename _Ty,
+		class _Pr,
+		typename = std::enable_if_t<!std::is_copy_assignable<_Ty>::value && std::is_move_assignable<_Ty>::value>
+	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
 		return _pq.write(_os);
 	}
-
 }
 
 #endif // !PRIORITY_QUEUE_H
