@@ -1,0 +1,393 @@
+\hypertarget{classcrsc_1_1file__loader}{}\section{crsc\+:\+:file\+\_\+loader Class Reference}
+\label{classcrsc_1_1file__loader}\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+
+
+A class to load file contents into memory allowing easier accessing and manipulation of file data. Only use for small files as the entire file contents are loaded into memory during construction of a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} object.  
+
+
+
+
+{\ttfamily \#include $<$file\+\_\+loader.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcrsc_1_1file__loader_a3587f70d35af4b9ce7c9e4427032248a}{file\+\_\+loader} (const std\+::string \&\+\_\+filename, std\+::size\+\_\+t \+\_\+max\+\_\+line\+\_\+length=static\+\_\+cast$<$ std\+::size\+\_\+t $>$(256))
+\begin{DoxyCompactList}\small\item\em Constructs a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance using a given filename. Caches the file contents into the internal cached storage container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1file__loader_a9597d10be2e752905f4b29de242634b5}{file\+\_\+loader} (const \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \&\+\_\+other)=delete
+\begin{DoxyCompactList}\small\item\em Deleted copy construction, copy constructing is forbidden. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1file__loader_aebc675bf2d258f4624e7d3b8e6ee206e}{file\+\_\+loader} (\hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \&\&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Move constructor, moves a given \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance to this leaving the parameterised instance in a valid but unspecified state. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1file__loader_a368c4aa152572540bbd0fe174da7ace7}{$\sim$file\+\_\+loader} ()=default
+\item 
+std\+::size\+\_\+t \hyperlink{classcrsc_1_1file__loader_a14ca83e45f497847f17a229e32837d26}{lines} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Gets the number of lines in the file. \end{DoxyCompactList}\item 
+bool \hyperlink{classcrsc_1_1file__loader_a15a6d5c3df4fd5a0e21e82c15098a46e}{empty} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Checks if the file is empty. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1file__loader_ac9bb6c7bfaad062e7711746976417774}{write\+\_\+changes} ()
+\begin{DoxyCompactList}\small\item\em Writes all changes made to the internal cached storage to the filestream, overwriting the current contents of the file. \end{DoxyCompactList}\item 
+const std\+::string \& \hyperlink{classcrsc_1_1file__loader_a117e2d68f79e311bff7727ad6e8da1c5}{read\+\_\+line} (std\+::size\+\_\+t \+\_\+n) const 
+\begin{DoxyCompactList}\small\item\em Reads a given line of the internal cached storage. This internal store is guaranteed to always be up to date, no call to write\+\_\+changes is required to maintain consistency. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{classcrsc_1_1file__loader_a3182907a6d983e07560fc9816baaf58f}{read\+\_\+lines} (std\+::size\+\_\+t \+\_\+n, std\+::size\+\_\+t \+\_\+m) const 
+\begin{DoxyCompactList}\small\item\em Reads a block of lines of the internal cached storage where the start and end of the block are parameterised. The internal store is guaranteed to always be up to date, no call to write\+\_\+changes is required to maintain consistency. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1file__loader_a372aa290d49ad8ef1bb2382f80a10186}{overwrite\+\_\+line} (std\+::size\+\_\+t \+\_\+n, const std\+::string \&\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Overwrites a given line of the internal cached storage such that the next call to write\+\_\+changes will update the file contents. \end{DoxyCompactList}\item 
+auto \& \hyperlink{classcrsc_1_1file__loader_a434625df0a3c4f9c907e470f2994ac5c}{erase\+\_\+line} (std\+::size\+\_\+t \+\_\+n)
+\begin{DoxyCompactList}\small\item\em Erases a given line of the internal cached storage such that the next call to write\+\_\+changes will update the file contents. \end{DoxyCompactList}\item 
+auto \& \hyperlink{classcrsc_1_1file__loader_a503965d0fd22de3e4e44f14ae914ca2b}{add\+\_\+line} (std\+::size\+\_\+t \+\_\+n, const std\+::string \&\+\_\+str=\char`\"{}\char`\"{})
+\begin{DoxyCompactList}\small\item\em Adds a line with given contents before position \+\_\+n in the internal cached storage. \end{DoxyCompactList}\item 
+auto \& \hyperlink{classcrsc_1_1file__loader_a6644e95b299d45b3475b92aadeef133d}{add\+\_\+line} (std\+::size\+\_\+t \+\_\+n, std\+::string \&\&\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Adds a line with given contents before position \+\_\+n in the internal cached storage. \end{DoxyCompactList}\item 
+auto \& \hyperlink{classcrsc_1_1file__loader_acb535c1b5f6080948a844fd185068aaf}{add\+\_\+line} (std\+::size\+\_\+t \+\_\+n, std\+::size\+\_\+t \+\_\+count, const std\+::string \&\+\_\+str=\char`\"{}\char`\"{})
+\item 
+{\footnotesize template$<$class Input\+It , class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::\+\_\+\+Is\+\_\+iterator$<$\+Input\+It$>$\+::value$>$$>$ }\\auto \& \hyperlink{classcrsc_1_1file__loader_aeef33f6a6c284974f2635cdcb31f7b24}{insert} (std\+::size\+\_\+t \+\_\+n, Input\+It \+\_\+first, Input\+It \+\_\+last)
+\item 
+\hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \& \hyperlink{classcrsc_1_1file__loader_ac9a181e9ff8455ad47d1dbea84c8f1bf}{operator=} (const \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \&\+\_\+other)=delete
+\begin{DoxyCompactList}\small\item\em Deleted copy assignment operator, copy assignment is forbidden. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \& \hyperlink{classcrsc_1_1file__loader_a15988c765c8b74376cf65cc62a0280ba}{operator=} (\hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} \&\&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Move assignment operator, uses move-\/semantics to move the parameterised \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance to this. Instance being moved is left in a valid but unspecified state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classcrsc_1_1file__loader_a1dface49298311d30379db8e7b3a0fbc}{cache\+\_\+contents} (std\+::size\+\_\+t \+\_\+max\+\_\+line\+\_\+length)
+\begin{DoxyCompactList}\small\item\em Caches contents of files into the internal cached storage container. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1file__loader_a84c6294ab6265b35dfc817965226f0c1}{write\+\_\+cache} ()
+\begin{DoxyCompactList}\small\item\em Convenience method for writing a std\+::vector$<$std\+::string$>$ to an std\+::ostream instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::fstream \hyperlink{classcrsc_1_1file__loader_a7957bc89279fd8ba00c6511cdef26134}{fs}
+\item 
+std\+::string \hyperlink{classcrsc_1_1file__loader_af656c06c4193868b5b13f29e5ccbf5d7}{filename}
+\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{classcrsc_1_1file__loader_a66bc2dbbce9b17845a19526de7a8b3f1}{cached\+\_\+contents\+\_\+vec}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A class to load file contents into memory allowing easier accessing and manipulation of file data. Only use for small files as the entire file contents are loaded into memory during construction of a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} object. 
+
+\begin{DoxyRemark}{Remarks}
+In the documentation of this class, the term \char`\"{}internal cached storage\char`\"{} is used to denote the encapsulated data structure which stores the contents of the file in memory. This structure is used for reading and manipulating the contents data internally -\/ any changes made to this structure are not automatically applied to the filestream (i.\+e. the file itself), these updates can be pushed by invoking \hyperlink{classcrsc_1_1file__loader_ac9bb6c7bfaad062e7711746976417774}{file\+\_\+loader\+::write\+\_\+changes()} on an instance of a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader}. 
+\end{DoxyRemark}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!file\+\_\+loader@{file\+\_\+loader}}
+\index{file\+\_\+loader@{file\+\_\+loader}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{file\+\_\+loader(const std\+::string \&\+\_\+filename, std\+::size\+\_\+t \+\_\+max\+\_\+line\+\_\+length=static\+\_\+cast$<$ std\+::size\+\_\+t $>$(256))}{file_loader(const std::string &_filename, std::size_t _max_line_length=static_cast< std::size_t >(256))}}]{\setlength{\rightskip}{0pt plus 5cm}crsc\+::file\+\_\+loader\+::file\+\_\+loader (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+filename, }
+\item[{std\+::size\+\_\+t}]{\+\_\+max\+\_\+line\+\_\+length = {\ttfamily static\+\_\+cast$<$std\+:\+:size\+\_\+t$>$(256)}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a3587f70d35af4b9ce7c9e4427032248a}{}\label{classcrsc_1_1file__loader_a3587f70d35af4b9ce7c9e4427032248a}
+
+
+Constructs a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance using a given filename. Caches the file contents into the internal cached storage container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+filename} & Name/directory of file to load. \\
+\hline
+{\em \+\_\+max\+\_\+line\+\_\+length} & Optional, approximate maximum length of file lines. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!file\+\_\+loader@{file\+\_\+loader}}
+\index{file\+\_\+loader@{file\+\_\+loader}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{file\+\_\+loader(const file\+\_\+loader \&\+\_\+other)=delete}{file_loader(const file_loader &_other)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}crsc\+::file\+\_\+loader\+::file\+\_\+loader (
+\begin{DoxyParamCaption}
+\item[{const {\bf file\+\_\+loader} \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{classcrsc_1_1file__loader_a9597d10be2e752905f4b29de242634b5}{}\label{classcrsc_1_1file__loader_a9597d10be2e752905f4b29de242634b5}
+
+
+Deleted copy construction, copy constructing is forbidden. 
+
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!file\+\_\+loader@{file\+\_\+loader}}
+\index{file\+\_\+loader@{file\+\_\+loader}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{file\+\_\+loader(file\+\_\+loader \&\&\+\_\+other)}{file_loader(file_loader &&_other)}}]{\setlength{\rightskip}{0pt plus 5cm}crsc\+::file\+\_\+loader\+::file\+\_\+loader (
+\begin{DoxyParamCaption}
+\item[{{\bf file\+\_\+loader} \&\&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_aebc675bf2d258f4624e7d3b8e6ee206e}{}\label{classcrsc_1_1file__loader_aebc675bf2d258f4624e7d3b8e6ee206e}
+
+
+Move constructor, moves a given \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance to this leaving the parameterised instance in a valid but unspecified state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & rvalue reference to a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance to move. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!````~file\+\_\+loader@{$\sim$file\+\_\+loader}}
+\index{````~file\+\_\+loader@{$\sim$file\+\_\+loader}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{$\sim$file\+\_\+loader()=default}{~file_loader()=default}}]{\setlength{\rightskip}{0pt plus 5cm}crsc\+::file\+\_\+loader\+::$\sim$file\+\_\+loader (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [default]}}\hypertarget{classcrsc_1_1file__loader_a368c4aa152572540bbd0fe174da7ace7}{}\label{classcrsc_1_1file__loader_a368c4aa152572540bbd0fe174da7ace7}
+
+
+\subsection{Member Function Documentation}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!add\+\_\+line@{add\+\_\+line}}
+\index{add\+\_\+line@{add\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{add\+\_\+line(std\+::size\+\_\+t \+\_\+n, const std\+::string \&\+\_\+str="""")}{add_line(std::size_t _n, const std::string &_str="")}}]{\setlength{\rightskip}{0pt plus 5cm}auto\& crsc\+::file\+\_\+loader\+::add\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{const std\+::string \&}]{\+\_\+str = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a503965d0fd22de3e4e44f14ae914ca2b}{}\label{classcrsc_1_1file__loader_a503965d0fd22de3e4e44f14ae914ca2b}
+
+
+Adds a line with given contents before position \+\_\+n in the internal cached storage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Line number to add line before. \\
+\hline
+{\em \+\_\+str} & Contents of added line. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!add\+\_\+line@{add\+\_\+line}}
+\index{add\+\_\+line@{add\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{add\+\_\+line(std\+::size\+\_\+t \+\_\+n, std\+::string \&\&\+\_\+str)}{add_line(std::size_t _n, std::string &&_str)}}]{\setlength{\rightskip}{0pt plus 5cm}auto\& crsc\+::file\+\_\+loader\+::add\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{std\+::string \&\&}]{\+\_\+str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a6644e95b299d45b3475b92aadeef133d}{}\label{classcrsc_1_1file__loader_a6644e95b299d45b3475b92aadeef133d}
+
+
+Adds a line with given contents before position \+\_\+n in the internal cached storage. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Line number to add line before. \\
+\hline
+{\em \+\_\+str} & rvalue reference to contents of added line. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!add\+\_\+line@{add\+\_\+line}}
+\index{add\+\_\+line@{add\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{add\+\_\+line(std\+::size\+\_\+t \+\_\+n, std\+::size\+\_\+t \+\_\+count, const std\+::string \&\+\_\+str="""")}{add_line(std::size_t _n, std::size_t _count, const std::string &_str="")}}]{\setlength{\rightskip}{0pt plus 5cm}auto\& crsc\+::file\+\_\+loader\+::add\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{std\+::size\+\_\+t}]{\+\_\+count, }
+\item[{const std\+::string \&}]{\+\_\+str = {\ttfamily \char`\"{}\char`\"{}}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_acb535c1b5f6080948a844fd185068aaf}{}\label{classcrsc_1_1file__loader_acb535c1b5f6080948a844fd185068aaf}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!cache\+\_\+contents@{cache\+\_\+contents}}
+\index{cache\+\_\+contents@{cache\+\_\+contents}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{cache\+\_\+contents(std\+::size\+\_\+t \+\_\+max\+\_\+line\+\_\+length)}{cache_contents(std::size_t _max_line_length)}}]{\setlength{\rightskip}{0pt plus 5cm}void crsc\+::file\+\_\+loader\+::cache\+\_\+contents (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+max\+\_\+line\+\_\+length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classcrsc_1_1file__loader_a1dface49298311d30379db8e7b3a0fbc}{}\label{classcrsc_1_1file__loader_a1dface49298311d30379db8e7b3a0fbc}
+
+
+Caches contents of files into the internal cached storage container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+max\+\_\+line\+\_\+length} & Approximate maximum line length of the file, used for performance improvements. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!empty@{empty}}
+\index{empty@{empty}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{empty() const  noexcept}{empty() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}bool crsc\+::file\+\_\+loader\+::empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1file__loader_a15a6d5c3df4fd5a0e21e82c15098a46e}{}\label{classcrsc_1_1file__loader_a15a6d5c3df4fd5a0e21e82c15098a46e}
+
+
+Checks if the file is empty. 
+
+\begin{DoxyReturn}{Returns}
+True if internal cached storage container is empty, false otherwise. 
+\end{DoxyReturn}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!erase\+\_\+line@{erase\+\_\+line}}
+\index{erase\+\_\+line@{erase\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{erase\+\_\+line(std\+::size\+\_\+t \+\_\+n)}{erase_line(std::size_t _n)}}]{\setlength{\rightskip}{0pt plus 5cm}auto\& crsc\+::file\+\_\+loader\+::erase\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a434625df0a3c4f9c907e470f2994ac5c}{}\label{classcrsc_1_1file__loader_a434625df0a3c4f9c907e470f2994ac5c}
+
+
+Erases a given line of the internal cached storage such that the next call to write\+\_\+changes will update the file contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Line number to erase. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator to next valid position in internal cached storage container. 
+\end{DoxyReturn}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!insert@{insert}}
+\index{insert@{insert}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{insert(std\+::size\+\_\+t \+\_\+n, Input\+It \+\_\+first, Input\+It \+\_\+last)}{insert(std::size_t _n, InputIt _first, InputIt _last)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Input\+It , class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::\+\_\+\+Is\+\_\+iterator$<$\+Input\+It$>$\+::value$>$$>$ auto\& crsc\+::file\+\_\+loader\+::insert (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{Input\+It}]{\+\_\+first, }
+\item[{Input\+It}]{\+\_\+last}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_aeef33f6a6c284974f2635cdcb31f7b24}{}\label{classcrsc_1_1file__loader_aeef33f6a6c284974f2635cdcb31f7b24}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!lines@{lines}}
+\index{lines@{lines}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{lines() const  noexcept}{lines() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::size\+\_\+t crsc\+::file\+\_\+loader\+::lines (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1file__loader_a14ca83e45f497847f17a229e32837d26}{}\label{classcrsc_1_1file__loader_a14ca83e45f497847f17a229e32837d26}
+
+
+Gets the number of lines in the file. 
+
+\begin{DoxyReturn}{Returns}
+Number of lines in current state of internal cached storage. 
+\end{DoxyReturn}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!operator=@{operator=}}
+\index{operator=@{operator=}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{operator=(const file\+\_\+loader \&\+\_\+other)=delete}{operator=(const file_loader &_other)=delete}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf file\+\_\+loader}\& crsc\+::file\+\_\+loader\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf file\+\_\+loader} \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [delete]}}\hypertarget{classcrsc_1_1file__loader_ac9a181e9ff8455ad47d1dbea84c8f1bf}{}\label{classcrsc_1_1file__loader_ac9a181e9ff8455ad47d1dbea84c8f1bf}
+
+
+Deleted copy assignment operator, copy assignment is forbidden. 
+
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!operator=@{operator=}}
+\index{operator=@{operator=}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{operator=(file\+\_\+loader \&\&\+\_\+other)}{operator=(file_loader &&_other)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf file\+\_\+loader}\& crsc\+::file\+\_\+loader\+::operator= (
+\begin{DoxyParamCaption}
+\item[{{\bf file\+\_\+loader} \&\&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a15988c765c8b74376cf65cc62a0280ba}{}\label{classcrsc_1_1file__loader_a15988c765c8b74376cf65cc62a0280ba}
+
+
+Move assignment operator, uses move-\/semantics to move the parameterised \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance to this. Instance being moved is left in a valid but unspecified state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & rvalue reference to \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} instance. \\
+\hline
+\end{DoxyParams}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!overwrite\+\_\+line@{overwrite\+\_\+line}}
+\index{overwrite\+\_\+line@{overwrite\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{overwrite\+\_\+line(std\+::size\+\_\+t \+\_\+n, const std\+::string \&\+\_\+str)}{overwrite_line(std::size_t _n, const std::string &_str)}}]{\setlength{\rightskip}{0pt plus 5cm}void crsc\+::file\+\_\+loader\+::overwrite\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{const std\+::string \&}]{\+\_\+str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a372aa290d49ad8ef1bb2382f80a10186}{}\label{classcrsc_1_1file__loader_a372aa290d49ad8ef1bb2382f80a10186}
+
+
+Overwrites a given line of the internal cached storage such that the next call to write\+\_\+changes will update the file contents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Line number to overwrite. \\
+\hline
+{\em \+\_\+str} & std\+::string instance to overwrite current line contents with. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & std\+::out\+\_\+of\+\_\+range exception if \+\_\+n exceeds lines in internal cached storage. \\
+\hline
+\end{DoxyExceptions}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!read\+\_\+line@{read\+\_\+line}}
+\index{read\+\_\+line@{read\+\_\+line}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{read\+\_\+line(std\+::size\+\_\+t \+\_\+n) const }{read_line(std::size_t _n) const }}]{\setlength{\rightskip}{0pt plus 5cm}const std\+::string\& crsc\+::file\+\_\+loader\+::read\+\_\+line (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a117e2d68f79e311bff7727ad6e8da1c5}{}\label{classcrsc_1_1file__loader_a117e2d68f79e311bff7727ad6e8da1c5}
+
+
+Reads a given line of the internal cached storage. This internal store is guaranteed to always be up to date, no call to write\+\_\+changes is required to maintain consistency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Line number to read. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const reference to std\+::string instance given by \+\_\+n\textquotesingle{}th line. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & std\+::out\+\_\+of\+\_\+range exception if \+\_\+n exceeds lines in internal cached storage. \\
+\hline
+\end{DoxyExceptions}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!read\+\_\+lines@{read\+\_\+lines}}
+\index{read\+\_\+lines@{read\+\_\+lines}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{read\+\_\+lines(std\+::size\+\_\+t \+\_\+n, std\+::size\+\_\+t \+\_\+m) const }{read_lines(std::size_t _n, std::size_t _m) const }}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string crsc\+::file\+\_\+loader\+::read\+\_\+lines (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+n, }
+\item[{std\+::size\+\_\+t}]{\+\_\+m}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_a3182907a6d983e07560fc9816baaf58f}{}\label{classcrsc_1_1file__loader_a3182907a6d983e07560fc9816baaf58f}
+
+
+Reads a block of lines of the internal cached storage where the start and end of the block are parameterised. The internal store is guaranteed to always be up to date, no call to write\+\_\+changes is required to maintain consistency. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+n} & Beginning line number to read from (inclusive). \\
+\hline
+{\em \+\_\+m} & Ending line number to read to (inclusive). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A std\+::string instance containing block of lines data. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & std\+::logic\+\_\+error if \+\_\+n $>$ \+\_\+m. \\
+\hline
+{\em Throws} & std\+::out\+\_\+of\+\_\+range exception if \+\_\+n exceeds lines in internal cached storage. \\
+\hline
+\end{DoxyExceptions}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!write\+\_\+cache@{write\+\_\+cache}}
+\index{write\+\_\+cache@{write\+\_\+cache}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{write\+\_\+cache()}{write_cache()}}]{\setlength{\rightskip}{0pt plus 5cm}void crsc\+::file\+\_\+loader\+::write\+\_\+cache (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}\hypertarget{classcrsc_1_1file__loader_a84c6294ab6265b35dfc817965226f0c1}{}\label{classcrsc_1_1file__loader_a84c6294ab6265b35dfc817965226f0c1}
+
+
+Convenience method for writing a std\+::vector$<$std\+::string$>$ to an std\+::ostream instance. 
+
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!write\+\_\+changes@{write\+\_\+changes}}
+\index{write\+\_\+changes@{write\+\_\+changes}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{write\+\_\+changes()}{write_changes()}}]{\setlength{\rightskip}{0pt plus 5cm}void crsc\+::file\+\_\+loader\+::write\+\_\+changes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1file__loader_ac9bb6c7bfaad062e7711746976417774}{}\label{classcrsc_1_1file__loader_ac9bb6c7bfaad062e7711746976417774}
+
+
+Writes all changes made to the internal cached storage to the filestream, overwriting the current contents of the file. 
+
+
+
+\subsection{Member Data Documentation}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!cached\+\_\+contents\+\_\+vec@{cached\+\_\+contents\+\_\+vec}}
+\index{cached\+\_\+contents\+\_\+vec@{cached\+\_\+contents\+\_\+vec}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{cached\+\_\+contents\+\_\+vec}{cached_contents_vec}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$ crsc\+::file\+\_\+loader\+::cached\+\_\+contents\+\_\+vec\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1file__loader_a66bc2dbbce9b17845a19526de7a8b3f1}{}\label{classcrsc_1_1file__loader_a66bc2dbbce9b17845a19526de7a8b3f1}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!filename@{filename}}
+\index{filename@{filename}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{filename}{filename}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string crsc\+::file\+\_\+loader\+::filename\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1file__loader_af656c06c4193868b5b13f29e5ccbf5d7}{}\label{classcrsc_1_1file__loader_af656c06c4193868b5b13f29e5ccbf5d7}
+\index{crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}!fs@{fs}}
+\index{fs@{fs}!crsc\+::file\+\_\+loader@{crsc\+::file\+\_\+loader}}
+\subsubsection[{\texorpdfstring{fs}{fs}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::fstream crsc\+::file\+\_\+loader\+::fs\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1file__loader_a7957bc89279fd8ba00c6511cdef26134}{}\label{classcrsc_1_1file__loader_a7957bc89279fd8ba00c6511cdef26134}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{file__loader_8h}{file\+\_\+loader.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,2025 @@
+\hypertarget{classcrsc_1_1dynamic__matrix}{}\section{crsc\+:\+:dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ Class Template Reference}
+\label{classcrsc_1_1dynamic__matrix}\index{crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$@{crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$}}
+
+
+A container encapsulating a {\ttfamily std\+::vector} using a row-\/major configuration to store a matrix-\/style object. The number of elements in every row are equal and the number of elements in every column are equal, such that no holes in the structure occur.  
+
+
+
+
+{\ttfamily \#include $<$dynamic\+\_\+matrix.\+h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}{proxy\+\_\+row\+\_\+vector}
+\begin{DoxyCompactList}\small\item\em Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef \+\_\+\+Ty \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type}
+\item 
+typedef \+\_\+\+Ty \& \hyperlink{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{reference}
+\item 
+typedef const \+\_\+\+Ty \& \hyperlink{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{const\+\_\+reference}
+\item 
+typedef \+\_\+\+Ty $\ast$ \hyperlink{classcrsc_1_1dynamic__matrix_a9ed63c32093334327c1f7a4822d6feb6}{pointer}
+\item 
+typedef const \+\_\+\+Ty $\ast$ \hyperlink{classcrsc_1_1dynamic__matrix_ab72da9ca0ac66408077687988c31a781}{const\+\_\+pointer}
+\item 
+typedef std\+::size\+\_\+t \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type}
+\item 
+typedef std\+::ptrdiff\+\_\+t \hyperlink{classcrsc_1_1dynamic__matrix_a46c3124226d9b209aae58572e4462707}{difference\+\_\+type}
+\item 
+typedef \+\_\+\+Alloc \hyperlink{classcrsc_1_1dynamic__matrix_a730075d7fe9fd20dc909642546854572}{allocator\+\_\+type}
+\item 
+typedef std\+::vector$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::\hyperlink{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}{const\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}{const\+\_\+iterator}
+\item 
+typedef std\+::vector$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator}
+\item 
+typedef std\+::vector$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::\hyperlink{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}{const\+\_\+reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}{const\+\_\+reverse\+\_\+iterator}
+\item 
+typedef std\+::vector$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::\hyperlink{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}{reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}{reverse\+\_\+iterator}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_af5e151a1f2383330d52175c27c7b1b31}{dynamic\+\_\+matrix} ()
+\begin{DoxyCompactList}\small\item\em Default constructor, initialises emtpy container (zero rows and columns) using default constructed allocator. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a95a3a50291644b0b34dd411eb8ee7326}{dynamic\+\_\+matrix} (const \+\_\+\+Alloc \&alloc)
+\begin{DoxyCompactList}\small\item\em Default constructor, initialises empty container (zero rows and columns) with specified allocator. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a17dd396f80824ba1b78e1a96cf357d7f}{dynamic\+\_\+matrix} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())
+\begin{DoxyCompactList}\small\item\em Constructs the container with {\ttfamily \+\_\+rows$\ast$\+\_\+cols} default-\/inserted instances of {\ttfamily \+\_\+\+Ty}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ae3909bdbee24cba5d93e1f9d37dc8efa}{dynamic\+\_\+matrix} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())
+\begin{DoxyCompactList}\small\item\em Constructs the container with {\ttfamily \+\_\+rows$\ast$\+\_\+cols} copies of elements with value {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_aa766e75f81772f74c67064fae655308b}{dynamic\+\_\+matrix} (\hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $\ast$$\ast$\+\_\+arr\+\_\+2d, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())
+\begin{DoxyCompactList}\small\item\em Constructs the container with {\ttfamily \+\_\+rows$\ast$cols} elements with values given by a 2D C-\/style array {\ttfamily \+\_\+arr\+\_\+2d}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a50c449bfc6a670c1d88cba8fcb71153d}{dynamic\+\_\+matrix} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Copy constructor. Constructs the container with the copy of the contents of {\ttfamily \+\_\+other}. Allocator is obtained through calling {\ttfamily std\+::allocator\+\_\+traits$<$allocator\+\_\+type$>$\+::select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction(\+\_\+other.\+get\+\_\+allocator())}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a7590f2b0b645a72b296d3352267f3ffa}{dynamic\+\_\+matrix} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other, const \+\_\+\+Alloc \&alloc)
+\begin{DoxyCompactList}\small\item\em Copy constructor. Constructs the container with the copy of the contents of {\ttfamily \+\_\+other}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a9a87bbd46e76c29c58084b3ad96f47ee}{dynamic\+\_\+matrix} (\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Move constructor. Constructs the containers with the contents of {\ttfamily \+\_\+other} using move-\/semantics. Allocator is obtained by move-\/construction from the allocator belonging to {\ttfamily \+\_\+other}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_adb2e9c0090727a95a6144c88472915c8}{dynamic\+\_\+matrix} (\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\&\+\_\+other, const \+\_\+\+Alloc \&alloc)
+\begin{DoxyCompactList}\small\item\em Move constructor. Constructs the containers with the contents of {\ttfamily \+\_\+other} using move-\/semantics. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a8f762d32c9a648f8bfe2040824d3f8ab}{$\sim$dynamic\+\_\+matrix} ()
+\begin{DoxyCompactList}\small\item\em Destructs the container. The destructors of the elements are called and the used storage is deallocated. Note that if the elements are raw pointers, the pointed-\/to objects are not destroyed. Use smart pointers instead of raw pointers to ensure memory handling takes place. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \& \hyperlink{classcrsc_1_1dynamic__matrix_a87acbb13e2b7a6273c60e8e36f4274e4}{operator=} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Copy-\/assignment operator. Replaces the contents of the container with a copy of the contents of {\ttfamily \+\_\+other}. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \& \hyperlink{classcrsc_1_1dynamic__matrix_ae5caf5b8134bd604eee47e674fa0d53a}{operator=} (\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Move-\/assignment operator. Replaces the contents of the container with those of {\ttfamily \+\_\+other} using move-\/semantics. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a730075d7fe9fd20dc909642546854572}{allocator\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a09b4b387e6b0c7bb0313b05f66106c31}{get\+\_\+allocator} () const 
+\begin{DoxyCompactList}\small\item\em Returns the allocator associated with the container. \end{DoxyCompactList}\item 
+bool \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Checks if the container has no elements. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns the number of rows in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns the number of columns in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}{size} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns the size of the container in terms of number of elements it holds. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a51bdab222e978c507853f03d6807dce0}{max\+\_\+size} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns the maximum number of elements the container is able to hold due to system or library implementation limitations. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns the number of elements that the container has currently allocated space for. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_a532e7e00e645204d65691d5a9a3b2d6a}{reserve} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Increases the capacity of the container to a value that\textquotesingle{}s greater than or equal to {\ttfamily \+\_\+rows$\ast$\+\_\+cols}, if {\ttfamily \+\_\+rows$\ast$\+\_\+cols} is greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} new storage is allocated, otherwise the method does nothing. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_a0a59ebdab34a354b2f933a78c1d1efda}{shrink\+\_\+to\+\_\+fit} ()
+\begin{DoxyCompactList}\small\item\em Requests the removal of unused container capacity. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{const\+\_\+reference} \hyperlink{classcrsc_1_1dynamic__matrix_aa2661d35186ca1b32f7db9dfd15556bd}{at} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index) const 
+\begin{DoxyCompactList}\small\item\em Gets const\+\_\+reference to element at specified row-\/column indices. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{reference} \hyperlink{classcrsc_1_1dynamic__matrix_a7fb7fdbe97bfa16ac911694833790062}{at} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Gets reference to element at specified row-\/column indices. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}{proxy\+\_\+row\+\_\+vector} \hyperlink{classcrsc_1_1dynamic__matrix_a2190d5bd6dbafc21bccc5f924a4ecdc6}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index) const 
+\begin{DoxyCompactList}\small\item\em Gets a proxy object representing the row vector of the matrix at a given {\ttfamily \+\_\+row\+\_\+index} such that calling the double subscript operator gets a const\+\_\+reference to the element at the specified position. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}{proxy\+\_\+row\+\_\+vector} \hyperlink{classcrsc_1_1dynamic__matrix_a1e0fb2aa264881db2435ec58cad09107}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Gets a proxy object representing the row vector of the matrix at a given {\ttfamily \+\_\+row\+\_\+index} such that calling the double subscript operator gets a reference to the element at the specified position. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{const\+\_\+reference} \hyperlink{classcrsc_1_1dynamic__matrix_afa20bff9a7bd03d1d67d5d15db891873}{front} () const 
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+reference to first element in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{reference} \hyperlink{classcrsc_1_1dynamic__matrix_a4e77ba00b3fa2409b84cbf65d80a791d}{front} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to first element in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{const\+\_\+reference} \hyperlink{classcrsc_1_1dynamic__matrix_ae535d3c8804bc937f1df81f58204ec6a}{back} () const 
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+reference to last element in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{reference} \hyperlink{classcrsc_1_1dynamic__matrix_a900fadee52f1945710a3ac4517873570}{back} ()
+\begin{DoxyCompactList}\small\item\em Returns a reference to last element in the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ab72da9ca0ac66408077687988c31a781}{const\+\_\+pointer} \hyperlink{classcrsc_1_1dynamic__matrix_a00bfa17588e761e8552b73ed69c0bf33}{data} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns const\+\_\+pointer to the underlying array {\ttfamily const \+\_\+\+Ty$\ast$} serving as element storage. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a9ed63c32093334327c1f7a4822d6feb6}{pointer} \hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns pointer to the underlying array {\ttfamily \+\_\+\+Ty$\ast$} serving as element storage. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$has\+\_\+insertion\+\_\+operator$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\std\+::ostream \& \hyperlink{classcrsc_1_1dynamic__matrix_a2f5aab402f76454007cb55c2b90d1ec2}{write} (std\+::ostream \&\+\_\+os, char \+\_\+delim= \textquotesingle{} \textquotesingle{}) const  noexcept
+\begin{DoxyCompactList}\small\item\em Sends the container data to a {\ttfamily std\+::ostream} instance in a mathematical-\/matrix style format. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}{const\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a864245b32dfb80a9b8a91efac1544ad2}{cbegin} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+iterator the first element of the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_aa5e3af1a9f2f33a8b834a4129bf985f3}{begin} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the first element of the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}{const\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a6cdcf8770391b055e3d41d4080e6e903}{cend} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+iterator to the past-\/the-\/end element of the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a586dd52d2d786a779974cdb25572999a}{end} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns an iterator to the past-\/the-\/end element of the container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}{const\+\_\+reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a2e3826fe67783a10ec7b1b6854c5e115}{crbegin} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+reverse\+\_\+iterator to the first element of the reversed container. It corresponds to the last element of the non-\/reversed container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}{reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af79ee264a9a7071a97f215d4892dc97f}{rbegin} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse\+\_\+iterator to the first element of the reversed container. It corresponds to the last element of the non-\/reversed container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}{const\+\_\+reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a01c5f7f5c5aade316de505c02ae421c1}{crend} () const  noexcept
+\begin{DoxyCompactList}\small\item\em Returns a const\+\_\+reverse\+\_\+iterator to the past-\/the-\/end element of the reversed container. It corresponds to the element preceding the first element of the non-\/reversed container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}{reverse\+\_\+iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af9096965d11ffe8af370525b0c76fa37}{rend} () noexcept
+\begin{DoxyCompactList}\small\item\em Returns a reverse\+\_\+iterator to the past-\/the-\/end element of the reversed container. It corresponds to the element preceding the first element of the non-\/reversed container. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_a632fe56c4eef34cf3d3d6e631aa63447}{clear} () noexcept
+\begin{DoxyCompactList}\small\item\em Removes all elements from the container but leaves the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} unchanged. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af458f78b3f1875f19a654da362464cb8}{insert\+\_\+row} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+pos, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos} where each element in the inserted row will have the specified value {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a57efce1cebba9b7769ae46202879ab1a}{insert\+\_\+row} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+pos, const std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\+\_\+row\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a79084d5a372239dc82b19b1d1bf2e5e8}{insert\+\_\+row} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+pos, std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\&\+\_\+row\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos} using move-\/semantics. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a5f1c24bdd56ee9a0ee0794f2e51ba76f}{insert\+\_\+column} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+pos, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos} where each element in the inserted column will have the specified value {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a364e8524aac5e6f17b2961ee7110d5d7}{insert\+\_\+column} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+pos, const std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\+\_\+col\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af6dfc70fe9f24e651d4c5d3253512e70}{insert\+\_\+column} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+pos, std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\&\+\_\+col\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos} using move-\/semantics. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_af366787dc46609d0e6c5fbd4912bd7b9}{erase\+\_\+row} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+pos)
+\begin{DoxyCompactList}\small\item\em Erases a row vector at {\ttfamily \+\_\+row\+\_\+pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{iterator} \hyperlink{classcrsc_1_1dynamic__matrix_a9d7e766ffea03f3673384f44688c449a}{erase\+\_\+column} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+pos)
+\begin{DoxyCompactList}\small\item\em Erases a column vector at {\ttfamily \+\_\+col\+\_\+pos}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a795de263199b2f03a2639b3f9eb37d99}{fill} (const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val) noexcept
+\begin{DoxyCompactList}\small\item\em Assigns the given value {\ttfamily \+\_\+val} to all elements in the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a89c332f58cbba8d85594051ea4a4aa82}{push\+\_\+row} (const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Pushes an extra row-\/vector to the back of the container where each element in the inserted row will have the specified value {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a35451b17739e6d59106eb844566fa866}{push\+\_\+row} (const std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\+\_\+row\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Pushes an extra row-\/vector to the back of the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a664b9f76c135df501b9ea71139ded39f}{push\+\_\+row} (std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\&\+\_\+row\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Pushes an extra row-\/vector to the back of the container using move-\/semantics. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a6586b5d120b2a32cd20f6be9ed98dbe8}{push\+\_\+column} (const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Pushes an extra column-\/vector to the back of the container where each element in the inserted column will have the specified value {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a5ede5479cd7a2f91af1d64e8d029a3b6}{push\+\_\+column} (const std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\+\_\+col\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Pushes an extra column-\/vector to the back of the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a987b64a8eda1bf8c5e7af98d81dc2bb2}{push\+\_\+column} (std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} $>$ \&\&\+\_\+col\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Pushes an extra column-\/vector to the back of the container using move-\/semantics. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_ae4cc7cc58a70edd14cc76042c8b68f47}{pop\+\_\+row} ()
+\begin{DoxyCompactList}\small\item\em Pops the last row from the back of the container. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_ad463395ddeadf2bcae05bd4c0bcfe90c}{pop\+\_\+column} ()
+\begin{DoxyCompactList}\small\item\em Pops the last column from the back of the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}{rows\+\_\+resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+rows} row vectors, where any extra values added (if any) are initialised according to the default constructor of {\ttfamily value\+\_\+type}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a7fed8be416c29318266001d70a0ec3cf}{rows\+\_\+resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+rows} row vectors, where any extra values added (if any) are initialised with {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}{columns\+\_\+resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+cols} column vectors, where any extra values added (if any) are initialised according to the default constructor of {\ttfamily value\+\_\+type}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_af4c6b33932f6e0e580d147beabea9bb6}{columns\+\_\+resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+cols} column vectors, with any extra values added (if any) being initialised with {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_aec3d0fa416d676f27d489095f6cacb65}{resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+rows} row vectors and {\ttfamily \+\_\+cols} column vectors where any extra values added (if any) are initialised according to the default-\/constructor of {\ttfamily value\+\_\+type}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ }\\void \hyperlink{classcrsc_1_1dynamic__matrix_ad3b3bed46b0d3dff974afc95f4a663a5}{resize} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+rows, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols, const \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \&\+\_\+val)
+\begin{DoxyCompactList}\small\item\em Resizes the container to contain {\ttfamily \+\_\+rows} row vectors and {\ttfamily \+\_\+cols} column vectors where any extra values added (if any) are initialised with {\ttfamily \+\_\+val}. \end{DoxyCompactList}\item 
+void \hyperlink{classcrsc_1_1dynamic__matrix_a02dc70974b9ccbc7ebf06d778a664fb4}{swap} (\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other)
+\begin{DoxyCompactList}\small\item\em Exchanges the contents of the container with those of {\ttfamily \+\_\+other}. Does not cause iterators and references to associate with the other container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \hyperlink{classcrsc_1_1dynamic__matrix_a085b5e321d2ca4822387092ad11e1cc9}{submatrix} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index) const  noexcept
+\begin{DoxyCompactList}\small\item\em Gets the submatrix of the container obtained by removing the specified row and column and returning the resulting matrix. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \& \hyperlink{classcrsc_1_1dynamic__matrix_a568d7f2b8bc4f45b181ef3b5f6066810}{submatrix} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index)
+\begin{DoxyCompactList}\small\item\em Erases the specified row and column from the container, yielding the submatrix. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a78f379e2ac0864c82bca8c6d3153562f}{trace} () const 
+\begin{DoxyCompactList}\small\item\em Computes the trace of a square {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container. \end{DoxyCompactList}\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \& \hyperlink{classcrsc_1_1dynamic__matrix_ad90a1ed68f4925e6362470e7231068ef}{operator+=} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other)
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \& \hyperlink{classcrsc_1_1dynamic__matrix_a06ec76adfbaef9ca4ab5a4e2eb65cd42}{operator-\/=} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other)
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \hyperlink{classcrsc_1_1dynamic__matrix_a12d99095acf979b8565a0b2471733930}{operator+} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other) const 
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \hyperlink{classcrsc_1_1dynamic__matrix_a7e4ff16e82dd3bf8ce1815046f78af9b}{operator-\/} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other) const 
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \hyperlink{classcrsc_1_1dynamic__matrix_a52f094280470a2c6b7682b1e3dbd44d7}{operator$\ast$} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other) const 
+\item 
+bool \hyperlink{classcrsc_1_1dynamic__matrix_ac7a90a3918e7f4cdb65cd0d8dca4dcdb}{operator==} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other) const  noexcept
+\item 
+bool \hyperlink{classcrsc_1_1dynamic__matrix_a3b7cbfea70074ad738f8dc0dca54c33b}{operator!=} (const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} \&\+\_\+other) const  noexcept
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type}, \+\_\+\+Alloc $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a01ba435d0d468b1ff8de25baba9b658c}{mtx}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_afa3fb44b323d54a0d4c02b2fc00e7357}{rows\+\_\+}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_a350bb926a6e6d0bafcfb05cbf7c7b410}{cols\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$\\*
+class crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$}
+
+A container encapsulating a {\ttfamily std\+::vector} using a row-\/major configuration to store a matrix-\/style object. The number of elements in every row are equal and the number of elements in every column are equal, such that no holes in the structure occur. 
+
+The elements of the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} are stored contiguously such that they can be accessed through iterators as well as offsets on regular pointers to elements. Storage of a {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} is handled automatically allowing expansion and contraction when required. The total amount of allocated memory for the entire matrix can be queried via the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} method. Extra memory currently not in use by a {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} instance can be released back to the system via calling {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a0a59ebdab34a354b2f933a78c1d1efda}{shrink\+\_\+to\+\_\+fit()}}.
+
+Reallocations occur when additional memory is exhausted, these can be costly in terms of performance -\/ minimum time complexity of linear in the size of the matrix. To avoid reallocations use {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a532e7e00e645204d65691d5a9a3b2d6a}{reserve()}} if the dimensions of the matrix will be known beforehand (i.\+e. before using {\ttfamily push} or {\ttfamily insert} operations).
+
+Iteration support is via a {\ttfamily std\+::bidirectional\+\_\+iterator} from the {\ttfamily std\+::vector} data structure, therefore both random access iteration and forward iteration is allowed. The order of iteration uses an \char`\"{}in-\/order traversal\char`\"{} such that elements of the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} are iterated through by rows from left to right, top to bottom.
+
+The complexity of common operations on {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} objects are\+:
+
+
+\begin{DoxyItemize}
+\item Random access -\/ constant O(1).
+\item Insertion or removal of rows/columns at the end -\/ linear in number of columns/rows respectively\+: \mbox{[}O(n\+\_\+c)\mbox{]}, \mbox{[}O(n\+\_\+r)\mbox{]}.
+\item Insertion or removal of rows/columns -\/ linear in {\ttfamily std\+::distance} to the end of the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} O(n).
+\end{DoxyItemize}
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \+\_\+\+Ty} & The type of the elements. \\
+\hline
+{\em \+\_\+\+Alloc} & An allocator that is used to acquire memory to store the elements. The type must meet the requirements of {\ttfamily Allocator} (see C++ Standard). Behaviour is undefined if {\ttfamily \+\_\+\+Alloc\+::value\+\_\+type != \+\_\+\+Ty}. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyRemark}{Remarks}
+As this is a dynamic data structure the dimensions of the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} do N\+OT need to be known at compile-\/time, these dimensions can be manipulated at run-\/time. This structure occupies slightly more memory than a fixed-\/size matrix for this reason -\/ if memory is a concern and fixed dimensions are known at compile-\/time then consider using \hyperlink{classcrsc_1_1fixed__matrix}{crsc\+::fixed\+\_\+matrix} instead. 
+\end{DoxyRemark}
+\begin{DoxyInvariant}{Invariant}
+Every row shall have an equal number of elements and every column shall have an equal number of elements such that no holes occur in the structure. 
+\end{DoxyInvariant}
+\begin{DoxyAuthor}{Author}
+Samuel Rowlinson 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+July, 2016 
+\end{DoxyDate}
+
+
+\subsection{Member Typedef Documentation}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!allocator\+\_\+type@{allocator\+\_\+type}}
+\index{allocator\+\_\+type@{allocator\+\_\+type}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{allocator\+\_\+type}{allocator_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef \+\_\+\+Alloc {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf allocator\+\_\+type}}\hypertarget{classcrsc_1_1dynamic__matrix_a730075d7fe9fd20dc909642546854572}{}\label{classcrsc_1_1dynamic__matrix_a730075d7fe9fd20dc909642546854572}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!const\+\_\+iterator@{const\+\_\+iterator}}
+\index{const\+\_\+iterator@{const\+\_\+iterator}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{const\+\_\+iterator}{const_iterator}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::vector$<$\+\_\+\+Ty, \+\_\+\+Alloc$>$\+::{\bf const\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf const\+\_\+iterator}}\hypertarget{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}{}\label{classcrsc_1_1dynamic__matrix_a85960561507869e760b0b0f4be6964cf}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!const\+\_\+pointer@{const\+\_\+pointer}}
+\index{const\+\_\+pointer@{const\+\_\+pointer}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{const\+\_\+pointer}{const_pointer}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef const \+\_\+\+Ty$\ast$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf const\+\_\+pointer}}\hypertarget{classcrsc_1_1dynamic__matrix_ab72da9ca0ac66408077687988c31a781}{}\label{classcrsc_1_1dynamic__matrix_ab72da9ca0ac66408077687988c31a781}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!const\+\_\+reference@{const\+\_\+reference}}
+\index{const\+\_\+reference@{const\+\_\+reference}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{const\+\_\+reference}{const_reference}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef const \+\_\+\+Ty\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf const\+\_\+reference}}\hypertarget{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{}\label{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!const\+\_\+reverse\+\_\+iterator@{const\+\_\+reverse\+\_\+iterator}}
+\index{const\+\_\+reverse\+\_\+iterator@{const\+\_\+reverse\+\_\+iterator}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{const\+\_\+reverse\+\_\+iterator}{const_reverse_iterator}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::vector$<$\+\_\+\+Ty, \+\_\+\+Alloc$>$\+::{\bf const\+\_\+reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf const\+\_\+reverse\+\_\+iterator}}\hypertarget{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}{}\label{classcrsc_1_1dynamic__matrix_abb589a5b7c7d7869e00f82ac7370cf93}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!difference\+\_\+type@{difference\+\_\+type}}
+\index{difference\+\_\+type@{difference\+\_\+type}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{difference\+\_\+type}{difference_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::ptrdiff\+\_\+t {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf difference\+\_\+type}}\hypertarget{classcrsc_1_1dynamic__matrix_a46c3124226d9b209aae58572e4462707}{}\label{classcrsc_1_1dynamic__matrix_a46c3124226d9b209aae58572e4462707}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!iterator@{iterator}}
+\index{iterator@{iterator}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{iterator}{iterator}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::vector$<$\+\_\+\+Ty, \+\_\+\+Alloc$>$\+::{\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf iterator}}\hypertarget{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}{}\label{classcrsc_1_1dynamic__matrix_a2fe15f8dee8317af955c053888308927}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!pointer@{pointer}}
+\index{pointer@{pointer}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{pointer}{pointer}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef \+\_\+\+Ty$\ast$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf pointer}}\hypertarget{classcrsc_1_1dynamic__matrix_a9ed63c32093334327c1f7a4822d6feb6}{}\label{classcrsc_1_1dynamic__matrix_a9ed63c32093334327c1f7a4822d6feb6}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!reference@{reference}}
+\index{reference@{reference}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{reference}{reference}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef \+\_\+\+Ty\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf reference}}\hypertarget{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{}\label{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!reverse\+\_\+iterator@{reverse\+\_\+iterator}}
+\index{reverse\+\_\+iterator@{reverse\+\_\+iterator}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{reverse\+\_\+iterator}{reverse_iterator}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::vector$<$\+\_\+\+Ty, \+\_\+\+Alloc$>$\+::{\bf reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf reverse\+\_\+iterator}}\hypertarget{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}{}\label{classcrsc_1_1dynamic__matrix_af87d57ef714d48cde9ae83bfda908243}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!size\+\_\+type@{size\+\_\+type}}
+\index{size\+\_\+type@{size\+\_\+type}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{size\+\_\+type}{size_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef std\+::size\+\_\+t {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf size\+\_\+type}}\hypertarget{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{}\label{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!value\+\_\+type@{value\+\_\+type}}
+\index{value\+\_\+type@{value\+\_\+type}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{value\+\_\+type}{value_type}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ typedef \+\_\+\+Ty {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf value\+\_\+type}}\hypertarget{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{}\label{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix()}{dynamic_matrix()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_af5e151a1f2383330d52175c27c7b1b31}{}\label{classcrsc_1_1dynamic__matrix_af5e151a1f2383330d52175c27c7b1b31}
+
+
+Default constructor, initialises emtpy container (zero rows and columns) using default constructed allocator. 
+
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(const \+\_\+\+Alloc \&alloc)}{dynamic_matrix(const _Alloc &alloc)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{const \+\_\+\+Alloc \&}]{alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}\hypertarget{classcrsc_1_1dynamic__matrix_a95a3a50291644b0b34dd411eb8ee7326}{}\label{classcrsc_1_1dynamic__matrix_a95a3a50291644b0b34dd411eb8ee7326}
+
+
+Default constructor, initialises empty container (zero rows and columns) with specified allocator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())}{dynamic_matrix(size_type _rows, size_type _cols, const _Alloc &alloc=_Alloc())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{const \+\_\+\+Alloc \&}]{alloc = {\ttfamily \+\_\+Alloc()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}\hypertarget{classcrsc_1_1dynamic__matrix_a17dd396f80824ba1b78e1a96cf357d7f}{}\label{classcrsc_1_1dynamic__matrix_a17dd396f80824ba1b78e1a96cf357d7f}
+
+
+Constructs the container with {\ttfamily \+\_\+rows$\ast$\+\_\+cols} default-\/inserted instances of {\ttfamily \+\_\+\+Ty}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols, const value\+\_\+type \&\+\_\+val, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())}{dynamic_matrix(size_type _rows, size_type _cols, const value_type &_val, const _Alloc &alloc=_Alloc())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val, }
+\item[{const \+\_\+\+Alloc \&}]{alloc = {\ttfamily \+\_\+Alloc()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}\hypertarget{classcrsc_1_1dynamic__matrix_ae3909bdbee24cba5d93e1f9d37dc8efa}{}\label{classcrsc_1_1dynamic__matrix_ae3909bdbee24cba5d93e1f9d37dc8efa}
+
+
+Constructs the container with {\ttfamily \+\_\+rows$\ast$\+\_\+cols} copies of elements with value {\ttfamily \+\_\+val}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+{\em \+\_\+val} & Value to initialise elements of the container with. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(value\+\_\+type $\ast$$\ast$\+\_\+arr\+\_\+2d, size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())}{dynamic_matrix(value_type **_arr_2d, size_type _rows, size_type _cols, const _Alloc &alloc=_Alloc())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf value\+\_\+type} $\ast$$\ast$}]{\+\_\+arr\+\_\+2d, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{const \+\_\+\+Alloc \&}]{alloc = {\ttfamily \+\_\+Alloc()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}\hypertarget{classcrsc_1_1dynamic__matrix_aa766e75f81772f74c67064fae655308b}{}\label{classcrsc_1_1dynamic__matrix_aa766e75f81772f74c67064fae655308b}
+
+
+Constructs the container with {\ttfamily \+\_\+rows$\ast$cols} elements with values given by a 2D C-\/style array {\ttfamily \+\_\+arr\+\_\+2d}. 
+
+\begin{DoxyWarning}{Warning}
+Undefined behaviour invoked if number of rows, columns of {\ttfamily \+\_\+arr\+\_\+2d} not equal to {\ttfamily \+\_\+rows}, {\ttfamily \+\_\+cols} respectively. Additionally, {\ttfamily \+\_\+arr\+\_\+2d} is not deleted after use, memory management of {\ttfamily \+\_\+arr\+\_\+2d} is a responsibility of the caller. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+arr\+\_\+2d} & Two-\/dimensional C-\/style array used as source to initialise elements of the container with. \\
+\hline
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(const dynamic\+\_\+matrix \&\+\_\+other)}{dynamic_matrix(const dynamic_matrix &_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a50c449bfc6a670c1d88cba8fcb71153d}{}\label{classcrsc_1_1dynamic__matrix_a50c449bfc6a670c1d88cba8fcb71153d}
+
+
+Copy constructor. Constructs the container with the copy of the contents of {\ttfamily \+\_\+other}. Allocator is obtained through calling {\ttfamily std\+::allocator\+\_\+traits$<$allocator\+\_\+type$>$\+::select\+\_\+on\+\_\+container\+\_\+copy\+\_\+construction(\+\_\+other.\+get\+\_\+allocator())}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to be used as source to initialise elements of the container with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+other.\+rows()$\ast$\+\_\+other.\hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(const dynamic\+\_\+matrix \&\+\_\+other, const \+\_\+\+Alloc \&alloc)}{dynamic_matrix(const dynamic_matrix &_other, const _Alloc &alloc)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other, }
+\item[{const \+\_\+\+Alloc \&}]{alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a7590f2b0b645a72b296d3352267f3ffa}{}\label{classcrsc_1_1dynamic__matrix_a7590f2b0b645a72b296d3352267f3ffa}
+
+
+Copy constructor. Constructs the container with the copy of the contents of {\ttfamily \+\_\+other}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to be used as source to initialise elements of the container with. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+other.\+rows()$\ast$\+\_\+other.\hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(dynamic\+\_\+matrix \&\&\+\_\+other)}{dynamic_matrix(dynamic_matrix &&_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&\&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a9a87bbd46e76c29c58084b3ad96f47ee}{}\label{classcrsc_1_1dynamic__matrix_a9a87bbd46e76c29c58084b3ad96f47ee}
+
+
+Move constructor. Constructs the containers with the contents of {\ttfamily \+\_\+other} using move-\/semantics. Allocator is obtained by move-\/construction from the allocator belonging to {\ttfamily \+\_\+other}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to be used as source to initialise elements of the container with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!dynamic\+\_\+matrix@{dynamic\+\_\+matrix}}
+\index{dynamic\+\_\+matrix@{dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{dynamic\+\_\+matrix(dynamic\+\_\+matrix \&\&\+\_\+other, const \+\_\+\+Alloc \&alloc)}{dynamic_matrix(dynamic_matrix &&_other, const _Alloc &alloc)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::{\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+\item[{{\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&\&}]{\+\_\+other, }
+\item[{const \+\_\+\+Alloc \&}]{alloc}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_adb2e9c0090727a95a6144c88472915c8}{}\label{classcrsc_1_1dynamic__matrix_adb2e9c0090727a95a6144c88472915c8}
+
+
+Move constructor. Constructs the containers with the contents of {\ttfamily \+\_\+other} using move-\/semantics. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to be used as source to initialise elements of the container with. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily alloc != \+\_\+other.\+get\+\_\+allocator()} linear, otherwise constant. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!````~dynamic\+\_\+matrix@{$\sim$dynamic\+\_\+matrix}}
+\index{````~dynamic\+\_\+matrix@{$\sim$dynamic\+\_\+matrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{$\sim$dynamic\+\_\+matrix()}{~dynamic_matrix()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::$\sim${\bf dynamic\+\_\+matrix} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a8f762d32c9a648f8bfe2040824d3f8ab}{}\label{classcrsc_1_1dynamic__matrix_a8f762d32c9a648f8bfe2040824d3f8ab}
+
+
+Destructs the container. The destructors of the elements are called and the used storage is deallocated. Note that if the elements are raw pointers, the pointed-\/to objects are not destroyed. Use smart pointers instead of raw pointers to ensure memory handling takes place. 
+
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\ast$columns()}. 
+\end{DoxyParagraph}
+
+
+\subsection{Member Function Documentation}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!at@{at}}
+\index{at@{at}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{at(size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+col\+\_\+index) const }{at(size_type _row_index, size_type _col_index) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::at (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_aa2661d35186ca1b32f7db9dfd15556bd}{}\label{classcrsc_1_1dynamic__matrix_aa2661d35186ca1b32f7db9dfd15556bd}
+
+
+Gets const\+\_\+reference to element at specified row-\/column indices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Row position. \\
+\hline
+{\em \+\_\+col\+\_\+index} & Column position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Constant reference to element at given position. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & std\+::out\+\_\+of\+\_\+range exception if either of {\ttfamily \+\_\+row\+\_\+index}, {\ttfamily \+\_\+col\+\_\+index} are greater than or equal to \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}, \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} respectively. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!at@{at}}
+\index{at@{at}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{at(size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+col\+\_\+index)}{at(size_type _row_index, size_type _col_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::at (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a7fb7fdbe97bfa16ac911694833790062}{}\label{classcrsc_1_1dynamic__matrix_a7fb7fdbe97bfa16ac911694833790062}
+
+
+Gets reference to element at specified row-\/column indices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Row position. \\
+\hline
+{\em \+\_\+col\+\_\+index} & Column position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Constant reference to element at given position. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & std\+::out\+\_\+of\+\_\+range exception if either of {\ttfamily \+\_\+row\+\_\+index}, {\ttfamily \+\_\+col\+\_\+index} are greater than or equal to \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}, \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} respectively. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!back@{back}}
+\index{back@{back}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{back() const }{back() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::back (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ae535d3c8804bc937f1df81f58204ec6a}{}\label{classcrsc_1_1dynamic__matrix_ae535d3c8804bc937f1df81f58204ec6a}
+
+
+Returns a const\+\_\+reference to last element in the container. 
+
+\begin{DoxyReturn}{Returns}
+Constant reference to the last element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily !empty()}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!back@{back}}
+\index{back@{back}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{back()}{back()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::back (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a900fadee52f1945710a3ac4517873570}{}\label{classcrsc_1_1dynamic__matrix_a900fadee52f1945710a3ac4517873570}
+
+
+Returns a reference to last element in the container. 
+
+\begin{DoxyReturn}{Returns}
+Reference to the last element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily !empty()}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!begin@{begin}}
+\index{begin@{begin}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{begin() noexcept}{begin() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::begin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_aa5e3af1a9f2f33a8b834a4129bf985f3}{}\label{classcrsc_1_1dynamic__matrix_aa5e3af1a9f2f33a8b834a4129bf985f3}
+
+
+Returns an iterator to the first element of the container. 
+
+\begin{DoxyRemark}{Remarks}
+If the container is empty, the return value will be equal to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a586dd52d2d786a779974cdb25572999a}{end()}}. 
+\end{DoxyRemark}
+\begin{DoxyReturn}{Returns}
+Iterator to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!capacity@{capacity}}
+\index{capacity@{capacity}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{capacity() const  noexcept}{capacity() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::capacity (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{}\label{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}
+
+
+Returns the number of elements that the container has currently allocated space for. 
+
+\begin{DoxyReturn}{Returns}
+Size of the current allocated storage. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!cbegin@{cbegin}}
+\index{cbegin@{cbegin}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{cbegin() const  noexcept}{cbegin() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::cbegin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a864245b32dfb80a9b8a91efac1544ad2}{}\label{classcrsc_1_1dynamic__matrix_a864245b32dfb80a9b8a91efac1544ad2}
+
+
+Returns a const\+\_\+iterator the first element of the container. 
+
+\begin{DoxyRemark}{Remarks}
+If the container is empty, the return value will be equal to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a6cdcf8770391b055e3d41d4080e6e903}{cend()}}. 
+\end{DoxyRemark}
+\begin{DoxyReturn}{Returns}
+Constant iterator to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!cend@{cend}}
+\index{cend@{cend}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{cend() const  noexcept}{cend() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::cend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a6cdcf8770391b055e3d41d4080e6e903}{}\label{classcrsc_1_1dynamic__matrix_a6cdcf8770391b055e3d41d4080e6e903}
+
+
+Returns a const\+\_\+iterator to the past-\/the-\/end element of the container. 
+
+\begin{DoxyReturn}{Returns}
+Constant iterator to the past-\/the-\/end element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!clear@{clear}}
+\index{clear@{clear}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{clear() noexcept}{clear() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a632fe56c4eef34cf3d3d6e631aa63447}{}\label{classcrsc_1_1dynamic__matrix_a632fe56c4eef34cf3d3d6e631aa63447}
+
+
+Removes all elements from the container but leaves the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} unchanged. 
+
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\ast$columns()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!columns@{columns}}
+\index{columns@{columns}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{columns() const  noexcept}{columns() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::columns (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{}\label{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}
+
+
+Returns the number of columns in the container. 
+
+\begin{DoxyReturn}{Returns}
+Number of columns. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!columns\+\_\+resize@{columns\+\_\+resize}}
+\index{columns\+\_\+resize@{columns\+\_\+resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{columns\+\_\+resize(size\+\_\+type \+\_\+cols)}{columns_resize(size_type _cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::columns\+\_\+resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}{}\label{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}
+
+
+Resizes the container to contain {\ttfamily \+\_\+cols} column vectors, where any extra values added (if any) are initialised according to the default constructor of {\ttfamily value\+\_\+type}. 
+
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} the container is expanded to include {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+cols} extra columns with each value in the new column vectors initialised via default-\/insertion of {\ttfamily value\+\_\+type}. If {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} the container is contracted by {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+cols} columns such that only the first {\ttfamily \+\_\+cols} columns of the container remain. If {\ttfamily \+\_\+cols == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} this method does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+cols} & New number of columns in the container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily $\vert$\+\_\+cols -\/ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}$\vert$} multiplied by amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, else if {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily $\vert$columns() -\/ \+\_\+cols$\vert$} multiplied by complexity of {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_ad463395ddeadf2bcae05bd4c0bcfe90c}{pop\+\_\+column()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then no-\/throw guarantee, else if {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} and the container is {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty()}} then undefined behaviour otherwise no-\/throw guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!columns\+\_\+resize@{columns\+\_\+resize}}
+\index{columns\+\_\+resize@{columns\+\_\+resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{columns\+\_\+resize(size\+\_\+type \+\_\+cols, const value\+\_\+type \&\+\_\+val)}{columns_resize(size_type _cols, const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::columns\+\_\+resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_af4c6b33932f6e0e580d147beabea9bb6}{}\label{classcrsc_1_1dynamic__matrix_af4c6b33932f6e0e580d147beabea9bb6}
+
+
+Resizes the container to contain {\ttfamily \+\_\+cols} column vectors, with any extra values added (if any) being initialised with {\ttfamily \+\_\+val}. 
+
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} the container is expanded to include {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+cols} extra columns with each value in the new column vectors initialised with {\ttfamily \+\_\+val}. If {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} the container is contracted by {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+cols} columns such that only the first {\ttfamily \+\_\+cols} columns of the container remain. If {\ttfamily \+\_\+cols == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} this method does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+cols} & New number of columns in the container. \\
+\hline
+{\em \+\_\+val} & Value to initialise all elements of new column vectors with (if any). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily $\vert$\+\_\+cols -\/ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}$\vert$} multiplied by amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, else if {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily $\vert$columns() -\/ \+\_\+cols$\vert$} multiplied by complexity of {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_ad463395ddeadf2bcae05bd4c0bcfe90c}{pop\+\_\+column()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then no-\/throw guarantee, else if {\ttfamily \+\_\+cols $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} and the container is {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty()}} then undefined behaviour otherwise no-\/throw guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!crbegin@{crbegin}}
+\index{crbegin@{crbegin}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{crbegin() const  noexcept}{crbegin() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::crbegin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a2e3826fe67783a10ec7b1b6854c5e115}{}\label{classcrsc_1_1dynamic__matrix_a2e3826fe67783a10ec7b1b6854c5e115}
+
+
+Returns a const\+\_\+reverse\+\_\+iterator to the first element of the reversed container. It corresponds to the last element of the non-\/reversed container. 
+
+\begin{DoxyReturn}{Returns}
+Constant reverse iterator to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!crend@{crend}}
+\index{crend@{crend}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{crend() const  noexcept}{crend() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::crend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a01c5f7f5c5aade316de505c02ae421c1}{}\label{classcrsc_1_1dynamic__matrix_a01c5f7f5c5aade316de505c02ae421c1}
+
+
+Returns a const\+\_\+reverse\+\_\+iterator to the past-\/the-\/end element of the reversed container. It corresponds to the element preceding the first element of the non-\/reversed container. 
+
+\begin{DoxyReturn}{Returns}
+Constance reverse iterator to the past-\/the-\/end element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!data@{data}}
+\index{data@{data}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{data() const  noexcept}{data() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+pointer} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a00bfa17588e761e8552b73ed69c0bf33}{}\label{classcrsc_1_1dynamic__matrix_a00bfa17588e761e8552b73ed69c0bf33}
+
+
+Returns const\+\_\+pointer to the underlying array {\ttfamily const \+\_\+\+Ty$\ast$} serving as element storage. 
+
+This pointer is such that the range {\ttfamily \mbox{[}\hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()}, \hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()} + \hyperlink{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}{size()}\mbox{]}} is always a valid range, even if the container is empty -\/ {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()}} is non-\/dereferencable in this case.
+
+\begin{DoxyReturn}{Returns}
+Constant pointer to underlying element storage, for non empty container =$>$ {\ttfamily \&\hyperlink{classcrsc_1_1dynamic__matrix_a4e77ba00b3fa2409b84cbf65d80a791d}{front()}}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!data@{data}}
+\index{data@{data}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{data() noexcept}{data() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf pointer} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::data (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{}\label{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}
+
+
+Returns pointer to the underlying array {\ttfamily \+\_\+\+Ty$\ast$} serving as element storage. 
+
+This pointer is such that the range {\ttfamily \mbox{[}\hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()}, \hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()} + \hyperlink{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}{size()}\mbox{]}} is always a valid range, even if the container is empty -\/ {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a9f9b6e11e317ae25a3479a01c7a54a68}{data()}} is non-\/dereferencable in this case.
+
+\begin{DoxyReturn}{Returns}
+Pointer to underlying element storage, for non empty container = $>$ {\ttfamily \&\hyperlink{classcrsc_1_1dynamic__matrix_a4e77ba00b3fa2409b84cbf65d80a791d}{front()}}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!empty@{empty}}
+\index{empty@{empty}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{empty() const  noexcept}{empty() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ bool {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::empty (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{}\label{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}
+
+
+Checks if the container has no elements. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily true} if the container is empty, {\ttfamily false} otherwise. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!end@{end}}
+\index{end@{end}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{end() noexcept}{end() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::end (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a586dd52d2d786a779974cdb25572999a}{}\label{classcrsc_1_1dynamic__matrix_a586dd52d2d786a779974cdb25572999a}
+
+
+Returns an iterator to the past-\/the-\/end element of the container. 
+
+\begin{DoxyReturn}{Returns}
+Iterator to the past-\/the-\/end element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!erase\+\_\+column@{erase\+\_\+column}}
+\index{erase\+\_\+column@{erase\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{erase\+\_\+column(size\+\_\+type \+\_\+col\+\_\+pos)}{erase_column(size_type _col_pos)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::erase\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a9d7e766ffea03f3673384f44688c449a}{}\label{classcrsc_1_1dynamic__matrix_a9d7e766ffea03f3673384f44688c449a}
+
+
+Erases a column vector at {\ttfamily \+\_\+col\+\_\+pos}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+pos} & Column position to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator following the last removed element, i.\+e. the iterator pointing to the next element along from the last row of the erased column. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+col\+\_\+pos $>$= \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linearly decreasing factor given by distance between each element in column and {\ttfamily end} of container. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!erase\+\_\+row@{erase\+\_\+row}}
+\index{erase\+\_\+row@{erase\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{erase\+\_\+row(size\+\_\+type \+\_\+row\+\_\+pos)}{erase_row(size_type _row_pos)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::erase\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+pos}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_af366787dc46609d0e6c5fbd4912bd7b9}{}\label{classcrsc_1_1dynamic__matrix_af366787dc46609d0e6c5fbd4912bd7b9}
+
+
+Erases a row vector at {\ttfamily \+\_\+row\+\_\+pos}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+pos} & Row position to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator following the last removed element, i.\+e. the iterator pointing to to the first element of the next row or {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a586dd52d2d786a779974cdb25572999a}{end()}} if last row was erased. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+pos $>$= \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in distance between last element of the row and {\ttfamily end} of the container. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!fill@{fill}}
+\index{fill@{fill}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{fill(const value\+\_\+type \&\+\_\+val) noexcept}{fill(const value_type &_val) noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::fill (
+\begin{DoxyParamCaption}
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a795de263199b2f03a2639b3f9eb37d99}{}\label{classcrsc_1_1dynamic__matrix_a795de263199b2f03a2639b3f9eb37d99}
+
+
+Assigns the given value {\ttfamily \+\_\+val} to all elements in the container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+val} & Value to assign to all elements. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Exactly {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\ast$columns()} assignments. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!front@{front}}
+\index{front@{front}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{front() const }{front() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::front (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_afa20bff9a7bd03d1d67d5d15db891873}{}\label{classcrsc_1_1dynamic__matrix_afa20bff9a7bd03d1d67d5d15db891873}
+
+
+Returns a const\+\_\+reference to first element in the container. 
+
+\begin{DoxyReturn}{Returns}
+Constant reference to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily !empty()}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!front@{front}}
+\index{front@{front}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{front()}{front()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::front (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a4e77ba00b3fa2409b84cbf65d80a791d}{}\label{classcrsc_1_1dynamic__matrix_a4e77ba00b3fa2409b84cbf65d80a791d}
+
+
+Returns a reference to first element in the container. 
+
+\begin{DoxyReturn}{Returns}
+Reference to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily !empty()}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!get\+\_\+allocator@{get\+\_\+allocator}}
+\index{get\+\_\+allocator@{get\+\_\+allocator}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{get\+\_\+allocator() const }{get_allocator() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf allocator\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::get\+\_\+allocator (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a09b4b387e6b0c7bb0313b05f66106c31}{}\label{classcrsc_1_1dynamic__matrix_a09b4b387e6b0c7bb0313b05f66106c31}
+
+
+Returns the allocator associated with the container. 
+
+\begin{DoxyReturn}{Returns}
+The associated allocator. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+column@{insert\+\_\+column}}
+\index{insert\+\_\+column@{insert\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+column(size\+\_\+type \+\_\+col\+\_\+pos, const value\+\_\+type \&\+\_\+val)}{insert_column(size_type _col_pos, const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+pos, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a5f1c24bdd56ee9a0ee0794f2e51ba76f}{}\label{classcrsc_1_1dynamic__matrix_a5f1c24bdd56ee9a0ee0794f2e51ba76f}
+
+
+Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos} where each element in the inserted column will have the specified value {\ttfamily \+\_\+val}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+val} & Value to initialise all elements of the newly inserted column with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+col\+\_\+pos $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linear in distance between {\ttfamily \+\_\+col\+\_\+pos} and {\ttfamily end} of the container. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+column@{insert\+\_\+column}}
+\index{insert\+\_\+column@{insert\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+column(size\+\_\+type \+\_\+col\+\_\+pos, const std\+::vector$<$ value\+\_\+type $>$ \&\+\_\+col\+\_\+vec)}{insert_column(size_type _col_pos, const std::vector< value_type > &_col_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+pos, }
+\item[{const std\+::vector$<$ {\bf value\+\_\+type} $>$ \&}]{\+\_\+col\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a364e8524aac5e6f17b2961ee7110d5d7}{}\label{classcrsc_1_1dynamic__matrix_a364e8524aac5e6f17b2961ee7110d5d7}
+
+
+Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos}. 
+
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then {\ttfamily \+\_\+col\+\_\+vec} is copied locally and resized to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} before being inserted (preserving the class invariant).
+
+\begin{DoxyWarning}{Warning}
+Attempting to insert a column vector with size greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} size results in an exception being thrown -\/ a call to \hyperlink{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}{rows\+\_\+resize()} passing a size greater than or equal to {\ttfamily \+\_\+col\+\_\+vec.\+size()} is required before calling this method to successfully insert {\ttfamily \+\_\+col\+\_\+vec} to the matrix whilst expanding the size of each column vector. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+row\+\_\+vec} & Instance of {\ttfamily std\+::vector} column to insert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+col\+\_\+pos $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} $\vert$$\vert$ \+\_\+col\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linear in distance between {\ttfamily \+\_\+cols\+\_\+pos} and {\ttfamily end} of the container, else if {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linear in distance between {\ttfamily \+\_\+col\+\_\+pos} and {\ttfamily end} of the container plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+col\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+column@{insert\+\_\+column}}
+\index{insert\+\_\+column@{insert\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+column(size\+\_\+type \+\_\+col\+\_\+pos, std\+::vector$<$ value\+\_\+type $>$ \&\&\+\_\+col\+\_\+vec)}{insert_column(size_type _col_pos, std::vector< value_type > &&_col_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+pos, }
+\item[{std\+::vector$<$ {\bf value\+\_\+type} $>$ \&\&}]{\+\_\+col\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_af6dfc70fe9f24e651d4c5d3253512e70}{}\label{classcrsc_1_1dynamic__matrix_af6dfc70fe9f24e651d4c5d3253512e70}
+
+
+Inserts a column vector to the position one slot before {\ttfamily \+\_\+col\+\_\+pos} using move-\/semantics. 
+
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then {\ttfamily \+\_\+col\+\_\+vec} is resized locally before being move-\/inserted.
+
+\begin{DoxyWarning}{Warning}
+Attempting to insert a column vector with size greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} size results in an exception being thrown -\/ a call to \hyperlink{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}{rows\+\_\+resize()} passing a size greater than or equal to {\ttfamily \+\_\+col\+\_\+vec.\+size()} is required before calling this method to successfully insert {\ttfamily \+\_\+col\+\_\+vec} to the matrix whilst expanding the size of each column vector. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+col\+\_\+vec} & rvalue reference to instance of {\ttfamily std\+::vector} to move-\/insert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing the the first element inserted. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linear in distance between {\ttfamily \+\_\+cols\+\_\+pos} and {\ttfamily end} of the container, else if {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linear in distance between {\ttfamily \+\_\+col\+\_\+pos} and {\ttfamily end} of the container plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+col\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+row@{insert\+\_\+row}}
+\index{insert\+\_\+row@{insert\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+row(size\+\_\+type \+\_\+row\+\_\+pos, const value\+\_\+type \&\+\_\+val)}{insert_row(size_type _row_pos, const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+pos, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_af458f78b3f1875f19a654da362464cb8}{}\label{classcrsc_1_1dynamic__matrix_af458f78b3f1875f19a654da362464cb8}
+
+
+Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos} where each element in the inserted row will have the specified value {\ttfamily \+\_\+val}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+val} & Value to initialise all elements of the newly inserted row with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+pos $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in distance between {\ttfamily \+\_\+row\+\_\+pos} and {\ttfamily end} of the container. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+row@{insert\+\_\+row}}
+\index{insert\+\_\+row@{insert\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+row(size\+\_\+type \+\_\+row\+\_\+pos, const std\+::vector$<$ value\+\_\+type $>$ \&\+\_\+row\+\_\+vec)}{insert_row(size_type _row_pos, const std::vector< value_type > &_row_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+pos, }
+\item[{const std\+::vector$<$ {\bf value\+\_\+type} $>$ \&}]{\+\_\+row\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a57efce1cebba9b7769ae46202879ab1a}{}\label{classcrsc_1_1dynamic__matrix_a57efce1cebba9b7769ae46202879ab1a}
+
+
+Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos}. 
+
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then {\ttfamily \+\_\+row\+\_\+vec} is copied locally and resized to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} before being inserted (preserving the class invariant).
+
+\begin{DoxyWarning}{Warning}
+Attempting to insert a row vector with size greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} size results in an exception being thrown -\/ a call to \hyperlink{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}{columns\+\_\+resize()} passing a size greater than or equal to {\ttfamily \+\_\+row\+\_\+vec.\+size()} is required before calling this method to successfully insert {\ttfamily \+\_\+row\+\_\+vec} to the matrix whilst expanding the size of each row vector. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+row\+\_\+vec} & Instance of {\ttfamily std\+::vector} row to insert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+pos $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} $\vert$$\vert$ \+\_\+row\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in distance between {\ttfamily \+\_\+row\+\_\+pos} and {\ttfamily end} of the container, else if {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in distance between {\ttfamily \+\_\+row\+\_\+pos} and {\ttfamily end} of the container plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+row\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!insert\+\_\+row@{insert\+\_\+row}}
+\index{insert\+\_\+row@{insert\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{insert\+\_\+row(size\+\_\+type \+\_\+row\+\_\+pos, std\+::vector$<$ value\+\_\+type $>$ \&\&\+\_\+row\+\_\+vec)}{insert_row(size_type _row_pos, std::vector< value_type > &&_row_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ {\bf iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::insert\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+pos, }
+\item[{std\+::vector$<$ {\bf value\+\_\+type} $>$ \&\&}]{\+\_\+row\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a79084d5a372239dc82b19b1d1bf2e5e8}{}\label{classcrsc_1_1dynamic__matrix_a79084d5a372239dc82b19b1d1bf2e5e8}
+
+
+Inserts a row vector to the position one slot before {\ttfamily \+\_\+row\+\_\+pos} using move-\/semantics. 
+
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then {\ttfamily \+\_\+row\+\_\+vec} is resized locally before being move-\/inserted.
+
+\begin{DoxyWarning}{Warning}
+Attempting to insert a row vector with size greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} size results in an exception being thrown -\/ a call to \hyperlink{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}{columns\+\_\+resize()} passing a size greater than or equal to {\ttfamily \+\_\+row\+\_\+vec.\+size()} is required before calling this method to successfully insert {\ttfamily \+\_\+row\+\_\+vec} to the matrix whilst expanding the size of each row vector. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+pos} & Position one slot after insertion point. \\
+\hline
+{\em \+\_\+row\+\_\+vec} & rvalue reference to instance of {\ttfamily std\+::vector} to move-\/insert. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Iterator pointing to the first element inserted. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+pos $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} $\vert$$\vert$ \+\_\+row\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily columns} plus linear in distance between {\ttfamily \+\_\+row\+\_\+pos} and {\ttfamily end} of the container, else if {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in distance between {\ttfamily \+\_\+row\+\_\+pos} and {\ttfamily end} of the container plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+row\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!max\+\_\+size@{max\+\_\+size}}
+\index{max\+\_\+size@{max\+\_\+size}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{max\+\_\+size() const  noexcept}{max_size() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::max\+\_\+size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a51bdab222e978c507853f03d6807dce0}{}\label{classcrsc_1_1dynamic__matrix_a51bdab222e978c507853f03d6807dce0}
+
+
+Returns the maximum number of elements the container is able to hold due to system or library implementation limitations. 
+
+\begin{DoxyReturn}{Returns}
+Maximum number of elements. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator"!=(const dynamic\+\_\+matrix \&\+\_\+other) const  noexcept}{operator!=(const dynamic_matrix &_other) const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ bool {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator!= (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a3b7cbfea70074ad738f8dc0dca54c33b}{}\label{classcrsc_1_1dynamic__matrix_a3b7cbfea70074ad738f8dc0dca54c33b}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator$\ast$(const dynamic\+\_\+matrix \&\+\_\+other) const }{operator*(const dynamic_matrix &_other) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator$\ast$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a52f094280470a2c6b7682b1e3dbd44d7}{}\label{classcrsc_1_1dynamic__matrix_a52f094280470a2c6b7682b1e3dbd44d7}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator+@{operator+}}
+\index{operator+@{operator+}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator+(const dynamic\+\_\+matrix \&\+\_\+other) const }{operator+(const dynamic_matrix &_other) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator+ (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a12d99095acf979b8565a0b2471733930}{}\label{classcrsc_1_1dynamic__matrix_a12d99095acf979b8565a0b2471733930}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator+=(const dynamic\+\_\+matrix \&\+\_\+other)}{operator+=(const dynamic_matrix &_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator+= (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ad90a1ed68f4925e6362470e7231068ef}{}\label{classcrsc_1_1dynamic__matrix_ad90a1ed68f4925e6362470e7231068ef}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator-\/(const dynamic\+\_\+matrix \&\+\_\+other) const }{operator-(const dynamic_matrix &_other) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator-\/ (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a7e4ff16e82dd3bf8ce1815046f78af9b}{}\label{classcrsc_1_1dynamic__matrix_a7e4ff16e82dd3bf8ce1815046f78af9b}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator-\/=(const dynamic\+\_\+matrix \&\+\_\+other)}{operator-=(const dynamic_matrix &_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator-\/= (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a06ec76adfbaef9ca4ab5a4e2eb65cd42}{}\label{classcrsc_1_1dynamic__matrix_a06ec76adfbaef9ca4ab5a4e2eb65cd42}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator=(const dynamic\+\_\+matrix \&\+\_\+other)}{operator=(const dynamic_matrix &_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a87acbb13e2b7a6273c60e8e36f4274e4}{}\label{classcrsc_1_1dynamic__matrix_a87acbb13e2b7a6273c60e8e36f4274e4}
+
+
+Copy-\/assignment operator. Replaces the contents of the container with a copy of the contents of {\ttfamily \+\_\+other}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to use as data source. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in the size of {\ttfamily $\ast$this} and {\ttfamily \+\_\+other}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator=(dynamic\+\_\+matrix \&\&\+\_\+other)}{operator=(dynamic_matrix &&_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator= (
+\begin{DoxyParamCaption}
+\item[{{\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&\&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ae5caf5b8134bd604eee47e674fa0d53a}{}\label{classcrsc_1_1dynamic__matrix_ae5caf5b8134bd604eee47e674fa0d53a}
+
+
+Move-\/assignment operator. Replaces the contents of the container with those of {\ttfamily \+\_\+other} using move-\/semantics. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & Another {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to use as data source. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in the size of {\ttfamily $\ast$this} unless the allocators do not compare equal and do not propagate, in which case linear in the size of {\ttfamily $\ast$this} and {\ttfamily \+\_\+other}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator==@{operator==}}
+\index{operator==@{operator==}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator==(const dynamic\+\_\+matrix \&\+\_\+other) const  noexcept}{operator==(const dynamic_matrix &_other) const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ bool {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator== (
+\begin{DoxyParamCaption}
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_ac7a90a3918e7f4cdb65cd0d8dca4dcdb}{}\label{classcrsc_1_1dynamic__matrix_ac7a90a3918e7f4cdb65cd0d8dca4dcdb}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+row\+\_\+index) const }{operator[](size_type _row_index) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf proxy\+\_\+row\+\_\+vector} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a2190d5bd6dbafc21bccc5f924a4ecdc6}{}\label{classcrsc_1_1dynamic__matrix_a2190d5bd6dbafc21bccc5f924a4ecdc6}
+
+
+Gets a proxy object representing the row vector of the matrix at a given {\ttfamily \+\_\+row\+\_\+index} such that calling the double subscript operator gets a const\+\_\+reference to the element at the specified position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Row position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Object of type {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}{proxy\+\_\+row\+\_\+vector}} corresponding to given {\ttfamily \+\_\+row\+\_\+index}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily \+\_\+row\+\_\+index $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+row\+\_\+index)}{operator[](size_type _row_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf proxy\+\_\+row\+\_\+vector} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a1e0fb2aa264881db2435ec58cad09107}{}\label{classcrsc_1_1dynamic__matrix_a1e0fb2aa264881db2435ec58cad09107}
+
+
+Gets a proxy object representing the row vector of the matrix at a given {\ttfamily \+\_\+row\+\_\+index} such that calling the double subscript operator gets a reference to the element at the specified position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Row position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Object of type proxy\+\_\+inner\+\_\+vector corresponding to given {\ttfamily \+\_\+row\+\_\+index}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee if {\ttfamily \+\_\+row\+\_\+index $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!pop\+\_\+column@{pop\+\_\+column}}
+\index{pop\+\_\+column@{pop\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{pop\+\_\+column()}{pop_column()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::pop\+\_\+column (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ad463395ddeadf2bcae05bd4c0bcfe90c}{}\label{classcrsc_1_1dynamic__matrix_ad463395ddeadf2bcae05bd4c0bcfe90c}
+
+
+Pops the last column from the back of the container. 
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily erase\+\_\+columns(\hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ 1)}. 
+\end{DoxyRemark}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} multiplied by linearly decreasing factor given by distance between each element in column and {\ttfamily end} of container. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee unless an exception is thrown by the copy constructor, move constructor, copy-\/assignment operator or move-\/assignment operator of {\ttfamily \+\_\+\+Ty}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!pop\+\_\+row@{pop\+\_\+row}}
+\index{pop\+\_\+row@{pop\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{pop\+\_\+row()}{pop_row()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::pop\+\_\+row (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ae4cc7cc58a70edd14cc76042c8b68f47}{}\label{classcrsc_1_1dynamic__matrix_ae4cc7cc58a70edd14cc76042c8b68f47}
+
+
+Pops the last row from the back of the container. 
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily erase\+\_\+row(\hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ 1)}. 
+\end{DoxyRemark}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If container is {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty()}} then no-\/throw guarantee, otherwise undefined behaviour. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+column@{push\+\_\+column}}
+\index{push\+\_\+column@{push\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+column(const value\+\_\+type \&\+\_\+val)}{push_column(const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a6586b5d120b2a32cd20f6be9ed98dbe8}{}\label{classcrsc_1_1dynamic__matrix_a6586b5d120b2a32cd20f6be9ed98dbe8}
+
+
+Pushes an extra column-\/vector to the back of the container where each element in the inserted column will have the specified value {\ttfamily \+\_\+val}. 
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+column(columns(), \+\_\+val)}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+val} & Value to initialise all elements of the newly inserted column with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If an exception is thrown when inserting a single element at the {\ttfamily end}, and {\ttfamily \+\_\+\+Ty} is {\ttfamily Copy\+Insertable} or {\ttfamily std\+::is\+\_\+nothrow\+\_\+most\+\_\+constructible$<$\+\_\+\+Ty$>$\+::value == true}, there is a strong guarantee (no changes in the container). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+column@{push\+\_\+column}}
+\index{push\+\_\+column@{push\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+column(const std\+::vector$<$ value\+\_\+type $>$ \&\+\_\+col\+\_\+vec)}{push_column(const std::vector< value_type > &_col_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf value\+\_\+type} $>$ \&}]{\+\_\+col\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a5ede5479cd7a2f91af1d64e8d029a3b6}{}\label{classcrsc_1_1dynamic__matrix_a5ede5479cd7a2f91af1d64e8d029a3b6}
+
+
+Pushes an extra column-\/vector to the back of the container. 
+
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then {\ttfamily \+\_\+col\+\_\+vec} is copied locally and resized to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} before being pushed back (preserving the class invarant).
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+column(columns(), \+\_\+col\+\_\+vec)}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+vec} & Instance of {\ttfamily std\+::vector} column to insert. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+col\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, else if {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+col\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If an exception is thrown when inserting a single element at the {\ttfamily end}, and {\ttfamily \+\_\+\+Ty} is {\ttfamily Copy\+Insertable} or {\ttfamily std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$\+\_\+\+Ty$>$\+::value == true}, there is a strong guarantee (no changes in the container). Additionally, if {\ttfamily std\+::invalid\+\_\+argument} exception is thrown there is also a strong guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+column@{push\+\_\+column}}
+\index{push\+\_\+column@{push\+\_\+column}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+column(std\+::vector$<$ value\+\_\+type $>$ \&\&\+\_\+col\+\_\+vec)}{push_column(std::vector< value_type > &&_col_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+column (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf value\+\_\+type} $>$ \&\&}]{\+\_\+col\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a987b64a8eda1bf8c5e7af98d81dc2bb2}{}\label{classcrsc_1_1dynamic__matrix_a987b64a8eda1bf8c5e7af98d81dc2bb2}
+
+
+Pushes an extra column-\/vector to the back of the container using move-\/semantics. 
+
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then {\ttfamily \+\_\+col\+\_\+vec} is resized locally before being pushed back.
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+column(\hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}, std\+::move(\+\_\+col\+\_\+vec))}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+col\+\_\+vec} & rvalue reference to instance of {\ttfamily std\+::vector} column to insert via move-\/semantics. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+col\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+col\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}, else if {\ttfamily \+\_\+col\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+col\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If an exception is thrown when inserting a single element at the {\ttfamily end}, and {\ttfamily \+\_\+\+Ty} is {\ttfamily Copy\+Insertable} or {\ttfamily std\+::is\+\_\+nothrow\+\_\+move\+\_\+constructible$<$\+\_\+\+Ty$>$\+::value == true}, there is a strong guarantee (no changes in the container). Additionally, if {\ttfamily std\+::invalid\+\_\+argument} exception is thrown there is also a strong guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+row@{push\+\_\+row}}
+\index{push\+\_\+row@{push\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+row(const value\+\_\+type \&\+\_\+val)}{push_row(const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a89c332f58cbba8d85594051ea4a4aa82}{}\label{classcrsc_1_1dynamic__matrix_a89c332f58cbba8d85594051ea4a4aa82}
+
+
+Pushes an extra row-\/vector to the back of the container where each element in the inserted row will have the specified value {\ttfamily \+\_\+val}. 
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+row(rows(), \+\_\+val)}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+val} & Value to initialise all elements of the newly inserted row with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+\+Ty}\textquotesingle{}s move constructor is not {\ttfamily noexcept} and {\ttfamily \+\_\+\+Ty} is not {\ttfamily Copy\+Insertable} into {\ttfamily $\ast$this}, {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} will use the throwing move constructor. If it throws, any guarantee is waived and the effects are unspecified. Otherwise, there is a strong guarantee (if an exception is thrown there are no changes in the container). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+row@{push\+\_\+row}}
+\index{push\+\_\+row@{push\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+row(const std\+::vector$<$ value\+\_\+type $>$ \&\+\_\+row\+\_\+vec)}{push_row(const std::vector< value_type > &_row_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf value\+\_\+type} $>$ \&}]{\+\_\+row\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a35451b17739e6d59106eb844566fa866}{}\label{classcrsc_1_1dynamic__matrix_a35451b17739e6d59106eb844566fa866}
+
+
+Pushes an extra row-\/vector to the back of the container. 
+
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then {\ttfamily \+\_\+row\+\_\+vec} is copied locally and resized to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} before being pushed back (preserving the class invariant).
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+row(rows(), \+\_\+row\+\_\+vec)}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+vec} & Instance of {\ttfamily std\+::vector} row to insert. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}, else if {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+row\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+\+Ty}\textquotesingle{}s move constructor is not {\ttfamily noexcept} and {\ttfamily \+\_\+\+Ty} is not {\ttfamily Copy\+Insertable} into {\ttfamily $\ast$this}, {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} will use the throwing move constructor. If it throws, any guarantee is waived and the effects are unspecified. Otherwise, there is a strong guarantee (if an exception is thrown there are no changes in the container). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!push\+\_\+row@{push\+\_\+row}}
+\index{push\+\_\+row@{push\+\_\+row}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{push\+\_\+row(std\+::vector$<$ value\+\_\+type $>$ \&\&\+\_\+row\+\_\+vec)}{push_row(std::vector< value_type > &&_row_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::push\+\_\+row (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf value\+\_\+type} $>$ \&\&}]{\+\_\+row\+\_\+vec}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a664b9f76c135df501b9ea71139ded39f}{}\label{classcrsc_1_1dynamic__matrix_a664b9f76c135df501b9ea71139ded39f}
+
+
+Pushes an extra row-\/vector to the back of the container using move-\/semantics. 
+
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then {\ttfamily \+\_\+row\+\_\+vec} is resized locally before being pushed back.
+
+\begin{DoxyRemark}{Remarks}
+Equivalent to {\ttfamily insert\+\_\+row(\hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}, std\+::move(\+\_\+row\+\_\+vec))}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+vec} & rvalue reference to instance of {\ttfamily std\+::vector} to push-\/back via moving each element. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::invalid\+\_\+argument} exception if {\ttfamily \+\_\+row\+\_\+vec.\+size() $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+If {\ttfamily \+\_\+row\+\_\+vec.\+size() == \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}, else if {\ttfamily \+\_\+row\+\_\+vec.\+size() $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} then amortized linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}} plus linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()} -\/ \+\_\+row\+\_\+vec.\+size()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+\+Ty}\textquotesingle{}s move constructor is not {\ttfamily noexcept} and {\ttfamily \+\_\+\+Ty} is not {\ttfamily Copy\+Insertable} into {\ttfamily $\ast$this}, {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} will use the throwing move constructor. If it throws, any guarantee is waived and the effects are unspecified. Otherwise, there is a strong guarantee (if an exception is thrown there are no changes in the container). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rbegin@{rbegin}}
+\index{rbegin@{rbegin}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rbegin() noexcept}{rbegin() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rbegin (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_af79ee264a9a7071a97f215d4892dc97f}{}\label{classcrsc_1_1dynamic__matrix_af79ee264a9a7071a97f215d4892dc97f}
+
+
+Returns a reverse\+\_\+iterator to the first element of the reversed container. It corresponds to the last element of the non-\/reversed container. 
+
+\begin{DoxyReturn}{Returns}
+Reverse iterator to the first element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rend@{rend}}
+\index{rend@{rend}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rend() noexcept}{rend() noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reverse\+\_\+iterator} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rend (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_af9096965d11ffe8af370525b0c76fa37}{}\label{classcrsc_1_1dynamic__matrix_af9096965d11ffe8af370525b0c76fa37}
+
+
+Returns a reverse\+\_\+iterator to the past-\/the-\/end element of the reversed container. It corresponds to the element preceding the first element of the non-\/reversed container. 
+
+\begin{DoxyReturn}{Returns}
+Reverse iterator to the past-\/the-\/end element. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!reserve@{reserve}}
+\index{reserve@{reserve}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{reserve(size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols)}{reserve(size_type _rows, size_type _cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::reserve (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a532e7e00e645204d65691d5a9a3b2d6a}{}\label{classcrsc_1_1dynamic__matrix_a532e7e00e645204d65691d5a9a3b2d6a}
+
+
+Increases the capacity of the container to a value that\textquotesingle{}s greater than or equal to {\ttfamily \+\_\+rows$\ast$\+\_\+cols}, if {\ttfamily \+\_\+rows$\ast$\+\_\+cols} is greater than current {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} new storage is allocated, otherwise the method does nothing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & Number of rows to allocate storage for. \\
+\hline
+{\em \+\_\+cols} & Number of columns to allocate storage for. \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::length\+\_\+error} if {\ttfamily \+\_\+rows$\ast$\+\_\+cols $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a51bdab222e978c507853f03d6807dce0}{max\+\_\+size()}}. Or any exception thrown by {\ttfamily \+\_\+\+Alloc\+::allocate()} (typically {\ttfamily std\+::bad\+\_\+alloc}). \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Exception Safety}
+If no reallocations happen of if the type of the elements has either a non-\/throwing move constructor or a copy constructor, then there is a strong guarantee (no changes in container if exception is thrown). Otherwise there is a basic guarantee (container guaranteed to end in a valid state). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!resize@{resize}}
+\index{resize@{resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{resize(size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols)}{resize(size_type _rows, size_type _cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_aec3d0fa416d676f27d489095f6cacb65}{}\label{classcrsc_1_1dynamic__matrix_aec3d0fa416d676f27d489095f6cacb65}
+
+
+Resizes the container to contain {\ttfamily \+\_\+rows} row vectors and {\ttfamily \+\_\+cols} column vectors where any extra values added (if any) are initialised according to the default-\/constructor of {\ttfamily value\+\_\+type}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & New number of rows in the container. \\
+\hline
+{\em \+\_\+cols} & New number of columns in the container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Complexity of {\ttfamily rows\+\_\+resize(\+\_\+rows)} plus complexity of {\ttfamily columns\+\_\+resize(\+\_\+cols)}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+See exception-\/safeties of {\ttfamily rows\+\_\+resize} and {\ttfamily columns\+\_\+resize}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!resize@{resize}}
+\index{resize@{resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{resize(size\+\_\+type \+\_\+rows, size\+\_\+type \+\_\+cols, const value\+\_\+type \&\+\_\+val)}{resize(size_type _rows, size_type _cols, const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_ad3b3bed46b0d3dff974afc95f4a663a5}{}\label{classcrsc_1_1dynamic__matrix_ad3b3bed46b0d3dff974afc95f4a663a5}
+
+
+Resizes the container to contain {\ttfamily \+\_\+rows} row vectors and {\ttfamily \+\_\+cols} column vectors where any extra values added (if any) are initialised with {\ttfamily \+\_\+val}. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}{rows\+\_\+resize} 
+
+\hyperlink{classcrsc_1_1dynamic__matrix_a62d92fcfc7f04e951081633c37579288}{columns\+\_\+resize} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & New number of rows in the container. \\
+\hline
+{\em \+\_\+cols} & New number of columns in the container. \\
+\hline
+{\em \+\_\+val} & Value to initialise all elements of new row and column vectors with (if any). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Complexity of {\ttfamily rows\+\_\+resize(\+\_\+rows, \+\_\+val)} plus complexity of {\ttfamily columns\+\_\+resize(\+\_\+cols, \+\_\+val)}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+See exception-\/safeties of {\ttfamily rows\+\_\+resize} and {\ttfamily columns\+\_\+resize}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rows@{rows}}
+\index{rows@{rows}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rows() const  noexcept}{rows() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rows (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{}\label{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}
+
+
+Returns the number of rows in the container. 
+
+\begin{DoxyReturn}{Returns}
+Number of rows. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rows\+\_\+resize@{rows\+\_\+resize}}
+\index{rows\+\_\+resize@{rows\+\_\+resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rows\+\_\+resize(size\+\_\+type \+\_\+rows)}{rows_resize(size_type _rows)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+move\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value				\&\& std\+::is\+\_\+default\+\_\+constructible$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rows\+\_\+resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}{}\label{classcrsc_1_1dynamic__matrix_a7a3ec3787c143699681fffa278d0ba4f}
+
+
+Resizes the container to contain {\ttfamily \+\_\+rows} row vectors, where any extra values added (if any) are initialised according to the default constructor of {\ttfamily value\+\_\+type}. 
+
+If {\ttfamily \+\_\+rows $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} the container is expanded to include {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+rows} extra rows with each value in the new row vectors initialised via default-\/insertion of {\ttfamily value\+\_\+type}. If {\ttfamily \+\_\+rows $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} the container is contracted by {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+rows} rows such that only the first {\ttfamily \+\_\+rows} rows of the container remain. If {\ttfamily \+\_\+rows == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} this method does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & New number of rows in the container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily $\vert$\+\_\+rows -\/ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\vert$} multiplied by linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+rows $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then no-\/throw guarantee, else if {\ttfamily \+\_\+rows $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} and the container is {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty()}} then undefined behaviour otherwise no-\/throw guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rows\+\_\+resize@{rows\+\_\+resize}}
+\index{rows\+\_\+resize@{rows\+\_\+resize}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rows\+\_\+resize(size\+\_\+type \+\_\+rows, const value\+\_\+type \&\+\_\+val)}{rows_resize(size_type _rows, const value_type &_val)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Uty$>$\+::value$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rows\+\_\+resize (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows, }
+\item[{const {\bf value\+\_\+type} \&}]{\+\_\+val}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a7fed8be416c29318266001d70a0ec3cf}{}\label{classcrsc_1_1dynamic__matrix_a7fed8be416c29318266001d70a0ec3cf}
+
+
+Resizes the container to contain {\ttfamily \+\_\+rows} row vectors, where any extra values added (if any) are initialised with {\ttfamily \+\_\+val}. 
+
+If {\ttfamily \+\_\+rows $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} the container is expanded to include {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+rows} extra rows with each value in the new row vectors initialised with {\ttfamily \+\_\+val}. If {\ttfamily \+\_\+rows $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} the container is contracted by {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} -\/ \+\_\+rows} rows such that only the first {\ttfamily \+\_\+rows} rows of the container remain. If {\ttfamily \+\_\+rows == \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} this method does nothing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & New number of rows in the container. \\
+\hline
+{\em \+\_\+val} & Value to initialise all elements of new row vectors with (if any). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily $\vert$\+\_\+rows -\/ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\vert$} multiplied by linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+If {\ttfamily \+\_\+rows $>$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} then no-\/throw guarantee, else if {\ttfamily \+\_\+rows $<$ \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}} and the container is {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a172206c39c9982863cb435e8d2d1a42e}{empty()}} then undefined behaviour otherwise no-\/throw guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!shrink\+\_\+to\+\_\+fit@{shrink\+\_\+to\+\_\+fit}}
+\index{shrink\+\_\+to\+\_\+fit@{shrink\+\_\+to\+\_\+fit}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{shrink\+\_\+to\+\_\+fit()}{shrink_to_fit()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::shrink\+\_\+to\+\_\+fit (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a0a59ebdab34a354b2f933a78c1d1efda}{}\label{classcrsc_1_1dynamic__matrix_a0a59ebdab34a354b2f933a78c1d1efda}
+
+
+Requests the removal of unused container capacity. 
+
+A non-\/binding request to reduce {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a066eb3ce3657da138b4401d66bbee5d7}{capacity()}} to {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}{size()}}. It is implementation-\/defined therefore the request may or may not be fulfilled depending upon the implementation.
+
+\begin{DoxyParagraph}{Complexity}
+At most linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\ast$columns()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Technically implementation-\/dependent but typically if the type of the elements is either copyable or no-\/throw moveable then there is a strong guarantee (no changes in container if exception is thrown). Otherwise there is a basic guarantee (container guaranteed to end in a valid state). 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!size@{size}}
+\index{size@{size}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{size() const  noexcept}{size() const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}{}\label{classcrsc_1_1dynamic__matrix_ac42a37b528a6ee5082ae8d0f09979355}
+
+
+Returns the size of the container in terms of number of elements it holds. 
+
+\begin{DoxyReturn}{Returns}
+Number of elements in the container. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!submatrix@{submatrix}}
+\index{submatrix@{submatrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{submatrix(size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+col\+\_\+index) const  noexcept}{submatrix(size_type _row_index, size_type _col_index) const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::submatrix (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a085b5e321d2ca4822387092ad11e1cc9}{}\label{classcrsc_1_1dynamic__matrix_a085b5e321d2ca4822387092ad11e1cc9}
+
+
+Gets the submatrix of the container obtained by removing the specified row and column and returning the resulting matrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Index of row to remove. \\
+\hline
+{\em \+\_\+col\+\_\+index} & Index of column to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Submatrix of the container with specified row, column removed. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily (\hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}-\/1)$\ast$(\hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}-\/1)} plus complexity of containers\textquotesingle{} copy constructor (subject to R\+VO). 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!submatrix@{submatrix}}
+\index{submatrix@{submatrix}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{submatrix(size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+col\+\_\+index)}{submatrix(size_type _row_index, size_type _col_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::submatrix (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a568d7f2b8bc4f45b181ef3b5f6066810}{}\label{classcrsc_1_1dynamic__matrix_a568d7f2b8bc4f45b181ef3b5f6066810}
+
+
+Erases the specified row and column from the container, yielding the submatrix. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+row\+\_\+index} & Index of row to remove. \\
+\hline
+{\em \+\_\+col\+\_\+index} & Index of column to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily $\ast$this}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Complexity of {\ttfamily erase\+\_\+row(\+\_\+row\+\_\+index} plus complexity of {\ttfamily erase\+\_\+column(\+\_\+col\+\_\+index)}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+See exception safeties of {\ttfamily erase\+\_\+row} and {\ttfamily erase\+\_\+column}. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!swap@{swap}}
+\index{swap@{swap}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{swap(dynamic\+\_\+matrix \&\+\_\+other)}{swap(dynamic_matrix &_other)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ void {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::swap (
+\begin{DoxyParamCaption}
+\item[{{\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+other}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a02dc70974b9ccbc7ebf06d778a664fb4}{}\label{classcrsc_1_1dynamic__matrix_a02dc70974b9ccbc7ebf06d778a664fb4}
+
+
+Exchanges the contents of the container with those of {\ttfamily \+\_\+other}. Does not cause iterators and references to associate with the other container. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+other} & {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container to swap with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyParagraph}{Complexity}
+Constant. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!trace@{trace}}
+\index{trace@{trace}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{trace() const }{trace() const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf value\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::trace (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_a78f379e2ac0864c82bca8c6d3153562f}{}\label{classcrsc_1_1dynamic__matrix_a78f379e2ac0864c82bca8c6d3153562f}
+
+
+Computes the trace of a square {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} container. 
+
+\begin{DoxyReturn}{Returns}
+The trace of the matrix-\/container. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::logic\+\_\+error} if {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()} != \hyperlink{classcrsc_1_1dynamic__matrix_a43d52d7663b24b2175add500c7650d63}{columns()}}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+Strong-\/guarantee -\/ if an exception is thrown there are no changes in the container. 
+\end{DoxyParagraph}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!write@{write}}
+\index{write@{write}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{write(std\+::ostream \&\+\_\+os, char \+\_\+delim= \textquotesingle{} \textquotesingle{}) const  noexcept}{write(std::ostream &_os, char _delim= ' ') const  noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ template$<$class \+\_\+\+Uty  = \+\_\+\+Ty, class  = std\+::enable\+\_\+if\+\_\+t$<$has\+\_\+insertion\+\_\+operator$<$\+\_\+\+Ty$>$\+::value$>$$>$ std\+::ostream\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::write (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{\+\_\+os, }
+\item[{char}]{\+\_\+delim = {\ttfamily \textquotesingle{}~\textquotesingle{}}}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}\hypertarget{classcrsc_1_1dynamic__matrix_a2f5aab402f76454007cb55c2b90d1ec2}{}\label{classcrsc_1_1dynamic__matrix_a2f5aab402f76454007cb55c2b90d1ec2}
+
+
+Sends the container data to a {\ttfamily std\+::ostream} instance in a mathematical-\/matrix style format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+os} & Instance of {\ttfamily std\+::ostream} to write to. \\
+\hline
+{\em \+\_\+delim} & Delimiter separating elements on each line of the {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Modified reference to {\ttfamily \+\_\+os} containing the container data. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix_a5d167a31d3be0ac09d3abdf57a11832d}{rows()}$\ast$columns()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+
+
+\subsection{Member Data Documentation}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!cols\+\_\+@{cols\+\_\+}}
+\index{cols\+\_\+@{cols\+\_\+}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{cols\+\_\+}{cols_}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::cols\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_a350bb926a6e6d0bafcfb05cbf7c7b410}{}\label{classcrsc_1_1dynamic__matrix_a350bb926a6e6d0bafcfb05cbf7c7b410}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!mtx@{mtx}}
+\index{mtx@{mtx}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{mtx}{mtx}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ std\+::vector$<${\bf value\+\_\+type}, \+\_\+\+Alloc$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::mtx\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_a01ba435d0d468b1ff8de25baba9b658c}{}\label{classcrsc_1_1dynamic__matrix_a01ba435d0d468b1ff8de25baba9b658c}
+\index{crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}!rows\+\_\+@{rows\+\_\+}}
+\index{rows\+\_\+@{rows\+\_\+}!crsc\+::dynamic\+\_\+matrix@{crsc\+::dynamic\+\_\+matrix}}
+\subsubsection[{\texorpdfstring{rows\+\_\+}{rows_}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::rows\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_afa3fb44b323d54a0d4c02b2fc00e7357}{}\label{classcrsc_1_1dynamic__matrix_afa3fb44b323d54a0d4c02b2fc00e7357}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dynamic__matrix_8h}{dynamic\+\_\+matrix.\+h}\end{DoxyCompactItemize}

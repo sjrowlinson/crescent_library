@@ -1,0 +1,89 @@
+\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector}{}\section{crsc\+:\+:dynamic\+\_\+r3\+\_\+tensor$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+:\+:proxy\+\_\+column\+\_\+vector Class Reference}
+\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector}\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector}}
+
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1dynamic__r3__tensor}{dynamic\+\_\+r3\+\_\+tensor} objects, represents a \char`\"{}column-\/vector\char`\"{} of the rank-\/3 tensor.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a2531ad68edf9cdaf8fd46ffac769e986}{proxy\+\_\+column\+\_\+vector} (std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__r3__tensor_ad7fb44388c819fb7947771da18bb625b}{value\+\_\+type}, \+\_\+\+Alloc $>$ \&\+\_\+vec, \hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+col\+\_\+index, \hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+cols, \hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+rows)
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a5dd99c21cd4dc396a2ae225f90301cdc}{const\+\_\+reference} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a7f00ae59eb6abe61259bee8aaf9bc5d8}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+slice\+\_\+index) const 
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a1a4d3cf01c93ee5b24b927236b1fd4b1}{reference} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a667ab05c1d9d8e46263b6991cdba338c}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \+\_\+slice\+\_\+index)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__r3__tensor_ad7fb44388c819fb7947771da18bb625b}{value\+\_\+type}, \+\_\+\+Alloc $>$ \& \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a8c6eba63e47115cc0ea6134765eab96c}{vec}
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a78930c2c87aeee61f146badbaede5c0d}{row\+\_\+index}
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a59e0a13c7b1474b12210377a93a5b76b}{col\+\_\+index}
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_aa73c1f9df89285bb97e6741fe94c5864}{tensor\+\_\+columns}
+\item 
+\hyperlink{classcrsc_1_1dynamic__r3__tensor_a00e5f1f46f16d0c0ac1cffa6bd0fe862}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a86e5bfd2d8594915b8abd8aafc640277}{tensor\+\_\+rows}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$\\*
+class crsc\+::dynamic\+\_\+r3\+\_\+tensor$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector}
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1dynamic__r3__tensor}{dynamic\+\_\+r3\+\_\+tensor} objects, represents a \char`\"{}column-\/vector\char`\"{} of the rank-\/3 tensor. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!proxy\+\_\+column\+\_\+vector@{proxy\+\_\+column\+\_\+vector}}
+\index{proxy\+\_\+column\+\_\+vector@{proxy\+\_\+column\+\_\+vector}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{proxy\+\_\+column\+\_\+vector(std\+::vector$<$ value\+\_\+type, \+\_\+\+Alloc $>$ \&\+\_\+vec, size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+col\+\_\+index, size\+\_\+type \+\_\+cols, size\+\_\+type \+\_\+rows)}{proxy_column_vector(std::vector< value_type, _Alloc > &_vec, size_type _row_index, size_type _col_index, size_type _cols, size_type _rows)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::proxy\+\_\+column\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf value\+\_\+type}, \+\_\+\+Alloc $>$ \&}]{\+\_\+vec, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+rows}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a2531ad68edf9cdaf8fd46ffac769e986}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a2531ad68edf9cdaf8fd46ffac769e986}
+
+
+\subsection{Member Function Documentation}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+slice\+\_\+index) const }{operator[](size_type _slice_index) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reference} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+slice\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a7f00ae59eb6abe61259bee8aaf9bc5d8}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a7f00ae59eb6abe61259bee8aaf9bc5d8}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+slice\+\_\+index)}{operator[](size_type _slice_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reference} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+slice\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a667ab05c1d9d8e46263b6991cdba338c}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a667ab05c1d9d8e46263b6991cdba338c}
+
+
+\subsection{Member Data Documentation}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!col\+\_\+index@{col\+\_\+index}}
+\index{col\+\_\+index@{col\+\_\+index}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{col\+\_\+index}{col_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::col\+\_\+index\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a59e0a13c7b1474b12210377a93a5b76b}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a59e0a13c7b1474b12210377a93a5b76b}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!row\+\_\+index@{row\+\_\+index}}
+\index{row\+\_\+index@{row\+\_\+index}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{row\+\_\+index}{row_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::row\+\_\+index\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a78930c2c87aeee61f146badbaede5c0d}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a78930c2c87aeee61f146badbaede5c0d}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!tensor\+\_\+columns@{tensor\+\_\+columns}}
+\index{tensor\+\_\+columns@{tensor\+\_\+columns}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{tensor\+\_\+columns}{tensor_columns}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::tensor\+\_\+columns\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_aa73c1f9df89285bb97e6741fe94c5864}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_aa73c1f9df89285bb97e6741fe94c5864}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!tensor\+\_\+rows@{tensor\+\_\+rows}}
+\index{tensor\+\_\+rows@{tensor\+\_\+rows}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{tensor\+\_\+rows}{tensor_rows}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::tensor\+\_\+rows\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a86e5bfd2d8594915b8abd8aafc640277}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a86e5bfd2d8594915b8abd8aafc640277}
+\index{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}!vec@{vec}}
+\index{vec@{vec}!crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector@{crsc\+::dynamic\+\_\+r3\+\_\+tensor\+::proxy\+\_\+column\+\_\+vector}}
+\subsubsection[{\texorpdfstring{vec}{vec}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ std\+::vector$<${\bf value\+\_\+type}, \+\_\+\+Alloc$>$\& {\bf crsc\+::dynamic\+\_\+r3\+\_\+tensor}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+column\+\_\+vector\+::vec\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a8c6eba63e47115cc0ea6134765eab96c}{}\label{classcrsc_1_1dynamic__r3__tensor_1_1proxy__column__vector_a8c6eba63e47115cc0ea6134765eab96c}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dynamic__r3__tensor_8h}{dynamic\+\_\+r3\+\_\+tensor.\+h}\end{DoxyCompactItemize}

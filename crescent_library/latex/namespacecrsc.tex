@@ -1,0 +1,580 @@
+\hypertarget{namespacecrsc}{}\section{crsc Namespace Reference}
+\label{namespacecrsc}\index{crsc@{crsc}}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacecrsc_1_1has__insertion__operator__impl}{has\+\_\+insertion\+\_\+operator\+\_\+impl}
+\end{DoxyCompactItemize}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}
+\begin{DoxyCompactList}\small\item\em A container encapsulating a {\ttfamily std\+::vector} using a row-\/major configuration to store a matrix-\/style object. The number of elements in every row are equal and the number of elements in every column are equal, such that no holes in the structure occur. \end{DoxyCompactList}\item 
+class \hyperlink{classcrsc_1_1dynamic__r3__tensor}{dynamic\+\_\+r3\+\_\+tensor}
+\begin{DoxyCompactList}\small\item\em A container encapsulating a {\ttfamily std\+::vector} using a row-\/major configuration to store a rank 3 tensor-\/style object. The number of elements in every row are equal, number of elements in every column are equal and number of elements in every slice are equal such that no holes occur in the structure. \end{DoxyCompactList}\item 
+class \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader}
+\begin{DoxyCompactList}\small\item\em A class to load file contents into memory allowing easier accessing and manipulation of file data. Only use for small files as the entire file contents are loaded into memory during construction of a \hyperlink{classcrsc_1_1file__loader}{file\+\_\+loader} object. \end{DoxyCompactList}\item 
+class \hyperlink{classcrsc_1_1file__manipulator}{file\+\_\+manipulator}
+\begin{DoxyCompactList}\small\item\em A class to load file stream positions into memory during construction allowing quicker access for reading specified line numbers / blocks of lines as well as manipulating specific lines in the file. \end{DoxyCompactList}\item 
+class \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}
+\begin{DoxyCompactList}\small\item\em A container encapsulating a {\ttfamily std\+::array} using a row-\/major configuration to store a fixed size matrix style object. The number of elements in every row are equal and the number of elements in every column are equal, such that no holes occur in the structure. \end{DoxyCompactList}\item 
+struct \hyperlink{structcrsc_1_1has__insertion__operator}{has\+\_\+insertion\+\_\+operator}
+\item 
+class \hyperlink{classcrsc_1_1priority__queue}{priority\+\_\+queue}
+\begin{DoxyCompactList}\small\item\em A container adaptor (wrapping a {\ttfamily std\+::vector} as the heap storage) that provides constant time lookup of the largest (by default) element, at the expense of logarithmic insertion and extraction. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename \+\_\+\+Ty $>$ }\\std\+::vector$<$ std\+::size\+\_\+t $>$ \hyperlink{namespacecrsc_a51fa61162acf82f1c727d4add053bed8}{tag\+\_\+sort} (const std\+::vector$<$ \+\_\+\+Ty $>$ \&\+\_\+vec)
+\begin{DoxyCompactList}\small\item\em Tag-\/sorts a {\ttfamily std\+::vector} returning the sorted vector of indices. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$, class  = std\+::enable\+\_\+if\+\_\+t$<$has\+\_\+insertion\+\_\+operator$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\std\+::ostream \& \hyperlink{namespacecrsc_a510824282aaf979436aba9e2df61a207}{operator$<$$<$} (std\+::ostream \&\+\_\+os, const \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&\+\_\+dm)
+\begin{DoxyCompactList}\small\item\em Stream insertion operator. Inserts formatted {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} contents to a {\ttfamily std\+::ostream}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \hyperlink{namespacecrsc_aedc7c5cb9ecb0a6f0bb571a248342f85}{make\+\_\+identity\+\_\+matrix} (std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())
+\begin{DoxyCompactList}\small\item\em Makes an identity {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} of specified size. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ }\\\hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \hyperlink{namespacecrsc_a875c42e79922e6c7f03172d730615236}{to\+\_\+dynamic\+\_\+matrix} (\+\_\+\+Ty $\ast$$\ast$\+\_\+arr\+\_\+2d, std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())
+\begin{DoxyCompactList}\small\item\em Makes a {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} object from a 2D C-\/style array. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, class  = std\+::enable\+\_\+if\+\_\+t$<$\+\_\+rows == \+\_\+cols			\&\& std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\\hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+rows, \+\_\+cols $>$ \hyperlink{namespacecrsc_a48b1c015ab9b7c0aa39ba6d10afdad59}{make\+\_\+identity\+\_\+matrix} ()
+\begin{DoxyCompactList}\small\item\em Makes an identity {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} of template-\/specified size. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols$>$ }\\\hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+rows, \+\_\+cols $>$ \hyperlink{namespacecrsc_a5abee717fbb3202f618ee9d7d4e71fb6}{to\+\_\+fixed\+\_\+matrix} (\+\_\+\+Ty $\ast$$\ast$c\+\_\+arr\+\_\+2d)
+\begin{DoxyCompactList}\small\item\em Makes a {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} object from a 2D C-\/style array. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , class \+\_\+\+Pr , typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\std\+::ostream \& \hyperlink{namespacecrsc_ae77e8efaec9916e4b7bc0ec240bbc800}{operator$<$$<$} (std\+::ostream \&\+\_\+os, const \hyperlink{classcrsc_1_1priority__queue}{priority\+\_\+queue}$<$ \+\_\+\+Ty, \+\_\+\+Pr $>$ \&\+\_\+pq) noexcept
+\begin{DoxyCompactList}\small\item\em Stream insertion operator for {\ttfamily \hyperlink{classcrsc_1_1priority__queue}{crsc\+::priority\+\_\+queue}} of copyable type. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \& \hyperlink{namespacecrsc_a5d1bf45959c8ccef7e520481d70eeb82}{split} (const std\+::string \&\+\_\+s, char \+\_\+delim, std\+::vector$<$ std\+::string $>$ \&\+\_\+elems)
+\begin{DoxyCompactList}\small\item\em Splits a std\+::string around a given delimiter into a given std\+::vector of std\+::string\textquotesingle{}s. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{namespacecrsc_aae4e86239b9ae355c694d3539125f99b}{split} (const std\+::string \&\+\_\+s, char \+\_\+delim)
+\begin{DoxyCompactList}\small\item\em Splits a std\+::string around a given delimiter into a std\+::vector of std\+::string\textquotesingle{}s. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_aee958a0ec9d83fc25eada38d29e82c90}{prepend} (std\+::string \&\+\_\+s, const std\+::string \+\_\+pr)
+\begin{DoxyCompactList}\small\item\em Prepends a std\+::string with a given std\+::string. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacecrsc_a305b2aff3c60b98c1a2350a68b900a23}{concat} (const std\+::string \&\+\_\+lhs, const std\+::string \&\+\_\+rhs)
+\begin{DoxyCompactList}\small\item\em Concatenates two std\+::string instances into a single std\+::string. \end{DoxyCompactList}\item 
+bool \hyperlink{namespacecrsc_a7181d0a49fff497ab91db955e81c7777}{starts\+\_\+with} (const std\+::string \&\+\_\+s, char \+\_\+c)
+\begin{DoxyCompactList}\small\item\em Determines whether a std\+::string instance starts with a given char. \end{DoxyCompactList}\item 
+bool \hyperlink{namespacecrsc_a0f5bcef6c47624168d930133724dc466}{ends\+\_\+with} (const std\+::string \&\+\_\+s, char \+\_\+c)
+\begin{DoxyCompactList}\small\item\em Determines whether a std\+::string instance ends with a given char. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_ae0c591013c6cc6f3356566d9df09fd1e}{to\+\_\+upper} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Converts all char\textquotesingle{}s in a std\+::string to upper case. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a4cf3170f561206a1d633bb183cbf0844}{to\+\_\+lower} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Converts all char\textquotesingle{}s in a std\+::string to lower case. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a02acdf61ec9a965849b6cf05ea01a242}{trim} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all whitespaces from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a96bc639baa486618114c5f01774ef552}{trim} (std\+::string \&\+\_\+s, const std\+::set$<$ char $>$ \&\+\_\+char\+\_\+set)
+\begin{DoxyCompactList}\small\item\em Removes all instances of any char in a given std\+::set$<$char$>$ from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a2c037ba46bb099d936b0ebe840c40c80}{trim} (std\+::string \&\+\_\+s, const std\+::string \&\+\_\+str\+\_\+source)
+\item 
+std\+::string \& \hyperlink{namespacecrsc_a055f85fee852d91fed4960114117daec}{remove\+\_\+vowels} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all vowel characters from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a17f7484157b57d69377c05b12fe20d0e}{remove\+\_\+leading\+\_\+whitespaces} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all leading whitespace char\textquotesingle{}s from a std\+::string instance. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a223094d66cdb4836fe14d9613990b42c}{remove\+\_\+trailing\+\_\+whitespaces} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all trailing whitespace char\textquotesingle{}s from a std\+::string instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{crsc@{crsc}!concat@{concat}}
+\index{concat@{concat}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{concat(const std\+::string \&\+\_\+lhs, const std\+::string \&\+\_\+rhs)}{concat(const std::string &_lhs, const std::string &_rhs)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string crsc\+::concat (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+lhs, }
+\item[{const std\+::string \&}]{\+\_\+rhs}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a305b2aff3c60b98c1a2350a68b900a23}{}\label{namespacecrsc_a305b2aff3c60b98c1a2350a68b900a23}
+
+
+Concatenates two std\+::string instances into a single std\+::string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+lhs} & First instance of std\+::string. \\
+\hline
+{\em \+\_\+rhs} & Second instance of std\+::string. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A std\+::string instance containing concatenated \+\_\+lhs and \+\_\+rhs. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!ends\+\_\+with@{ends\+\_\+with}}
+\index{ends\+\_\+with@{ends\+\_\+with}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{ends\+\_\+with(const std\+::string \&\+\_\+s, char \+\_\+c)}{ends_with(const std::string &_s, char _c)}}]{\setlength{\rightskip}{0pt plus 5cm}bool crsc\+::ends\+\_\+with (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+s, }
+\item[{char}]{\+\_\+c}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a0f5bcef6c47624168d930133724dc466}{}\label{namespacecrsc_a0f5bcef6c47624168d930133724dc466}
+
+
+Determines whether a std\+::string instance ends with a given char. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Instance of std\+::string. \\
+\hline
+{\em \+\_\+c} & Character to check against. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if \+\_\+s ends with \+\_\+c, false otherwise. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!make\+\_\+identity\+\_\+matrix@{make\+\_\+identity\+\_\+matrix}}
+\index{make\+\_\+identity\+\_\+matrix@{make\+\_\+identity\+\_\+matrix}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{make\+\_\+identity\+\_\+matrix()}{make_identity_matrix()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, class  = std\+::enable\+\_\+if\+\_\+t$<$\+\_\+rows == \+\_\+cols			\&\& std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value$>$$>$ {\bf fixed\+\_\+matrix}$<$\+\_\+\+Ty, \+\_\+rows, \+\_\+cols$>$ crsc\+::make\+\_\+identity\+\_\+matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a48b1c015ab9b7c0aa39ba6d10afdad59}{}\label{namespacecrsc_a48b1c015ab9b7c0aa39ba6d10afdad59}
+
+
+Makes an identity {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} of template-\/specified size. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \+\_\+\+Ty} & The type of stored elements, must satisfy {\ttfamily std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value}. \\
+\hline
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyRemark}{Remarks}
+Only enabled if {\ttfamily \+\_\+rows == \+\_\+columns \&\& std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value}. 
+\end{DoxyRemark}
+\begin{DoxyReturn}{Returns}
+Identity {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} of given dimensions. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols} plus complexity of container\textquotesingle{}s copy constructor (subject to R\+VO). 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!make\+\_\+identity\+\_\+matrix@{make\+\_\+identity\+\_\+matrix}}
+\index{make\+\_\+identity\+\_\+matrix@{make\+\_\+identity\+\_\+matrix}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{make\+\_\+identity\+\_\+matrix(std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())}{make_identity_matrix(std::size_t _rows, std::size_t _cols, const _Alloc &alloc=_Alloc())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$, class  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value$>$$>$ {\bf dynamic\+\_\+matrix}$<$\+\_\+\+Ty, \+\_\+\+Alloc$>$ crsc\+::make\+\_\+identity\+\_\+matrix (
+\begin{DoxyParamCaption}
+\item[{std\+::size\+\_\+t}]{\+\_\+rows, }
+\item[{std\+::size\+\_\+t}]{\+\_\+cols, }
+\item[{const \+\_\+\+Alloc \&}]{alloc = {\ttfamily \+\_\+Alloc()}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_aedc7c5cb9ecb0a6f0bb571a248342f85}{}\label{namespacecrsc_aedc7c5cb9ecb0a6f0bb571a248342f85}
+
+
+Makes an identity {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} of specified size. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \+\_\+\+Ty} & Type of stored elements. \\
+\hline
+{\em \+\_\+\+Alloc} & An allocator that is used to acquire memory to store the elements. The type must meet the requirements of {\ttfamily Allocator} (see C++ Standard). Behaviour is undefined if {\ttfamily \+\_\+\+Alloc\+::value\+\_\+type != \+\_\+\+Ty}. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyRemark}{Remarks}
+Only enabled if {\ttfamily std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value}. 
+\end{DoxyRemark}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Identity {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} of given dimensions. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em Throws} & {\ttfamily std\+::logic\+\_\+error} if {\ttfamily \+\_\+rows != \+\_\+cols}. \\
+\hline
+\end{DoxyExceptions}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols} plus complexity of container\textquotesingle{}s copy constructor (subject to R\+VO). 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+See exception safeties of {\ttfamily dynamic\+\_\+matrix(\+\_\+rows, \+\_\+cols, alloc)} constructor and copy constructor. 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&\+\_\+os, const priority\+\_\+queue$<$ \+\_\+\+Ty, \+\_\+\+Pr $>$ \&\+\_\+pq) noexcept}{operator<<(std::ostream &_os, const priority_queue< _Ty, _Pr > &_pq) noexcept}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Pr , typename  = std\+::enable\+\_\+if\+\_\+t$<$std\+::is\+\_\+copy\+\_\+assignable$<$\+\_\+\+Ty$>$\+::value$>$$>$ std\+::ostream \& crsc\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{\+\_\+os, }
+\item[{const {\bf priority\+\_\+queue}$<$ \+\_\+\+Ty, \+\_\+\+Pr $>$ \&}]{\+\_\+pq}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [noexcept]}}\hypertarget{namespacecrsc_ae77e8efaec9916e4b7bc0ec240bbc800}{}\label{namespacecrsc_ae77e8efaec9916e4b7bc0ec240bbc800}
+
+
+Stream insertion operator for {\ttfamily \hyperlink{classcrsc_1_1priority__queue}{crsc\+::priority\+\_\+queue}} of copyable type. 
+
+Stream insertion operator for {\ttfamily \hyperlink{classcrsc_1_1priority__queue}{crsc\+::priority\+\_\+queue}} of non-\/copyable type.
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+os} & Instance of {\ttfamily std\+::ostream} to write to. \\
+\hline
+{\em \+\_\+pq} & {\ttfamily \hyperlink{classcrsc_1_1priority__queue}{crsc\+::priority\+\_\+queue}} container to write to stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Modified reference to {\ttfamily \+\_\+os}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in the size of {\ttfamily \+\_\+pq}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{operator$<$$<$(std\+::ostream \&\+\_\+os, const dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&\+\_\+dm)}{operator<<(std::ostream &_os, const dynamic_matrix< _Ty, _Alloc > &_dm)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$, class  = std\+::enable\+\_\+if\+\_\+t$<$has\+\_\+insertion\+\_\+operator$<$\+\_\+\+Ty$>$\+::value$>$$>$ std\+::ostream\& crsc\+::operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\+::ostream \&}]{\+\_\+os, }
+\item[{const {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$ \&}]{\+\_\+dm}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a510824282aaf979436aba9e2df61a207}{}\label{namespacecrsc_a510824282aaf979436aba9e2df61a207}
+
+
+Stream insertion operator. Inserts formatted {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} contents to a {\ttfamily std\+::ostream}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+os} & Instance of {\ttfamily std\+::ostream} to write to. \\
+\hline
+{\em \+\_\+dm} & {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} object to write to stream. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Modified reference to {\ttfamily \+\_\+os} containing the container data. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily rows()$\ast$columns()}. 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+No-\/throw guarantee, {\ttfamily noexcept} specification. 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!prepend@{prepend}}
+\index{prepend@{prepend}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{prepend(std\+::string \&\+\_\+s, const std\+::string \+\_\+pr)}{prepend(std::string &_s, const std::string _pr)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::prepend (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s, }
+\item[{const std\+::string}]{\+\_\+pr}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_aee958a0ec9d83fc25eada38d29e82c90}{}\label{namespacecrsc_aee958a0ec9d83fc25eada38d29e82c90}
+
+
+Prepends a std\+::string with a given std\+::string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Instance of std\+::string to modify. \\
+\hline
+{\em \+\_\+pr} & std\+::string to prepend \+\_\+s with. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with prepended string \+\_\+pr. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!remove\+\_\+leading\+\_\+whitespaces@{remove\+\_\+leading\+\_\+whitespaces}}
+\index{remove\+\_\+leading\+\_\+whitespaces@{remove\+\_\+leading\+\_\+whitespaces}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{remove\+\_\+leading\+\_\+whitespaces(std\+::string \&\+\_\+s)}{remove_leading_whitespaces(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::remove\+\_\+leading\+\_\+whitespaces (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a17f7484157b57d69377c05b12fe20d0e}{}\label{namespacecrsc_a17f7484157b57d69377c05b12fe20d0e}
+
+
+Removes all leading whitespace char\textquotesingle{}s from a std\+::string instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all leading whitespaces removed. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!remove\+\_\+trailing\+\_\+whitespaces@{remove\+\_\+trailing\+\_\+whitespaces}}
+\index{remove\+\_\+trailing\+\_\+whitespaces@{remove\+\_\+trailing\+\_\+whitespaces}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{remove\+\_\+trailing\+\_\+whitespaces(std\+::string \&\+\_\+s)}{remove_trailing_whitespaces(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::remove\+\_\+trailing\+\_\+whitespaces (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a223094d66cdb4836fe14d9613990b42c}{}\label{namespacecrsc_a223094d66cdb4836fe14d9613990b42c}
+
+
+Removes all trailing whitespace char\textquotesingle{}s from a std\+::string instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all trailing whitespaces removed. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!remove\+\_\+vowels@{remove\+\_\+vowels}}
+\index{remove\+\_\+vowels@{remove\+\_\+vowels}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{remove\+\_\+vowels(std\+::string \&\+\_\+s)}{remove_vowels(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::remove\+\_\+vowels (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a055f85fee852d91fed4960114117daec}{}\label{namespacecrsc_a055f85fee852d91fed4960114117daec}
+
+
+Removes all vowel characters from a std\+::string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+{\em Reference} & to \+\_\+s with all vowels removed. \\
+\hline
+\end{DoxyParams}
+\index{crsc@{crsc}!split@{split}}
+\index{split@{split}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{split(const std\+::string \&\+\_\+s, char \+\_\+delim, std\+::vector$<$ std\+::string $>$ \&\+\_\+elems)}{split(const std::string &_s, char _delim, std::vector< std::string > &_elems)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$\& crsc\+::split (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+s, }
+\item[{char}]{\+\_\+delim, }
+\item[{std\+::vector$<$ std\+::string $>$ \&}]{\+\_\+elems}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a5d1bf45959c8ccef7e520481d70eeb82}{}\label{namespacecrsc_a5d1bf45959c8ccef7e520481d70eeb82}
+
+
+Splits a std\+::string around a given delimiter into a given std\+::vector of std\+::string\textquotesingle{}s. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Instance of std\+::string to split. \\
+\hline
+{\em \+\_\+delim} & Character to split \+\_\+s around. \\
+\hline
+{\em \+\_\+elems} & std\+::vector of std\+::string\textquotesingle{}s to store split substrings. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+elems containing split substrings. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!split@{split}}
+\index{split@{split}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{split(const std\+::string \&\+\_\+s, char \+\_\+delim)}{split(const std::string &_s, char _delim)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::vector$<$std\+::string$>$ crsc\+::split (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+s, }
+\item[{char}]{\+\_\+delim}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_aae4e86239b9ae355c694d3539125f99b}{}\label{namespacecrsc_aae4e86239b9ae355c694d3539125f99b}
+
+
+Splits a std\+::string around a given delimiter into a std\+::vector of std\+::string\textquotesingle{}s. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Instance of std\+::string to split. \\
+\hline
+{\em \+\_\+delim} & Character to split \+\_\+s around. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A std\+::vector of std\+::string\textquotesingle{}s containing each sub-\/string after splits. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!starts\+\_\+with@{starts\+\_\+with}}
+\index{starts\+\_\+with@{starts\+\_\+with}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{starts\+\_\+with(const std\+::string \&\+\_\+s, char \+\_\+c)}{starts_with(const std::string &_s, char _c)}}]{\setlength{\rightskip}{0pt plus 5cm}bool crsc\+::starts\+\_\+with (
+\begin{DoxyParamCaption}
+\item[{const std\+::string \&}]{\+\_\+s, }
+\item[{char}]{\+\_\+c}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a7181d0a49fff497ab91db955e81c7777}{}\label{namespacecrsc_a7181d0a49fff497ab91db955e81c7777}
+
+
+Determines whether a std\+::string instance starts with a given char. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Instance of std\+::string. \\
+\hline
+{\em \+\_\+c} & Character to check against. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if \+\_\+s starts with \+\_\+c, false otherwise. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!tag\+\_\+sort@{tag\+\_\+sort}}
+\index{tag\+\_\+sort@{tag\+\_\+sort}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{tag\+\_\+sort(const std\+::vector$<$ \+\_\+\+Ty $>$ \&\+\_\+vec)}{tag_sort(const std::vector< _Ty > &_vec)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty $>$ std\+::vector$<$std\+::size\+\_\+t$>$ crsc\+::tag\+\_\+sort (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ \+\_\+\+Ty $>$ \&}]{\+\_\+vec}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a51fa61162acf82f1c727d4add053bed8}{}\label{namespacecrsc_a51fa61162acf82f1c727d4add053bed8}
+
+
+Tag-\/sorts a {\ttfamily std\+::vector} returning the sorted vector of indices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+vec} & {\ttfamily std\+::vector} of data. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily std\+::vector} of indices ordered by sorting of {\ttfamily \+\_\+vec}. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!to\+\_\+dynamic\+\_\+matrix@{to\+\_\+dynamic\+\_\+matrix}}
+\index{to\+\_\+dynamic\+\_\+matrix@{to\+\_\+dynamic\+\_\+matrix}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{to\+\_\+dynamic\+\_\+matrix(\+\_\+\+Ty $\ast$$\ast$\+\_\+arr\+\_\+2d, std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, const \+\_\+\+Alloc \&alloc=\+\_\+\+Alloc())}{to_dynamic_matrix(_Ty **_arr_2d, std::size_t _rows, std::size_t _cols, const _Alloc &alloc=_Alloc())}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , class \+\_\+\+Alloc  = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc$>$ crsc\+::to\+\_\+dynamic\+\_\+matrix (
+\begin{DoxyParamCaption}
+\item[{\+\_\+\+Ty $\ast$$\ast$}]{\+\_\+arr\+\_\+2d, }
+\item[{std\+::size\+\_\+t}]{\+\_\+rows, }
+\item[{std\+::size\+\_\+t}]{\+\_\+cols, }
+\item[{const \+\_\+\+Alloc \&}]{alloc = {\ttfamily \+\_\+Alloc()}}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a875c42e79922e6c7f03172d730615236}{}\label{namespacecrsc_a875c42e79922e6c7f03172d730615236}
+
+
+Makes a {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} object from a 2D C-\/style array. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \+\_\+\+Ty} & Type of stored elements. \\
+\hline
+{\em \+\_\+\+Alloc} & An allocator that is used to acquire memory to store the elements. The type must meet the requirements of {\ttfamily Allocator} (see C++ Standard). Behaviour is undefined if {\ttfamily \+\_\+\+Alloc\+::value\+\_\+type != \+\_\+\+Ty}. \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyWarning}{Warning}
+This method does not delete {\ttfamily \+\_\+arr\+\_\+2d} after use, memory management of {\ttfamily \+\_\+arr\+\_\+2d} is a responsibility of the caller. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+arr\+\_\+2d} & Two-\/dimensional C-\/style array used as source to initialise elements of the container with. \\
+\hline
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+{\em alloc} & Allocator to use for all memory allocations of this container. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A {\ttfamily \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix}} object constructed using the contents of {\ttfamily \+\_\+arr\+\_\+2d}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols} plus complexity of container\textquotesingle{}s copy constructor (subject to R\+VO). 
+\end{DoxyParagraph}
+\begin{DoxyParagraph}{Exception Safety}
+See exception safeties of {\ttfamily dynamic\+\_\+matrix(\+\_\+arr\+\_\+2d, \+\_\+row, \+\_\+cols, alloc)} constructor and copy constructor, additionally undefined behaviour if either of {\ttfamily \+\_\+rows}, {\ttfamily \+\_\+cols} is not equal to rows, columns of {\ttfamily \+\_\+arr\+\_\+2d}. 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!to\+\_\+fixed\+\_\+matrix@{to\+\_\+fixed\+\_\+matrix}}
+\index{to\+\_\+fixed\+\_\+matrix@{to\+\_\+fixed\+\_\+matrix}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{to\+\_\+fixed\+\_\+matrix(\+\_\+\+Ty $\ast$$\ast$c\+\_\+arr\+\_\+2d)}{to_fixed_matrix(_Ty **c_arr_2d)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols$>$ {\bf fixed\+\_\+matrix}$<$\+\_\+\+Ty, \+\_\+rows, \+\_\+cols$>$ crsc\+::to\+\_\+fixed\+\_\+matrix (
+\begin{DoxyParamCaption}
+\item[{\+\_\+\+Ty $\ast$$\ast$}]{c\+\_\+arr\+\_\+2d}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a5abee717fbb3202f618ee9d7d4e71fb6}{}\label{namespacecrsc_a5abee717fbb3202f618ee9d7d4e71fb6}
+
+
+Makes a {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} object from a 2D C-\/style array. 
+
+\begin{DoxyWarning}{Warning}
+This method does not delete {\ttfamily c\+\_\+arr\+\_\+2d} after use. 
+\end{DoxyWarning}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \+\_\+\+Ty} & The type of stored elements. \\
+\hline
+{\em \+\_\+rows} & Number of rows. \\
+\hline
+{\em \+\_\+cols} & Number of columns. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em c\+\_\+arr\+\_\+2d} & Two-\/dimensional C-\/style array used as data source. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} object constructed using the contents of {\ttfamily c\+\_\+arr\+\_\+2d}. 
+\end{DoxyReturn}
+\begin{DoxyParagraph}{Complexity}
+Linear in {\ttfamily \+\_\+rows$\ast$\+\_\+cols} plus complexity of container\textquotesingle{}s copy constructor (subject to R\+VO). 
+\end{DoxyParagraph}
+\index{crsc@{crsc}!to\+\_\+lower@{to\+\_\+lower}}
+\index{to\+\_\+lower@{to\+\_\+lower}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{to\+\_\+lower(std\+::string \&\+\_\+s)}{to_lower(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::to\+\_\+lower (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a4cf3170f561206a1d633bb183cbf0844}{}\label{namespacecrsc_a4cf3170f561206a1d633bb183cbf0844}
+
+
+Converts all char\textquotesingle{}s in a std\+::string to lower case. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all char\textquotesingle{}s converted to lower case. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!to\+\_\+upper@{to\+\_\+upper}}
+\index{to\+\_\+upper@{to\+\_\+upper}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{to\+\_\+upper(std\+::string \&\+\_\+s)}{to_upper(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::to\+\_\+upper (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_ae0c591013c6cc6f3356566d9df09fd1e}{}\label{namespacecrsc_ae0c591013c6cc6f3356566d9df09fd1e}
+
+
+Converts all char\textquotesingle{}s in a std\+::string to upper case. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all char\textquotesingle{}s converted to upper case. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!trim@{trim}}
+\index{trim@{trim}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{trim(std\+::string \&\+\_\+s)}{trim(std::string &_s)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::trim (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a02acdf61ec9a965849b6cf05ea01a242}{}\label{namespacecrsc_a02acdf61ec9a965849b6cf05ea01a242}
+
+
+Removes all whitespaces from a std\+::string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all whitespace char\textquotesingle{}s removed. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!trim@{trim}}
+\index{trim@{trim}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{trim(std\+::string \&\+\_\+s, const std\+::set$<$ char $>$ \&\+\_\+char\+\_\+set)}{trim(std::string &_s, const std::set< char > &_char_set)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::trim (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s, }
+\item[{const std\+::set$<$ char $>$ \&}]{\+\_\+char\+\_\+set}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a96bc639baa486618114c5f01774ef552}{}\label{namespacecrsc_a96bc639baa486618114c5f01774ef552}
+
+
+Removes all instances of any char in a given std\+::set$<$char$>$ from a std\+::string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+s} & Reference to std\+::string instance. \\
+\hline
+{\em \+\_\+char\+\_\+set} & A std\+::set containing instances of char to remove from \+\_\+s. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Reference to \+\_\+s with all instances of any char within \+\_\+char\+\_\+set removed. 
+\end{DoxyReturn}
+\index{crsc@{crsc}!trim@{trim}}
+\index{trim@{trim}!crsc@{crsc}}
+\subsubsection[{\texorpdfstring{trim(std\+::string \&\+\_\+s, const std\+::string \&\+\_\+str\+\_\+source)}{trim(std::string &_s, const std::string &_str_source)}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string\& crsc\+::trim (
+\begin{DoxyParamCaption}
+\item[{std\+::string \&}]{\+\_\+s, }
+\item[{const std\+::string \&}]{\+\_\+str\+\_\+source}
+\end{DoxyParamCaption}
+)}\hypertarget{namespacecrsc_a2c037ba46bb099d936b0ebe840c40c80}{}\label{namespacecrsc_a2c037ba46bb099d936b0ebe840c40c80}

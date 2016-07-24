@@ -1,0 +1,77 @@
+\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array}{}\section{crsc\+:\+:fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+:\+:proxy\+\_\+row\+\_\+array Class Reference}
+\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array}\index{crsc\+::fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array}}
+
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix} objects.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_aabc095261d6b78667f72c979ad426e0e}{proxy\+\_\+row\+\_\+array} (std\+::array$<$ \hyperlink{classcrsc_1_1fixed__matrix_a1d0717197dc43f3752d508763a8b5a9e}{value\+\_\+type}, \+\_\+\+Rows $\ast$\+\_\+\+Cols $>$ \&\+\_\+row\+\_\+array, \hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \+\_\+cols)
+\item 
+constexpr \hyperlink{classcrsc_1_1fixed__matrix_ac96e937b9ecde6b2700b0865218276c4}{const\+\_\+reference} \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a8bf43a89e9e97e13479ceac2380bcecd}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \+\_\+col\+\_\+index) const 
+\item 
+\hyperlink{classcrsc_1_1fixed__matrix_aee0de54210ab3caf2245732d9f79d508}{reference} \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_ac0998f5a18cb88e2d66aec7be3c92892}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \+\_\+col\+\_\+index)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::array$<$ \hyperlink{classcrsc_1_1fixed__matrix_a1d0717197dc43f3752d508763a8b5a9e}{value\+\_\+type}, \+\_\+\+Rows $\ast$\+\_\+\+Cols $>$ \& \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a6a41ce5685b40e0bb1b35f99298a9d9b}{row\+\_\+array}
+\item 
+\hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a397eeeb06f56487a8923d6eb4a220235}{row\+\_\+index}
+\item 
+\hyperlink{classcrsc_1_1fixed__matrix_a4f4ba9cbd0e0723193df4c8281ddd99b}{size\+\_\+type} \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a18e4e3a22600581c6a8c7a667b653816}{cols}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$\\*
+class crsc\+::fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array}
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix} objects. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!proxy\+\_\+row\+\_\+array@{proxy\+\_\+row\+\_\+array}}
+\index{proxy\+\_\+row\+\_\+array@{proxy\+\_\+row\+\_\+array}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{proxy\+\_\+row\+\_\+array(std\+::array$<$ value\+\_\+type, \+\_\+\+Rows $\ast$\+\_\+\+Cols $>$ \&\+\_\+row\+\_\+array, size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+cols)}{proxy_row_array(std::array< value_type, _Rows *_Cols > &_row_array, size_type _row_index, size_type _cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::proxy\+\_\+row\+\_\+array (
+\begin{DoxyParamCaption}
+\item[{std\+::array$<$ {\bf value\+\_\+type}, \+\_\+\+Rows $\ast$\+\_\+\+Cols $>$ \&}]{\+\_\+row\+\_\+array, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_aabc095261d6b78667f72c979ad426e0e}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_aabc095261d6b78667f72c979ad426e0e}
+
+
+\subsection{Member Function Documentation}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+col\+\_\+index) const }{operator[](size_type _col_index) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ constexpr {\bf const\+\_\+reference} {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a8bf43a89e9e97e13479ceac2380bcecd}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a8bf43a89e9e97e13479ceac2380bcecd}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+col\+\_\+index)}{operator[](size_type _col_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ {\bf reference} {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_ac0998f5a18cb88e2d66aec7be3c92892}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_ac0998f5a18cb88e2d66aec7be3c92892}
+
+
+\subsection{Member Data Documentation}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!cols@{cols}}
+\index{cols@{cols}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{cols}{cols}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ {\bf size\+\_\+type} {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::cols\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a18e4e3a22600581c6a8c7a667b653816}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a18e4e3a22600581c6a8c7a667b653816}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!row\+\_\+array@{row\+\_\+array}}
+\index{row\+\_\+array@{row\+\_\+array}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{row\+\_\+array}{row_array}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ std\+::array$<${\bf value\+\_\+type}, \+\_\+\+Rows$\ast$\+\_\+\+Cols$>$\& {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::row\+\_\+array\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a6a41ce5685b40e0bb1b35f99298a9d9b}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a6a41ce5685b40e0bb1b35f99298a9d9b}
+\index{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}!row\+\_\+index@{row\+\_\+index}}
+\index{row\+\_\+index@{row\+\_\+index}!crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array@{crsc\+::fixed\+\_\+matrix\+::proxy\+\_\+row\+\_\+array}}
+\subsubsection[{\texorpdfstring{row\+\_\+index}{row_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, std\+::size\+\_\+t \+\_\+\+Rows, std\+::size\+\_\+t \+\_\+\+Cols$>$ {\bf size\+\_\+type} {\bf crsc\+::fixed\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array\+::row\+\_\+index\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a397eeeb06f56487a8923d6eb4a220235}{}\label{classcrsc_1_1fixed__matrix_1_1proxy__row__array_a397eeeb06f56487a8923d6eb4a220235}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{fixed__matrix_8h}{fixed\+\_\+matrix.\+h}\end{DoxyCompactItemize}

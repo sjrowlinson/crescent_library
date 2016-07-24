@@ -1,0 +1,26 @@
+\hypertarget{fixed__matrix_8h}{}\section{fixed\+\_\+matrix.\+h File Reference}
+\label{fixed__matrix_8h}\index{fixed\+\_\+matrix.\+h@{fixed\+\_\+matrix.\+h}}
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$array$>$}\\*
+{\ttfamily \#include $<$iterator$>$}\\*
+{\ttfamily \#include $<$ostream$>$}\\*
+{\ttfamily \#include $<$stdexcept$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classcrsc_1_1fixed__matrix}{crsc\+::fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$}
+\begin{DoxyCompactList}\small\item\em A container encapsulating a {\ttfamily std\+::array} using a row-\/major configuration to store a fixed size matrix style object. The number of elements in every row are equal and the number of elements in every column are equal, such that no holes occur in the structure. \end{DoxyCompactList}\item 
+class \hyperlink{classcrsc_1_1fixed__matrix_1_1proxy__row__array}{crsc\+::fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Rows, \+\_\+\+Cols $>$\+::proxy\+\_\+row\+\_\+array}
+\begin{DoxyCompactList}\small\item\em Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix} objects. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacecrsc}{crsc}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols, class  = std\+::enable\+\_\+if\+\_\+t$<$\+\_\+rows == \+\_\+cols			\&\& std\+::is\+\_\+arithmetic$<$\+\_\+\+Ty$>$\+::value$>$$>$ }\\fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+rows, \+\_\+cols $>$ \hyperlink{namespacecrsc_a48b1c015ab9b7c0aa39ba6d10afdad59}{crsc\+::make\+\_\+identity\+\_\+matrix} ()
+\begin{DoxyCompactList}\small\item\em Makes an identity {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} of template-\/specified size. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename \+\_\+\+Ty , std\+::size\+\_\+t \+\_\+rows, std\+::size\+\_\+t \+\_\+cols$>$ }\\fixed\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+rows, \+\_\+cols $>$ \hyperlink{namespacecrsc_a5abee717fbb3202f618ee9d7d4e71fb6}{crsc\+::to\+\_\+fixed\+\_\+matrix} (\+\_\+\+Ty $\ast$$\ast$c\+\_\+arr\+\_\+2d)
+\begin{DoxyCompactList}\small\item\em Makes a {\ttfamily \hyperlink{classcrsc_1_1fixed__matrix}{fixed\+\_\+matrix}} object from a 2D C-\/style array. \end{DoxyCompactList}\end{DoxyCompactItemize}

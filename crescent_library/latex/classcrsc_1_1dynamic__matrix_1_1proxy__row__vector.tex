@@ -1,0 +1,77 @@
+\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}{}\section{crsc\+:\+:dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+:\+:proxy\+\_\+row\+\_\+vector Class Reference}
+\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector}\index{crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector}}
+
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} objects.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ae649b25900909bb59aba880a858b8faa}{proxy\+\_\+row\+\_\+vector} (std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type}, \+\_\+\+Alloc $>$ \&\+\_\+vec, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+row\+\_\+index, \hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+cols)
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a93dd3386c16d60c4e8fb1e10b442fae0}{const\+\_\+reference} \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8dcf4071d58ca6277315621e31251880}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index) const 
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_ad5dc61e01a1c64395f328ef851a5ffcf}{reference} \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ade221ca8f9a56b92f24ae8ddae49dfe6}{operator\mbox{[}$\,$\mbox{]}} (\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \+\_\+col\+\_\+index)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \hyperlink{classcrsc_1_1dynamic__matrix_a27b83d28002e3e2bb316f1f0460e9cca}{value\+\_\+type}, \+\_\+\+Alloc $>$ \& \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8f98e13d29cac1555690c8ea6313d428}{vec}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a07775ac5fb7d5430fdc2de197f811feb}{row\+\_\+index}
+\item 
+\hyperlink{classcrsc_1_1dynamic__matrix_a52b776dc7f60d8798c884d7d3c361a8a}{size\+\_\+type} \hyperlink{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a45ffa62f998845b9d8a8a21444cf5ef8}{columns}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$\\*
+class crsc\+::dynamic\+\_\+matrix$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector}
+
+Proxy class used for enabling operator\mbox{[}\mbox{]}\mbox{[}\mbox{]} overload on \hyperlink{classcrsc_1_1dynamic__matrix}{dynamic\+\_\+matrix} objects. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!proxy\+\_\+row\+\_\+vector@{proxy\+\_\+row\+\_\+vector}}
+\index{proxy\+\_\+row\+\_\+vector@{proxy\+\_\+row\+\_\+vector}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{proxy\+\_\+row\+\_\+vector(std\+::vector$<$ value\+\_\+type, \+\_\+\+Alloc $>$ \&\+\_\+vec, size\+\_\+type \+\_\+row\+\_\+index, size\+\_\+type \+\_\+cols)}{proxy_row_vector(std::vector< value_type, _Alloc > &_vec, size_type _row_index, size_type _cols)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::proxy\+\_\+row\+\_\+vector (
+\begin{DoxyParamCaption}
+\item[{std\+::vector$<$ {\bf value\+\_\+type}, \+\_\+\+Alloc $>$ \&}]{\+\_\+vec, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+row\+\_\+index, }
+\item[{{\bf size\+\_\+type}}]{\+\_\+cols}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ae649b25900909bb59aba880a858b8faa}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ae649b25900909bb59aba880a858b8faa}
+
+
+\subsection{Member Function Documentation}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+col\+\_\+index) const }{operator[](size_type _col_index) const }}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf const\+\_\+reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8dcf4071d58ca6277315621e31251880}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8dcf4071d58ca6277315621e31251880}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!operator\mbox{[}$\,$\mbox{]}@{operator[]}}
+\index{operator\mbox{[}$\,$\mbox{]}@{operator[]}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{operator[](size\+\_\+type \+\_\+col\+\_\+index)}{operator[](size_type _col_index)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf reference} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::operator\mbox{[}$\,$\mbox{]} (
+\begin{DoxyParamCaption}
+\item[{{\bf size\+\_\+type}}]{\+\_\+col\+\_\+index}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ade221ca8f9a56b92f24ae8ddae49dfe6}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_ade221ca8f9a56b92f24ae8ddae49dfe6}
+
+
+\subsection{Member Data Documentation}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!columns@{columns}}
+\index{columns@{columns}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{columns}{columns}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::columns\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a45ffa62f998845b9d8a8a21444cf5ef8}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a45ffa62f998845b9d8a8a21444cf5ef8}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!row\+\_\+index@{row\+\_\+index}}
+\index{row\+\_\+index@{row\+\_\+index}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{row\+\_\+index}{row_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ {\bf size\+\_\+type} {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::row\+\_\+index\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a07775ac5fb7d5430fdc2de197f811feb}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a07775ac5fb7d5430fdc2de197f811feb}
+\index{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}!vec@{vec}}
+\index{vec@{vec}!crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector@{crsc\+::dynamic\+\_\+matrix\+::proxy\+\_\+row\+\_\+vector}}
+\subsubsection[{\texorpdfstring{vec}{vec}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename \+\_\+\+Ty, class \+\_\+\+Alloc = std\+::allocator$<$\+\_\+\+Ty$>$$>$ std\+::vector$<${\bf value\+\_\+type}, \+\_\+\+Alloc$>$\& {\bf crsc\+::dynamic\+\_\+matrix}$<$ \+\_\+\+Ty, \+\_\+\+Alloc $>$\+::proxy\+\_\+row\+\_\+vector\+::vec\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8f98e13d29cac1555690c8ea6313d428}{}\label{classcrsc_1_1dynamic__matrix_1_1proxy__row__vector_a8f98e13d29cac1555690c8ea6313d428}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{dynamic__matrix_8h}{dynamic\+\_\+matrix.\+h}\end{DoxyCompactItemize}

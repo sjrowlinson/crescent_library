@@ -1,0 +1,44 @@
+\hypertarget{string__utilities_8h}{}\section{string\+\_\+utilities.\+h File Reference}
+\label{string__utilities_8h}\index{string\+\_\+utilities.\+h@{string\+\_\+utilities.\+h}}
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$cctype$>$}\\*
+{\ttfamily \#include $<$set$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacecrsc}{crsc}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \& \hyperlink{namespacecrsc_a5d1bf45959c8ccef7e520481d70eeb82}{crsc\+::split} (const std\+::string \&\+\_\+s, char \+\_\+delim, std\+::vector$<$ std\+::string $>$ \&\+\_\+elems)
+\begin{DoxyCompactList}\small\item\em Splits a std\+::string around a given delimiter into a given std\+::vector of std\+::string\textquotesingle{}s. \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::string $>$ \hyperlink{namespacecrsc_aae4e86239b9ae355c694d3539125f99b}{crsc\+::split} (const std\+::string \&\+\_\+s, char \+\_\+delim)
+\begin{DoxyCompactList}\small\item\em Splits a std\+::string around a given delimiter into a std\+::vector of std\+::string\textquotesingle{}s. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_aee958a0ec9d83fc25eada38d29e82c90}{crsc\+::prepend} (std\+::string \&\+\_\+s, const std\+::string \+\_\+pr)
+\begin{DoxyCompactList}\small\item\em Prepends a std\+::string with a given std\+::string. \end{DoxyCompactList}\item 
+std\+::string \hyperlink{namespacecrsc_a305b2aff3c60b98c1a2350a68b900a23}{crsc\+::concat} (const std\+::string \&\+\_\+lhs, const std\+::string \&\+\_\+rhs)
+\begin{DoxyCompactList}\small\item\em Concatenates two std\+::string instances into a single std\+::string. \end{DoxyCompactList}\item 
+bool \hyperlink{namespacecrsc_a7181d0a49fff497ab91db955e81c7777}{crsc\+::starts\+\_\+with} (const std\+::string \&\+\_\+s, char \+\_\+c)
+\begin{DoxyCompactList}\small\item\em Determines whether a std\+::string instance starts with a given char. \end{DoxyCompactList}\item 
+bool \hyperlink{namespacecrsc_a0f5bcef6c47624168d930133724dc466}{crsc\+::ends\+\_\+with} (const std\+::string \&\+\_\+s, char \+\_\+c)
+\begin{DoxyCompactList}\small\item\em Determines whether a std\+::string instance ends with a given char. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_ae0c591013c6cc6f3356566d9df09fd1e}{crsc\+::to\+\_\+upper} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Converts all char\textquotesingle{}s in a std\+::string to upper case. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a4cf3170f561206a1d633bb183cbf0844}{crsc\+::to\+\_\+lower} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Converts all char\textquotesingle{}s in a std\+::string to lower case. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a02acdf61ec9a965849b6cf05ea01a242}{crsc\+::trim} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all whitespaces from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a96bc639baa486618114c5f01774ef552}{crsc\+::trim} (std\+::string \&\+\_\+s, const std\+::set$<$ char $>$ \&\+\_\+char\+\_\+set)
+\begin{DoxyCompactList}\small\item\em Removes all instances of any char in a given std\+::set$<$char$>$ from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a2c037ba46bb099d936b0ebe840c40c80}{crsc\+::trim} (std\+::string \&\+\_\+s, const std\+::string \&\+\_\+str\+\_\+source)
+\item 
+std\+::string \& \hyperlink{namespacecrsc_a055f85fee852d91fed4960114117daec}{crsc\+::remove\+\_\+vowels} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all vowel characters from a std\+::string. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a17f7484157b57d69377c05b12fe20d0e}{crsc\+::remove\+\_\+leading\+\_\+whitespaces} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all leading whitespace char\textquotesingle{}s from a std\+::string instance. \end{DoxyCompactList}\item 
+std\+::string \& \hyperlink{namespacecrsc_a223094d66cdb4836fe14d9613990b42c}{crsc\+::remove\+\_\+trailing\+\_\+whitespaces} (std\+::string \&\+\_\+s)
+\begin{DoxyCompactList}\small\item\em Removes all trailing whitespace char\textquotesingle{}s from a std\+::string instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
