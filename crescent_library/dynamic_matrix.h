@@ -623,8 +623,7 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> iterator insert_row(size_type _row_pos, const value_type& _val) {
-			std::vector<value_type> row_vec(cols_, _val);
-			return insert_row(_row_pos, row_vec);
+			return insert_row(_row_pos, std::move(std::vector<value_type>(cols_, _val)));
 		}
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos`.
@@ -711,8 +710,7 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> iterator insert_column(size_type _col_pos, const value_type& _val) {
-			std::vector<value_type> col_vec(rows_, _val);
-			return insert_column(_col_pos, col_vec);
+			return insert_column(_col_pos, std::move(std::vector<value_type>(rows_, _val)));
 		}
 		/**
 		 * \brief Inserts a column vector to the position one slot before `_col_pos`.
