@@ -202,7 +202,9 @@ namespace crsc {
 		pointer data() noexcept {
 			return tnsr.data();
 		}
-		std::ostream& write(std::ostream& _os, const std::pair<char, char>& _delims = { ' ', ',' }) const {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
+		> std::ostream& write(std::ostream& _os, const std::pair<char, char>& _delims = { ' ', ',' }) const {
 			for (size_type i = 0; i < rows_; ++i) {
 				for (size_type j = 0; j < cols_; ++j) {
 					_os << "(";
@@ -376,6 +378,12 @@ namespace crsc {
 		size_type cols_;
 		size_type slices_;
 	};
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>,
+		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
+	> std::ostream& operator<<(std::ostream& _os, const dynamic_r3_tensor<_Ty, _Alloc>& _tnsr) {
+		return _tnsr.write(_os);
+	}
 
 }
 

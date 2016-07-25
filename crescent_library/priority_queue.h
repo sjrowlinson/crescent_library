@@ -1,5 +1,6 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
+#include "sfinae_operators.h"
 #include <algorithm>
 #include <ostream>
 #include <vector>
@@ -262,7 +263,8 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value
+				&& has_insertion_operator<_Uty>::value>
 		> std::ostream& write_ordered(std::ostream& _os, char _delim = ' ') const noexcept {
 			priority_queue<value_type, _Pr> tmp(*this);
 			while (!tmp.empty()) {
@@ -282,7 +284,9 @@ namespace crsc {
 		 * \complexity Linear in the size of the container.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
+		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
 			for (const auto& el : heap_vec)
 				_os << el << _delim;
 			return _os;
@@ -355,13 +359,12 @@ namespace crsc {
 			heap_vec.clear();
 		}
 		/**
-		 * \brief Alters the first instance of the specified value `_val_find`
-		 *        in the container to `_alter_to_val` by copy-assignment. If 
-		 *        `_val_find` does not exist in the container, this method does
-		 *        nothing.
+		 * \brief Alters the first instance of the specified value (first of pair param)
+		 *        in the container to second of pair param by copy-assignment. If value
+		 *        to find does not exist in the container, this method does nothing.
 		 *
-		 * \param _val_find Value to search for and alter in the container.
-		 * \param _alter_to_val Value to assign search item to.
+		 * \param _tgt_alt `std::pair` where first field is value to find and alter and
+		 *        second field is the value to which to change this found value.
 		 * \complexity Linear in the size of the container plus logarithmic
 		 *             in the size of the container.
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
@@ -369,11 +372,11 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
-		> void alter(const value_type& _val_find, const value_type& _alter_to_val) {
-			auto it = std::find(heap_vec.begin(), heap_vec.end(), _val_find);
+		> void alter(const std::pair<value_type, value_type>& _tgt_alt) {
+			auto it = std::find(heap_vec.begin(), heap_vec.end(), _tgt_alt.first);
 			if (it != heap_vec.end()) {
-				*it = _alter_to_val;
-				if (comp(_val_find, _alter_to_val)) bubble_up(std::distance(heap_vec.begin(), it));
+				*it = _tgt_alt.second;
+				if (comp(_tgt_alt.first, _tgt_alt.second)) bubble_up(std::distance(heap_vec.begin(), it));
 				else bubble_down(std::distance(heap_vec.begin(), it));
 			}
 		}
@@ -424,21 +427,21 @@ namespace crsc {
 			heapify();
 		}
 		/**
-		 * \brief Alters all instances of the specified value `_val_find` in the container
-		 *        to `_alter_to_val` by copy-assignment. If `_val_find` does not exist in
+		 * \brief Alters all instances of the specified value (first of pair `_tgt_alter`) in the container
+		 *        to second of pair `_tgt_alter` by copy-assignment. If value to find does not exist in
 		 *        the container, this method does nothing.
 		 *
-		 * \param _val_find Value to search for and alter in the container.
-		 * \param _alter_to_val Value to assign each instance of `_val_find` to.
+		 * \param _tgt_alt `std::pair` where first field is value to find and alter and
+		 *        second field is the value to which to change this found value.
 		 * \complexity Linear in the size of the container plus the number of
 		 *             occurrences of `_val_find` in the container multiplied by
 		 *             logarithmic in the size of the container.
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		void alter_all(const value_type& _val_find, const value_type& _alter_to_val) {
+		void alter_all(const std::pair<value_type, value_type>& _tgt_alter) {
 			for (auto it = heap_vec.begin(); it < heap_vec.end(); ++it) {
-				if (*it == _val_find) *it = _alter_to_val;
+				if (*it == _tgt_alter.first) *it = _tgt_alter.second;
 			}
 			heapify();
 		}
@@ -472,7 +475,7 @@ namespace crsc {
 		 */
 		void swap(priority_queue& _other) {
 			heap_vec.swap(_other.heap_vec);
-			comp = _other.comp;
+			std::swap(comp, _other.comp);
 		}
 
 		// Iterators

@@ -1,5 +1,6 @@
 #ifndef FIXED_MATRIX_H
 #define FIXED_MATRIX_H
+#include "sfinae_operators.h"
 #include <algorithm>
 #include <array>
 #include <iterator>
@@ -333,7 +334,9 @@ namespace crsc {
 		 * \complexity Linear in `rows()*columns()`.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
+		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
 			size_type count = 0;
 			for (const auto& el : mtx) {
 				_os << el << _delim;
@@ -562,6 +565,13 @@ namespace crsc {
 	private:
 		std::array<value_type, _Rows*_Cols> mtx;
 	};
+	template<typename _Ty,
+		std::size_t _Rows,
+		std::size_t _Cols,
+		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
+	> std::ostream& operator<<(std::ostream& _os, const fixed_matrix<_Ty, _Rows, _Cols>& _fm) {
+		return _fm.write(_os);
+	}
 	/**
 	 * \brief Makes an identity `fixed_matrix` of template-specified size.
 	 * 
