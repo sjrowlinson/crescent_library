@@ -394,6 +394,32 @@ namespace crsc {
 		proxy_row_vector operator[](size_type _row_index) {
 			return proxy_row_vector(mtx, _row_index, cols_);
 		}
+		/** 
+		 * \brief Gets `const_reference` to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Constant reference to element at given position.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows() && _col_index < columns()`, 
+		 *                  otherwise undefined behaviour.
+		 */
+		const_reference operator()(size_type _row_index, size_type _col_index) const {
+			return mtx[_row_index*cols_ + _col_index];
+		}
+		/**
+		 * \brief Gets `reference` to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Reference to element at given position.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows() && _col_index < columns()`,
+		 *                  otherwise undefined behaviour.
+		 */
+		reference operator()(size_type _row_index, size_type _col_index) {
+			return mtx[_row_index*cols_ + _col_index];
+		}
 		/**
 		 * \brief Returns a const_reference to first element in the container.
 		 *
