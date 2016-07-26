@@ -3,6 +3,7 @@
 #include "sfinae_operators.h"
 #include <algorithm>
 #include <ostream>
+#include <set>
 #include <vector>
 #include <utility>
 
@@ -208,18 +209,18 @@ namespace crsc {
 		 * \brief Finds all instances of an element in the container.
 		 *
 		 * \param _val Value to search for in the container.
-		 * \return `std::vector<const_iterator>` containing `const_iterator`s to each item with value
+		 * \return `std::set<const_iterator>` containing `const_iterator`s to each item with value
 		 *         `_val` in the container.
 		 * \complexity Linear in the size of the container.
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		std::vector<const_iterator> find_all(const value_type& _val) const {
-			std::vector<const_iterator> it_vec;
+		std::set<const_iterator> find_all(const value_type& _val) const {
+			std::set<const_iterator> it_set;
 			for (auto it = heap_vec.cbegin(); it < heap_vec.cend(); ++it) {
-				if (*it == _val) it_vec.push_back(it);
+				if (*it == _val) it_set.insert(it);
 			}
-			return it_vec;
+			return it_set;
 		}
 		/**
 		 * \brief Find the first instance of an element in the container based on
@@ -246,12 +247,12 @@ namespace crsc {
 		 *                  in the container.
      	 */
 		template<class UnaryPredicate>
-		std::vector<const_iterator> find_all(UnaryPredicate _p) const {
-			std::vector<const_iterator> it_vec;
+		std::set<const_iterator> find_all(UnaryPredicate _p) const {
+			std::set<const_iterator> it_set;
 			for (auto it = heap_vec.cbegin(); it < heap_vec.cend(); ++it) {
-				if (_p(*it)) it_vec.push_back(it);
+				if (_p(*it)) it_set.insert(it);
 			}
-			return it_vec;
+			return it_set;
 		}
 		/**
 		 * \brief Writes the contents of the container to a `std::ostream` in heap-order.
@@ -376,9 +377,45 @@ namespace crsc {
 			auto it = std::find(heap_vec.begin(), heap_vec.end(), _tgt_alt.first);
 			if (it != heap_vec.end()) {
 				*it = _tgt_alt.second;
-				if (comp(_tgt_alt.first, _tgt_alt.second)) bubble_up(std::distance(heap_vec.begin(), it));
-				else bubble_down(std::distance(heap_vec.begin(), it));
+				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				comp(_tgt_alt.first, _tgt_alt.second) ? bubble_up(index) : bubble_down(index);
 			}
+		}
+		/**
+		 * \brief Alters the element value at the specified iterator position in the container
+		 *        to the value `_alter_to_val` by copy-assignment.
+		 *
+		 * \param _pos `const_iterator` to element in container to alter.
+		 * \param _alter_to_val Value to assign to element to alter.
+		 * \complexity Logarithmic in the size of the container.
+		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		> void alter(const_iterator _pos, const value_type& _alter_to_val) {
+			auto index = std::distance(heap_vec.cbegin(), _pos); // index of changed element
+			bool b_up = comp(heap_vec[index], _alter_to_val);
+			heap_vec[index] = _alter_to_val;
+			b_up ? bubble_up(index) : bubble_down(index);
+		}
+		/**
+		 * \brief Alters the element value at the specified iterator position in the container
+		 *        to the value `_alter_to_val` by move-assignment.
+		 *
+		 * \param _pos `const_iterator` to element in container to alter.
+		 * \param _alter_to_val rvalue reference to value to assign to element to alter.
+		 * \complexity Logarithmic in the size of the container.
+		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
+		template<class _Uty = _Ty,
+			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		> void alter(const_iterator _pos, value_type&& _alter_to_val) {
+			auto index = std::distance(heap_vec.cbegin(), _pos); // index of changed element
+			bool b_up = comp(heap_vec[index], _alter_to_val);
+			heap_vec[index] = std::move(_alter_to_val);
+			b_up ? bubble_up(index) : bubble_down(index);
 		}
 		/**
 		 * \brief Alters the first instance of an item in the container for
@@ -399,10 +436,10 @@ namespace crsc {
 		> void alter(const value_type& _alter_to_val, UnaryPredicate _p) {
 			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
 			if (it != heap_vec.end()) {
-				auto tmp = it;
+				bool b_up = comp(*it, _alter_to_val);
 				*it = _alter_to_val;
-				if (comp(*tmp, _alter_to_val)) bubble_up(std::distance(heap_vec.begin(), it));
-				else bubble_down(std::distance(heap_vec.begin(), it));
+				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				b_up ? bubble_up(index) : bubble_down(index);
 			}
 		}
 		/**
@@ -422,9 +459,13 @@ namespace crsc {
 			class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void alter(value_type&& _alter_to_val, UnaryPredicate _p) {
-			heap_vec.erase(std::find_if(heap_vec.begin(), heap_vec.end(), _p));
-			enqueue(std::move(_alter_to_val));
-			heapify();
+			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
+			if (it != heap_vec.end()) {
+				bool b_up = comp(*it, _alter_to_val);
+				*it = std::move(_alter_to_val);
+				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				b_up ? bubble_up(index) : bubble_down(index);
+			}
 		}
 		/**
 		 * \brief Alters all instances of the specified value (first of pair `_tgt_alter`) in the container
@@ -621,21 +662,6 @@ namespace crsc {
 		typename = std::enable_if_t<std::is_copy_assignable<_Ty>::value>
 	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
 		return _pq.write_ordered(_os);
-	}
-	/**
-	 * \brief Stream insertion operator for `crsc::priority_queue` of non-copyable type.
-	 *
-	 * \param _os Instance of `std::ostream` to write to.
-	 * \param _pq `crsc::priority_queue` container to write to stream.
-	 * \return Modified reference to `_os`.
-	 * \complexity Linear in the size of `_pq`.
-	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-	 */
-	template<typename _Ty,
-		class _Pr,
-		typename = std::enable_if_t<!std::is_copy_assignable<_Ty>::value && std::is_move_assignable<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
-		return _pq.write(_os);
 	}
 }
 
