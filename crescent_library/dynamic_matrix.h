@@ -192,6 +192,22 @@ namespace crsc {
 		dynamic_matrix(dynamic_matrix&& _other, const _Alloc& alloc)
 			: mtx(std::move(_other.mtx), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
 		/**
+		 * \brief Constructs the container with the contents of the nested `std::initializer_list _init_list`.
+		 *
+		 * \warning Undefined behaviour if sizes of each `std::initializer_list` within `_init_list` are not equivalent.
+		 * \param _init_list Initializer list of initializer lists representing a matrix.
+		 * \param alloc Allocator to use for all memory allocations of this container.
+		 * \complexity Linear in size of `_init_list` multiplied by linear in size of each inner list.
+		 */
+		dynamic_matrix(std::initializer_list<std::initializer_list<value_type>> _init_list, const _Alloc& alloc = _Alloc())
+			: mtx(_init_list.size()*_init_list.begin()->size(), alloc), rows_(_init_list.size()), cols_(_init_list.begin()->size()) {
+			auto it = mtx.begin();
+			for (const auto& el : _init_list) {
+				std::copy(el.begin(), el.end(), it);
+				std::advance(it, cols_);
+			}
+		}
+		/**
 		 * \brief Destructs the container. The destructors of the elements are called and the used storage is deallocated.
 		 *        Note that if the elements are raw pointers, the pointed-to objects are not destroyed. Use smart pointers
 		 *        instead of raw pointers to ensure memory handling takes place.

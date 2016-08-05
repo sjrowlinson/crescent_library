@@ -114,6 +114,24 @@ namespace crsc {
 		 */
 		fixed_matrix(fixed_matrix&& _other) : mtx(std::move(_other.mtx)) {}
 		/**
+		 * \brief Constructs the container with the contents of the nested initializer list `_init_list`.
+		 *
+		 * \warning Undefined behaviour if sizes of each `std::initializer_list` within `_init_list` are not equivalent.
+		 * \param _init_list Initializer list of initializer lists representing a matrix.
+		 * \complexity Linear in size of `_Rows*_Cols`.
+		 * \throw Throws `std::invalid_argument` exception if `_init_list.size() != _Rows` or if
+		 *        `_init_list.begin()->size() != _Cols`.
+		 */
+		fixed_matrix(std::initializer_list<std::initializer_list<value_type>> _init_list) {
+			if (_init_list.size() != _Rows || _init_list.begin()->size() != _Cols)
+				throw std::invalid_argument("_init_list dimensions not consistent with fixed_matrix dimensions.");
+			auto it = mtx.begin();
+			for (const auto& el : _init_list) {
+				std::copy(el.begin(), el.end(), it);
+				std::advance(it, _Cols);
+			}
+		}
+		/**
 		 * \brief Destructs the container. The destructors of the elements are called and used
 		 *        storage is deallocated.
 		 */
