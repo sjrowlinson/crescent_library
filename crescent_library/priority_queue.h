@@ -26,6 +26,12 @@ namespace crsc {
 	 * to preserve the class invariant such that the heap is not invalidated at any point between method calls.
 	 *
 	 * \tparam _Ty The type of the elements.
+	 * \tparam _Cntr The type of the underlying container to use to store the elements. The container must satisfy the
+	 *         requirements of `SequenceContainer` and its iterators must satisfy the requirements of `RandomAccessIterator`
+	 *         (see C++ Concepts). Additionally, it must provide the following functions with the usual semantics:
+	 *         - `push_back()`
+	 *         - `pop_back()`
+	 *         - `emplace_back()`
 	 * \tparam _Pr A `Compare` type providing a strict weak ordering, defaults to `std::less<_Ty>`.
 	 * \invariant The heap (whose ordering/behaviour is defined by the comparator `_Pr`) shall never be invalidated
 	 *            between method calls, and if any exceptions are thrown by a method the heap shall never be left in
@@ -34,10 +40,11 @@ namespace crsc {
 	 * \date July, 2016
 	 */
 	template<typename _Ty,
+		class _Cntr = std::vector<_Ty>,
 		class _Pr = std::less<_Ty>
 	> class priority_queue {
 	public:
-		// public API type definitions
+		// PUBLIC API TYPE DEFINITIONS
 		typedef _Ty value_type;
 		typedef _Ty& reference;
 		typedef const _Ty& const_reference;
@@ -45,55 +52,65 @@ namespace crsc {
 		typedef const _Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-		typedef typename std::vector<_Ty>::const_iterator const_iterator;
-		typedef typename std::vector<_Ty>::const_reverse_iterator const_reverse_iterator;
+		typedef typename _Cntr::const_iterator const_iterator;
+		typedef typename _Cntr::const_reverse_iterator const_reverse_iterator;
+		// CONSTRUCTION/ASSIGNMENT
 		/**
-		 * \brief Default constructor, initialises empty container with optional comparator argument.
+		 * \brief Copy-constructs the underlying container with the contents of `container`. Copy-constructs
+		 *        the underlying comparison functor with the contents of `compare`.
 		 *
 		 * \param compare Comparator function object to initialise underlying comparison functor.
-		 * \complexity Complexity of construction of `compare` (typically constant).
+		 * \param container Container to be used as source to initialise the underlying container.
+		 * \complexity Linear in the size of `container` (comparisons) plus linear in the size
+		 *             of `container` (calls to constructor of `value_type`).
+		 */
+		priority_queue(const _Pr& compare, const _Cntr& container)
+			: heap_cntr(container), comp(compare) { heapify(); }
+		/**
+		 * \brief Move-constructs the underlying container with `std::move(container)`. Copy-constructs
+		 *        the underlying comparison functor with the contents of `compare`. This is also the
+		 *        default constructor.
+		 *
+		 * \param compare Comparator function object to initialise underlying comparison functor.
+		 * \param container Container to be used as source to initialise the underlying container.
+		 * \complexity Linear in the size of `container` (comparisons).
 		 * \exceptionsafety No-throw guarantee if `_Pr()` does not throw, otherwise dependent upon
 		 *                  exception safety of `compare`.
 		 */
-		explicit priority_queue(const _Pr& compare = _Pr()) 
-			: heap_vec(), comp(compare) {}
+		explicit priority_queue(const _Pr& compare = _Pr(), _Cntr&& container = _Cntr()) 
+			: heap_cntr(std::move(container)), comp(compare) { heapify(); }
 		/**
-		 * \brief Constructs the container with contents of `_vec`.
+		 * \brief Copy-constructs the underlying container with the contents of `container` and the underlying
+		 *        comparison functor with the contents of `compare` then inserts the contents of the range
+		 *        `[first, last)` to the end of the underlying container.
 		 *
-		 * \param _vec Container to initialise contents with.
+		 * \param first Begininning of range to copy elements from.
+		 * \param last End of range to copy elements from.
 		 * \param compare Comparator function object to initialise underlying comparison functor.
-		 * \complexity Linear in `_vec.size()` multiplied by logarithmic in `_vec.size()` plus
-		 *             an additional linear in `_vec.size()` for vector copy.
-		 * \exceptionsafety No-throw guarantee if `_Pr()` does not throw, otherwise dependent upon
-		 *                  exception safety of `compare`.
+		 * \param container Container to be used as source to initialise the underlying container.
 		 */
-		explicit priority_queue(const std::vector<value_type>& _vec, const _Pr& compare = _Pr())
-			: heap_vec(_vec), comp(compare) { heapify(); }
+		template<class InputIt>
+		priority_queue(InputIt first, InputIt last, const _Pr& compare, const _Cntr& container)
+			: heap_cntr(container), comp(compare) {
+			heap_cntr.insert(heap_cntr.end(), first, last);
+			heapify();
+		}
 		/**
-		 * \brief Constructs the container with contents of `_vec` using move-semantics.
-		 *
-		 * \param _vec rvalue reference to container to initialise contents with.
-		 * \param compare Comparator function object to initialise underlying comparison functor.
-		 * \complexity Linear `_vec.size()` multiplied by logarithimic in `_vec.size()`.
-		 * \exceptionsafety No-throw guarantee if `_Pr()` does not throw, otherwise dependent upon
-		 *                  exception safety of `compare`.
-		 */
-		explicit priority_queue(std::vector<value_type>&& _vec, const _Pr& compare = _Pr())
-			: heap_vec(std::move(_vec)), comp(compare) { heapify(); }
-		/**
-		 * \brief Constructs the container with the contents of the range `[first, last)`.
+		 * \brief Move-constructs the underlying container with `std::move(container)` and copy-constructs
+		 *       the underlying comparison functor with the contents of `compare` then inserts the contents
+		 *       of the range `[first, last)` to the end of the underlying container.
 		 *
 		 * \param first Beginning of range to copy elements from.
 		 * \param last End of range to copy elements from.
 		 * \param compare Comparator function object to initialise underlying comparison functor.
-		 * \complexity Linear in distance between `first` and `last` plus linear in this distance multiplied
-		 *             logarithmic in this distance.
-		 * \exceptionsafety No-throw guarantee if `_Pr()` does not throw, otherwise dependent upon
-		 *                  exception safety of `compare`.
+		 * \param container Container to be used as source to initialise the underlying container.
 		 */
 		template<class InputIt>
-		priority_queue(InputIt first, InputIt last, const _Pr& compare = _Pr())
-			: heap_vec(first, last), comp(compare) { heapify(); }
+		priority_queue(InputIt first, InputIt last, const _Pr& compare = _Pr(), _Cntr&& container = _Cntr())
+			: heap_cntr(std::move(container)), comp(compare) { 
+			heap_cntr.insert(heap_cntr.end(), first, last);
+			heapify();
+		}
 		/**
 		 * \brief Constructs the container with a copy of the contents of `_other`.
 		 *
@@ -102,7 +119,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		priority_queue(const priority_queue& _other) noexcept
-			: heap_vec(_other.heap_vec), comp(_other.comp) {}
+			: heap_cntr(_other.heap_cntr), comp(_other.comp) {}
 		/**
 		 * \brief Constructs the container with the contents of `_other` using move-semantics.
 		 *
@@ -111,7 +128,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		priority_queue(priority_queue&& _other) noexcept
-			: heap_vec(std::move(_other.heap_vec)), comp(std::move(_other.comp)) {}
+			: heap_cntr(std::move(_other.heap_cntr)), comp(std::move(_other.comp)) {}
 		/**
 		 * \brief Destructs the container. The destructors of the elements are called
 		 *        used storage is deallocated.
@@ -128,9 +145,9 @@ namespace crsc {
 		 * \return `*this`.
 		 * \complexity Linear in the size of the `_other`.
 		 */
-		priority_queue& operator=(const priority_queue& _other) {
+		priority_queue& operator=(priority_queue _other) {
 			if (this != &_other)
-				priority_queue(_other).swap(*this); // invoke copy-and-swap idiom
+				swap(*this, _other); // invoke copy-and-swap idiom
 			return *this;
 		}
 		/**
@@ -143,12 +160,10 @@ namespace crsc {
 		 */
 		priority_queue& operator=(priority_queue&& _other) {
 			if (this != &_other)
-				priority_queue(std::move(_other)).swap(*this);
+				swap(*this, _other);
 			return *this;
 		}
-
-		// Capacity
-
+		// CAPACITY
 		/**
 		 * \brief Checks whether the container is empty.
 		 * 
@@ -157,7 +172,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		bool empty() const noexcept {
-			return heap_vec.empty();
+			return heap_cntr.empty();
 		}
 		/**
 		 * \brief Returns the number of elements in the container.
@@ -167,7 +182,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type size() const noexcept {
-			return heap_vec.size();
+			return heap_cntr.size();
 		}
 		/**
 		 * \brief Returns the maximum number of elements the container is able
@@ -178,11 +193,9 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		size_type max_size() const noexcept {
-			return heap_vec.max_size();
+			return heap_cntr.max_size();
 		}
-
-		// Element Access
-
+		// ELEMENT ACCESS
 		/**
 		 * \brief Accesses the top element of the container without popping it.
 		 *
@@ -192,7 +205,7 @@ namespace crsc {
 		 *                  undefined behaviour.
 		 */
 		const_reference top() const {
-			return heap_vec[0];
+			return heap_cntr[0];
 		}
 		/**
 		 * \brief Finds the first instance of an element in the container.
@@ -203,7 +216,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee.
 		 */
 		const_iterator find(const value_type& _val) const {
-			return std::find(heap_vec.begin(), heap_vec.end(), _val);
+			return std::find(heap_cntr.begin(), heap_cntr.end(), _val);
 		}
 		/**
 		 * \brief Finds all instances of an element in the container.
@@ -217,7 +230,7 @@ namespace crsc {
 		 */
 		std::set<const_iterator> find_all(const value_type& _val) const {
 			std::set<const_iterator> it_set;
-			for (auto it = heap_vec.cbegin(); it < heap_vec.cend(); ++it) {
+			for (auto it = heap_cntr.cbegin(); it < heap_cntr.cend(); ++it) {
 				if (*it == _val) it_set.insert(it);
 			}
 			return it_set;
@@ -233,7 +246,7 @@ namespace crsc {
 		 */
 		template<class UnaryPredicate>
 		const_iterator find(UnaryPredicate _p) const {
-			return std::find_if(heap_vec.begin(), heap_vec.end(), _p);
+			return std::find_if(heap_cntr.begin(), heap_cntr.end(), _p);
 		}
 		/**
 		 * \brief Finds all instances of an element in the container based on
@@ -249,7 +262,7 @@ namespace crsc {
 		template<class UnaryPredicate>
 		std::set<const_iterator> find_all(UnaryPredicate _p) const {
 			std::set<const_iterator> it_set;
-			for (auto it = heap_vec.cbegin(); it < heap_vec.cend(); ++it) {
+			for (auto it = heap_cntr.cbegin(); it < heap_cntr.cend(); ++it) {
 				if (_p(*it)) it_set.insert(it);
 			}
 			return it_set;
@@ -288,13 +301,11 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
 		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
-			for (const auto& el : heap_vec)
+			for (const auto& el : heap_cntr)
 				_os << el << _delim;
 			return _os;
 		}
-
-		// Modifiers
-
+		// MODIFIERS
 		/**
 		 * \brief Pushes an item into the container and sorts it.
 		 *
@@ -307,8 +318,8 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> void enqueue(const value_type& _val) {
-			heap_vec.push_back(_val);
-			bubble_up(heap_vec.size() - 1);
+			heap_cntr.push_back(_val);
+			bubble_up(heap_cntr.size() - 1);
 		}
 		/**
 		 * \brief Pushes an item into the container via move-insertion and sorts it.
@@ -322,8 +333,8 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void enqueue(value_type&& _val) {
-			heap_vec.push_back(std::move(_val));
-			bubble_up(heap_vec.size() - 1);
+			heap_cntr.push_back(std::move(_val));
+			bubble_up(heap_cntr.size() - 1);
 		}
 		/**
 		 * \brief Constructs element in-place and sorts the underlying container.
@@ -336,8 +347,8 @@ namespace crsc {
 		 */
 		template<class... Args>
 		void emplace(Args&&... _args) {
-			heap_vec.emplace_back(std::forward<Args>(_args)...);
-			bubble_up(heap_vec.size() - 1);
+			heap_cntr.emplace_back(std::forward<Args>(_args)...);
+			bubble_up(heap_cntr.size() - 1);
 		}
 		/**
 		 * \brief Pops the top item from the container.
@@ -357,7 +368,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		void clear() noexcept {
-			heap_vec.clear();
+			heap_cntr.clear();
 		}
 		/**
 		 * \brief Alters the first instance of the specified value (first of pair param)
@@ -374,10 +385,10 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> void alter(const std::pair<value_type, value_type>& _tgt_alt) {
-			auto it = std::find(heap_vec.begin(), heap_vec.end(), _tgt_alt.first);
-			if (it != heap_vec.end()) {
+			auto it = std::find(heap_cntr.begin(), heap_cntr.end(), _tgt_alt.first);
+			if (it != heap_cntr.end()) {
 				*it = _tgt_alt.second;
-				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				auto index = std::distance(heap_cntr.begin(), it); // index of changed element
 				comp(_tgt_alt.first, _tgt_alt.second) ? bubble_up(index) : bubble_down(index);
 			}
 		}
@@ -394,9 +405,9 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> void alter(const_iterator _pos, const value_type& _alter_to_val) {
-			auto index = std::distance(heap_vec.cbegin(), _pos); // index of changed element
-			bool b_up = comp(heap_vec[index], _alter_to_val);
-			heap_vec[index] = _alter_to_val;
+			auto index = std::distance(heap_cntr.cbegin(), _pos); // index of changed element
+			bool b_up = comp(heap_cntr[index], _alter_to_val);
+			heap_cntr[index] = _alter_to_val;
 			b_up ? bubble_up(index) : bubble_down(index);
 		}
 		/**
@@ -412,9 +423,9 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void alter(const_iterator _pos, value_type&& _alter_to_val) {
-			auto index = std::distance(heap_vec.cbegin(), _pos); // index of changed element
-			bool b_up = comp(heap_vec[index], _alter_to_val);
-			heap_vec[index] = std::move(_alter_to_val);
+			auto index = std::distance(heap_cntr.cbegin(), _pos); // index of changed element
+			bool b_up = comp(heap_cntr[index], _alter_to_val);
+			heap_cntr[index] = std::move(_alter_to_val);
 			b_up ? bubble_up(index) : bubble_down(index);
 		}
 		/**
@@ -434,11 +445,11 @@ namespace crsc {
 			class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> void alter(const value_type& _alter_to_val, UnaryPredicate _p) {
-			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
-			if (it != heap_vec.end()) {
+			auto it = std::find_if(heap_cntr.begin(), heap_cntr.end(), _p);
+			if (it != heap_cntr.end()) {
 				bool b_up = comp(*it, _alter_to_val);
 				*it = _alter_to_val;
-				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				auto index = std::distance(heap_cntr.begin(), it); // index of changed element
 				b_up ? bubble_up(index) : bubble_down(index);
 			}
 		}
@@ -459,11 +470,11 @@ namespace crsc {
 			class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> void alter(value_type&& _alter_to_val, UnaryPredicate _p) {
-			auto it = std::find_if(heap_vec.begin(), heap_vec.end(), _p);
-			if (it != heap_vec.end()) {
+			auto it = std::find_if(heap_cntr.begin(), heap_cntr.end(), _p);
+			if (it != heap_cntr.end()) {
 				bool b_up = comp(*it, _alter_to_val);
 				*it = std::move(_alter_to_val);
-				auto index = std::distance(heap_vec.begin(), it); // index of changed element
+				auto index = std::distance(heap_cntr.begin(), it); // index of changed element
 				b_up ? bubble_up(index) : bubble_down(index);
 			}
 		}
@@ -481,7 +492,7 @@ namespace crsc {
 		 *                  in the container.
 		 */
 		void alter_all(const std::pair<value_type, value_type>& _tgt_alter) {
-			for (auto it = heap_vec.begin(); it < heap_vec.end(); ++it) {
+			for (auto it = heap_cntr.begin(); it < heap_cntr.end(); ++it) {
 				if (*it == _tgt_alter.first) *it = _tgt_alter.second;
 			}
 			heapify();
@@ -502,7 +513,7 @@ namespace crsc {
 		 */
 		template<class UnaryPredicate>
 		void alter_all(const value_type& _alter_to_val, UnaryPredicate _p) {
-			for (auto it = heap_vec.begin(); it < heap_vec.end(); ++it) {
+			for (auto it = heap_cntr.begin(); it < heap_cntr.end(); ++it) {
 				if (_p(*it)) *it = _alter_to_val;
 			}
 			heapify();
@@ -515,12 +526,21 @@ namespace crsc {
 		 * \complexity Constant.
 		 */
 		void swap(priority_queue& _other) {
-			heap_vec.swap(_other.heap_vec);
+			heap_cntr.swap(_other.heap_cntr);
 			std::swap(comp, _other.comp);
 		}
-
-		// Iterators
-
+		/**
+		 * \brief Exchanges the contents of two `crsc::priority_queue` containers. Does not
+		 *        cause references and iterators to associate with the other container.
+		 *
+		 * \param lhs First instance of `priority_queue`.
+		 * \param rhs Second instance of `priority_queue`.
+		 * \complexity Constant.
+		 */
+		static void swap(priority_queue& lhs, priority_queue& rhs) {
+			lhs.swap(rhs);
+		}
+		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
 		 *
@@ -530,7 +550,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		const_iterator cbegin() const noexcept {
-			return heap_vec.cbegin();
+			return heap_cntr.cbegin();
 		}
 		/**
 		 * \brief Returns a const_iterator to the past-the-end element of the container.
@@ -540,7 +560,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		const_iterator cend() const noexcept {
-			return heap_vec.cend();
+			return heap_cntr.cend();
 		}
 		/**
 		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
@@ -551,7 +571,7 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		const_reverse_iterator crbegin() const noexcept {
-			return heap_vec.crbegin();
+			return heap_cntr.crbegin();
 		}
 		/**
 		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
@@ -562,11 +582,10 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		const_reverse_iterator crend() const noexcept {
-			return heap_vec.crend();
+			return heap_cntr.crend();
 		}
-
 	private:
-		std::vector<value_type> heap_vec;	// underlying heap container
+		_Cntr heap_cntr;	// underlying heap container
 		_Pr comp;	// comparator function-object, determines element priorities
 		/**
 		 * \brief Bubbles down the heap from a given vector index, performing
@@ -578,8 +597,8 @@ namespace crsc {
 		 *                  undefined behaviour.
 		 */
 		void bubble_down(size_type _pos) {
-			size_type heap_size = heap_vec.size();
-			// positions of left, right nodes relative to parent in heap_vec
+			size_type heap_size = heap_cntr.size();
+			// positions of left, right nodes relative to parent in heap_cntr
 			size_type left_child = 2 * _pos + 1;
 			size_type right_child = 2 * _pos + 2;
 			// reached end of heap, exit
@@ -587,15 +606,15 @@ namespace crsc {
 			size_type min_pos = _pos;
 			// perform comparison between values of heap at _pos and left node pos
 			// and set min_pos to position of left node if comparison yields true
-			if (comp(heap_vec[_pos], heap_vec[left_child]))
+			if (comp(heap_cntr[_pos], heap_cntr[left_child]))
 				min_pos = left_child;
 			// perform comparison between values of heap at min_pos and right node pos
 			// and set min_pos to position of right node if comparision yields true
-			if (right_child < heap_size && comp(heap_vec[min_pos], heap_vec[right_child]))
+			if (right_child < heap_size && comp(heap_cntr[min_pos], heap_cntr[right_child]))
 				min_pos = right_child;
 			// if required, perform swap and bubble down from swapped min_pos
 			if (min_pos != _pos) {
-				std::swap(heap_vec[_pos], heap_vec[min_pos]);
+				std::swap(heap_cntr[_pos], heap_cntr[min_pos]);
 				bubble_down(min_pos);
 			}
 		}
@@ -611,12 +630,12 @@ namespace crsc {
 		void bubble_up(size_type _pos) {
 			// at top of heap, exit
 			if (!_pos) return;
-			// positon of parent node relative to a child node in heap_vec
+			// positon of parent node relative to a child node in heap_cntr
 			size_type parent = (_pos - 1) / 2;
 			// perform comparison between heap values at parent and _pos
 			// and do swap and bubble up from parent if comparison is true
-			if (comp(heap_vec[parent], heap_vec[_pos])) {
-				std::swap(heap_vec[_pos], heap_vec[parent]);
+			if (comp(heap_cntr[parent], heap_cntr[_pos])) {
+				std::swap(heap_cntr[_pos], heap_cntr[parent]);
 				bubble_up(parent);
 			}
 		}
@@ -627,24 +646,24 @@ namespace crsc {
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		void pop_top() noexcept {
-			size_type heap_size = heap_vec.size();
+			size_type heap_size = heap_cntr.size();
 			if (!heap_size) return;
 			// set top of heap to last heap element then remove last heap element
-			heap_vec[0] = std::move(heap_vec[--heap_size]);
-			heap_vec.pop_back();
+			std::swap(heap_cntr[0], heap_cntr[--heap_size]);
+			heap_cntr.pop_back();
 			// bubble down from top to get previously last heap element to correct position
 			bubble_down(0);
 		}
 		/**
 		 * \brief Performs heapification of entire binary heap, bubbling down from
-		 *        each index such that binary heap invariant is guaranteed.
+		 *        each index such that the binary heap invariant is guaranteed.
 		 *
 		 * \complexity Linear in the size of the container multiplied by
 		 *             logarithmic in the size of the container.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		void heapify() noexcept {
-			for (int i = heap_vec.size() - 1; i > -1; --i)
+			for (int i = heap_cntr.size() - 1; i > -1; --i)
 				bubble_down(i);
 		}
 	};
@@ -658,9 +677,10 @@ namespace crsc {
 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 	 */
 	template<typename _Ty,
+		class _Cntr,
 		class _Pr,
 		typename = std::enable_if_t<std::is_copy_assignable<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Pr>& _pq) noexcept {
+	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Cntr, _Pr>& _pq) noexcept {
 		return _pq.write_ordered(_os);
 	}
 }
