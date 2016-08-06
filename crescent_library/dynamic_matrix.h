@@ -51,7 +51,7 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>
 	> class dynamic_matrix {
 	public:
-		// public API type definitions
+		// PUBLIC API TYPE DEFINITIONS
 		typedef _Ty value_type;
 		typedef _Ty& reference;
 		typedef const _Ty& const_reference;
@@ -86,6 +86,7 @@ namespace crsc {
 			size_type columns;
 		};
 	public:
+		// CONSTRUCTION/ASSIGNMENT
 		/**
 		 * \brief Default constructor, initialises emtpy container (zero rows and columns) using
 		 *        default constructed allocator.
@@ -223,9 +224,9 @@ namespace crsc {
 		 * \return `*this`.
 		 * \complexity Linear in the size of `*this` and `_other`.
 		 */
-		dynamic_matrix& operator=(const dynamic_matrix& _other) {
+		dynamic_matrix& operator=(dynamic_matrix _other) {
 			if (this != &_other)
-				dynamic_matrix(_other).swap(*this);
+				swap(*this, _other);
 			return *this;
 		}
 		/**
@@ -239,7 +240,7 @@ namespace crsc {
 		 */
 		dynamic_matrix& operator=(dynamic_matrix&& _other) {
 			if (this != &_other)
-				dynamic_matrix(std::move(_other)).swap(*this);
+				swap(*this, _other);
 			return *this;
 		}
 		/**
@@ -251,9 +252,7 @@ namespace crsc {
 		allocator_type get_allocator() const {
 			return mtx.get_allocator();
 		}
-
-		// Capacity
-
+		// CAPACITY
 		/**
 		 * \brief Checks if the container has no elements.
 		 *
@@ -347,9 +346,7 @@ namespace crsc {
 		void shrink_to_fit() {
 			mtx.shrink_to_fit();
 		}
-
-		// Element Access
-
+		// ELEMENT ACCESS
 		/**
 		 * \brief Gets const_reference to element at specified row-column indices.
 		 *
@@ -524,9 +521,7 @@ namespace crsc {
 			}
 			return _os;
 		}
-
-		// Iterators
-
+		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
 		 *
@@ -613,9 +608,7 @@ namespace crsc {
 		reverse_iterator rend() noexcept {
 			return mtx.rend();
 		}
-
-		// Operations/Modifiers
-
+		// OPERATIONS/MODIFIERS
 		/**
 		 * \brief Removes all elements from the container but leaves the `capacity()` unchanged.
 		 *
@@ -1220,12 +1213,20 @@ namespace crsc {
 		 */
 		void swap(dynamic_matrix& _other) {
 			mtx.swap(_other.mtx);
-			size_type tmp_rows = rows_;
-			size_type tmp_cols = cols_;
-			rows_ = _other.rows_;
-			cols_ = _other.cols_;
-			_other.rows_ = tmp_rows;
-			_other.cols_ = tmp_cols;
+			std::swap(rows_, _other.rows_);
+			std::swap(cols_, _other.cols_);
+		}
+		/**
+		 * \brief Exchanges the contents of two `crsc::dynamic_matrix` containers. Does not cause 
+		 *        iterators and references to associate with the other containers.
+		 *
+		 * \param lhs First instance of `dynamic_matrix`.
+		 * \param rhs Second instance of `dynamic_matrix`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee.
+		 */
+		static void swap(dynamic_matrix& lhs, dynamic_matrix& rhs) {
+			lhs.swap(rhs);
 		}
 		/**
 		 * \brief Gets the submatrix of the container obtained by removing the specified row and column
@@ -1285,9 +1286,7 @@ namespace crsc {
 				result += mtx[i*(cols_ + 1)];
 			return result;
 		}
-
-		// Overloaded Operators
-
+		// OVERLOADED OPERATORS
 		dynamic_matrix& operator+=(const dynamic_matrix& _other) {
 			if (rows_ != _other.rows_ || cols_ != _other.cols_)
 				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
@@ -1352,13 +1351,11 @@ namespace crsc {
 		bool operator!=(const dynamic_matrix& _other) const noexcept {
 			return !(*this == _other);
 		}
-
 	private:
 		std::vector<value_type, _Alloc> mtx;
 		size_type rows_;
 		size_type cols_;
 	};
-
 	/**
 	 * \brief Stream insertion operator. Inserts formatted `dynamic_matrix` contents to a `std::ostream`.
 	 *
@@ -1423,7 +1420,6 @@ namespace crsc {
 	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** _arr_2d, std::size_t _rows, std::size_t _cols, const _Alloc& alloc = _Alloc()) {
 		return dynamic_matrix<_Ty, _Alloc>(_arr_2d, _rows, _cols, alloc);
 	}
-
 }
 
 #endif // !DYNAMIC_MATRIX_H

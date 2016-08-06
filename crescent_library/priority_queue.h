@@ -531,7 +531,7 @@ namespace crsc {
 		}
 		/**
 		 * \brief Exchanges the contents of two `crsc::priority_queue` containers. Does not
-		 *        cause references and iterators to associate with the other container.
+		 *        cause references and iterators to associate with the other containers.
 		 *
 		 * \param lhs First instance of `priority_queue`.
 		 * \param rhs Second instance of `priority_queue`.

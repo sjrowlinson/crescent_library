@@ -143,9 +143,9 @@ namespace crsc {
 		 * \param _other Another `fixed_matrix` container to be used as data source.
 		 * \return `*this`.
 		 */
-		fixed_matrix& operator=(const fixed_matrix& _other) {
+		fixed_matrix& operator=(fixed_matrix _other) {
 			if (this != &_other)
-				return fixed_matrix(_other).swap(*this);
+				swap(*this, _other);
 			return *this;
 		}
 		/**
@@ -157,7 +157,7 @@ namespace crsc {
 		 */
 		fixed_matrix& operator=(fixed_matrix&& _other) {
 			if (this != &_other)
-				return fixed_matrix(std::move(_other)).swap(*this);
+				swap(*this, _other);
 			return *this;
 		}
 
@@ -476,6 +476,18 @@ namespace crsc {
 		 */
 		void swap(fixed_matrix& _other) {
 			mtx.swap(_other.mtx);
+		}
+		/**
+		 * \brief Exchanges the contents of two `crsc::fixed_matrix` containers. Does not
+		 *        cause iterators and references to associate with the other containers.
+		 *
+		 * \param lhs First instance of `fixed_matrix`.
+		 * \param rhs Second instance of `fixed_matrix`.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee.
+		 */
+		static void swap(fixed_matrix& lhs, fixed_matrix& rhs) {
+			lhs.swap(rhs);
 		}
 		/**
 		 * \brief Gets the submatrix of the container obtained by removing the specified row and column
