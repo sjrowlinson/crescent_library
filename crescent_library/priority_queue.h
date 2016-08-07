@@ -518,6 +518,37 @@ namespace crsc {
 			}
 			heapify();
 		}
+		/**
+		 * \brief Erases the element at the given position in the container.
+		 *
+		 * \param pos `const_iterator` to element in container to erase.
+		 * \warning UNTESTED - REQUIRES TESTING TO ENSURE INVARIANT IS NOT VIOLATED.
+		 */
+		void erase(const_iterator pos) {
+			auto it = heap_cntr.erase(pos);
+			bubble_down(std::distance(heap_cntr.begin(), it));
+		}
+		/**
+		 * \brief Erases the first occurrence of a given value `_val_erase` in the container.
+		 *
+		 * \param _val_erase Value to erase.
+		 * \warning UNTESTED - REQUIRES TESTING TO ENSURE INVARIANT IS NOT VIOLATED.
+		 */
+		void erase(const value_type& _val_erase) {
+			auto it = heap_cntr.erase(find(_val_erase));
+			bubble_down(std::distance(heap_cntr.begin(), it));
+		}
+		/**
+		 * \brief Erases the elements in the range `[first, last)` from the container.
+		 *
+		 * \param first Beginning of range to erase.
+		 * \param last End of range to erase.
+		 * \warning UNTESTED - REQUIRES TESTING TO ENSURE INVARIANT IS NOT VIOLATED.
+		 */
+		void erase(const_iterator first, const_iterator last) {
+			heap_cntr.erase(first, last);
+			heapify();
+		}
 		/** 
 		 * \brief Exchanges the contents of the container with those of `_other`. Does not
 		 *        cause references and iterators to associate with the other container.
