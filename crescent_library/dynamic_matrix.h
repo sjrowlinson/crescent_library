@@ -675,7 +675,9 @@ namespace crsc {
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos` using move-semantics.
 		 *
-		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being move-inserted.
+		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being move-inserted. This method
+		 * is also the "default-row-inserter" as the `_row_vec` parameter is optional - if no argument is provided
+		 * then a vector of default-inserted values is used as the newly inserted row.
 		 *
 		 * \warning Attempting to insert a row vector with size greater than current `columns()` size results
 		 *          in an exception being thrown - a call to columns_resize() passing a size greater than or
@@ -693,7 +695,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
-		> iterator insert_row(size_type _row_pos, std::vector<value_type>&& _row_vec) {
+		> iterator insert_row(size_type _row_pos, std::vector<value_type>&& _row_vec = std::vector<value_type>()) {
 			if (_row_pos > rows_)
 				throw std::invalid_argument("_row_pos must be <= current value of rows().");
 			if (_row_vec.size() > cols_)
@@ -781,7 +783,9 @@ namespace crsc {
 		/**
 		 * \brief Inserts a column vector to the position one slot before `_col_pos` using move-semantics.
 		 *
-		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being move-inserted.
+		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being move-inserted. This method
+		 * is also the "default-column-inserter" as the `_row_vec` parameter is optional - if no argument is provided
+		 * then a vector of default-inserted values is used as the newly inserted column.
 		 *
 		 * \warning Attempting to insert a column vector with size greater than current `rows()` size
 		 *          results in an exception being thrown - a call to rows_resize() passing a size greater
@@ -799,7 +803,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
-		> iterator insert_column(size_type _col_pos, std::vector<value_type>&& _col_vec) {
+		> iterator insert_column(size_type _col_pos, std::vector<value_type>&& _col_vec = std::vector<value_type>()) {
 			if (_col_pos > cols_)
 				throw std::invalid_argument("_col_pos must be <= current value of columns().");
 			if (_col_vec.size() > rows_)
@@ -935,7 +939,9 @@ namespace crsc {
 		/**
 		 * \brief Pushes an extra row-vector to the back of the container using move-semantics.
 		 *
-		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being pushed back.
+		 * If `_row_vec.size() < columns()` then `_row_vec` is resized locally before being pushed back. This
+		 * method is also the "default-row-push-back" as the `_row_vec` paramater is optional - if no argument
+		 * is provided then a vector of default-inserted values is used as the newly pushed back row.
 		 *
 		 * \remark Equivalent to `insert_row(rows(), std::move(_row_vec))`.
 		 * \param _row_vec rvalue reference to instance of `std::vector` to push-back via moving each element.
@@ -951,7 +957,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
-		> void push_row(std::vector<value_type>&& _row_vec) {
+		> void push_row(std::vector<value_type>&& _row_vec = std::vector<value_type>()) {
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			if (_row_vec.size() < cols_)
@@ -1001,7 +1007,9 @@ namespace crsc {
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container using move-semantics.
 		 *
-		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being pushed back.
+		 * If `_col_vec.size() < rows()` then `_col_vec` is resized locally before being pushed back.  This
+		 * method is also the "default-column-push-back" as the `_row_vec` paramater is optional - if no argument
+		 * is provided then a vector of default-inserted values is used as the newly pushed back column.
 		 *
 		 * \remark Equivalent to `insert_column(columns(), std::move(_col_vec))`.
 		 * \param _col_vec rvalue reference to instance of `std::vector` column to insert via move-semantics.
@@ -1016,7 +1024,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
-		> void push_column(std::vector<value_type>&& _col_vec) {
+		> void push_column(std::vector<value_type>&& _col_vec = std::vector<value_type>()) {
 			insert_column(cols_, std::move(_col_vec));
 		}
 		/**
