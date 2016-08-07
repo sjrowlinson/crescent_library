@@ -26,7 +26,7 @@ namespace crsc {
 	 * will be known beforehand (i.e. before using `push` or `insert` operations).
 	 *
 	 * Iteration support is via a `std::bidirectional_iterator` from the `std::vector` data structure, therefore both random
-	 * access iteration and forward iteration is allowed. The order of iteration uses an "in-order traversal" such that elements
+	 * access iteration and forward iteration is supported. The order of iteration uses an "in-order traversal" such that elements
 	 * of the `dynamic_matrix` are iterated through by rows from left to right, top to bottom.
 	 *
 	 * The complexity of common operations on `dynamic_matrix` objects are:
@@ -72,7 +72,7 @@ namespace crsc {
 		 */
 		class proxy_row_vector {
 		public:
-			proxy_row_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _cols)
+			proxy_row_vector(std::vector<value_type, allocator_type>& _vec, size_type _row_index, size_type _cols)
 				: vec(_vec), row_index(_row_index), columns(_cols) {}
 			const_reference operator[](size_type _col_index) const {
 				return vec[row_index*columns + _col_index];
@@ -81,7 +81,7 @@ namespace crsc {
 				return vec[row_index*columns + _col_index];
 			}
 		private:
-			std::vector<value_type, _Alloc>& vec;
+			std::vector<value_type, allocator_type>& vec;
 			size_type row_index;
 			size_type columns;
 		};
@@ -226,7 +226,7 @@ namespace crsc {
 		 */
 		dynamic_matrix& operator=(dynamic_matrix _other) {
 			if (this != &_other)
-				swap(*this, _other);
+				swap(*this, _other);	// copy-swap idiom
 			return *this;
 		}
 		/**
@@ -917,11 +917,13 @@ namespace crsc {
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			if (_row_vec.size() == cols_) {
+				// push_back each element of _row_vec to form new row
 				for (const auto& el : _row_vec) {
 					mtx.push_back(el);
 				}
 			}
 			else {
+				// create local copy of _row_vec and resize to cols_
 				std::vector<value_type> resized = _row_vec;
 				resized.resize(cols_);
 				for (const auto& el : resized) {
@@ -954,6 +956,7 @@ namespace crsc {
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			if (_row_vec.size() < cols_)
 				_row_vec.resize(cols_);
+			// push_back each element of _row_vec to form new row
 			for (auto& el : _row_vec)
 				mtx.push_back(std::move(el));
 		}
@@ -1063,10 +1066,12 @@ namespace crsc {
 		> void rows_resize(size_type _rows) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
+			// expand number of rows in matrix
 			if (_rows > rows_) {
 				for (size_type i = 0; i < (_rows - tmp_rows); ++i)
 					insert_row(rows_, std::move(std::vector<value_type>(cols_)));
 			}
+			// contract number of rows in matrix
 			else {
 				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
 					pop_row();
@@ -1093,10 +1098,12 @@ namespace crsc {
 		> void rows_resize(size_type _rows, const value_type& _val) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
+			// expand number of rows in matrix
 			if (_rows > rows_) {
 				for (size_type i = 0; i < (_rows - tmp_rows); ++i) 
 					insert_row(rows_, _val);
 			}
+			// contract number of rows in matrix
 			else {
 				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
 					pop_row();
@@ -1126,10 +1133,12 @@ namespace crsc {
 		> void columns_resize(size_type _cols) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
+			// expand number of columns in matrix
 			if (_cols > cols_) {
 				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
 					insert_column(cols_, std::move(std::vector<value_type>(rows_)));
 			}
+			// contract number of columns in matrix
 			else {
 				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
 					pop_column();
@@ -1158,10 +1167,12 @@ namespace crsc {
 		> void columns_resize(size_type _cols, const value_type& _val) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
+			// expand number of columns in matrix
 			if (_cols > cols_) {
 				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
 					insert_column(cols_, _val);
 			}
+			// contract number of columns in matrix
 			else {
 				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
 					pop_column();
@@ -1235,24 +1246,14 @@ namespace crsc {
 		 * \param _row_index Index of row to remove.
 		 * \param _col_index Index of column to remove.
 		 * \return Submatrix of the container with specified row, column removed.
-		 * \complexity Linear in `(rows()-1)*(columns()-1)` plus complexity of containers'
-		 *             copy constructor (subject to RVO).
+		 * \complexity Complexity of `erase_row(_row_index)` plus complexity of `erase_column(_col_index)`
+		 *             plus complexity of copy-construction of the container.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
 		dynamic_matrix submatrix(size_type _row_index, size_type _col_index) const noexcept {
-			dynamic_matrix<value_type> sub(rows_ - 1, cols_ - 1);
-			size_type row_erased = 0;
-			size_type col_erased = 0;
-			for (size_type i = 0; i < rows_ - 1; ++i) {
-				col_erased = 0;
-				for (size_type j = 0; j < cols_ - 1; ++j) {
-					if (i == _row_index)
-						row_erased = 1;
-					if (j == _col_index)
-						col_erased = 1;
-					sub.at(i, j) = at(i + row_erased, j + col_erased);
-				}
-			}
+			dynamic_matrix<value_type, allocator_type> sub(*this);
+			sub.erase_row(_row_index);
+			sub.erase_column(_col_index);
 			return sub;
 		}
 		/**
@@ -1261,7 +1262,7 @@ namespace crsc {
 		 * \param _row_index Index of row to remove.
 		 * \param _col_index Index of column to remove.
 		 * \return `*this`.
-		 * \complexity Complexity of `erase_row(_row_index` plus complexity of `erase_column(_col_index)`.
+		 * \complexity Complexity of `erase_row(_row_index)` plus complexity of `erase_column(_col_index)`.
 		 * \exceptionsafety See exception safeties of `erase_row` and `erase_column`.
 		 */
 		dynamic_matrix& submatrix(size_type _row_index, size_type _col_index) {
@@ -1287,72 +1288,132 @@ namespace crsc {
 			return result;
 		}
 		// OVERLOADED OPERATORS
+		/**
+		 * \brief Adds each element of `_other` container to this container.
+		 *
+		 * \param _other Container to add element-wise to this.
+		 * \return `*this`.
+		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
+		 *        columns() != _other.columns()`.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		dynamic_matrix& operator+=(const dynamic_matrix& _other) {
 			if (rows_ != _other.rows_ || cols_ != _other.cols_)
 				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < cols_; ++j)
-					operator[](i)[j] += _other.at(i, j);
-			}
+			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
+				*it += *it_other;
 			return *this;
 		}
+		/**
+		 * \brief Subtracts each element of `_other` container from this container.
+		 *
+		 * \param _other Container to subtract element-wise from this.
+		 * \return `*this`.
+		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
+		 *        columns() != _other.columns()`.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		dynamic_matrix& operator-=(const dynamic_matrix& _other) {
 			if (rows_ != _other.rows_ || cols_ != _other.cols_)
 				throw std::invalid_argument("dynamic_matrix dimensions must agree for subtraction.");
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < cols_; ++j)
-					operator[](i)[j] -= _other.at(i, j);
-			}
+			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
+				*it -= *it_other;
 			return *this;
 		}
+		/**
+		 * \brief Copies this container and adds each element of `_other` to the copy then returns it.
+		 *
+		 * \param _other Container to add to the copy.
+		 * \return Container consisting of sum of `*this` and `_other`.
+		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
+		 *        columns() != _other.columns()`.
+		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+		 *             `rows()*columns()` (additions).
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		dynamic_matrix operator+(const dynamic_matrix& _other) const {
 			if (rows_ != _other.rows_ || cols_ != _other.cols_)
 				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
-			dynamic_matrix<value_type> sum(rows_, cols_);
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < cols_; ++j)
-					sum.at(i, j) = at(i, j) + _other.at(i, j);
-			}
-			return sum;
+			dynamic_matrix<value_type, allocator_type> tmp(*this);
+			return tmp += _other;
 		}
+		/**
+		 * \brief Copies this container and subtracts each element of `_other` from the copy then returns it.
+		 *
+		 * \param _other Container to subtract from the copy.
+		 * \return Container consisting of difference of `*this` and `_other`.
+		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
+		 *        columns() != _other.columns()`.
+		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+		 *             `rows()*columns()` (subtractions).
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		dynamic_matrix operator-(const dynamic_matrix& _other) const {
 			if (rows_ != _other.rows_ || cols_ != _other.cols_)
 				throw std::invalid_argument("dynamic_matrix dimensions must agree for subtraction.");
-			dynamic_matrix<value_type> difference(rows_, cols_);
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < cols_; ++j)
-					difference.at(i, j) = at(i, j) - _other.at(i, j);
-			}
-			return difference;
+			dynamic_matrix<value_type, allocator_type> tmp(*this);
+			return tmp -= _other;
 		}
+		/**
+		 * \brief Performs matrix multiplication of `*this` multiplied by `_other` and returns the
+		 *        result as a new container.
+		 *
+		 * \param _other Container to multiply with `*this`.
+		 * \return Container consisting of product of `*this` and `_other`.
+		 * \throw Throws `std::invalid_argument` exception if `columns() != _other.rows()`.
+		 * \complexity Linear in `rows()*_other.columns()*columns()`.
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		dynamic_matrix operator*(const dynamic_matrix& _other) const {
 			if (cols_ != _other.rows_)
-				throw std::invalid_argument("dynamic_matrix dimensions do not agree.");
-			dynamic_matrix<value_type> product(rows_, _other.cols_);
+				throw std::invalid_argument("columns() must equal _other.rows() for dynamic_matrix multiplication.");
+			dynamic_matrix<value_type, allocator_type> product(rows_, _other.cols_);
 			for (size_type i = 0; i < rows_; ++i) {
 				for (size_type j = 0; j < _other.cols_; ++j) {
 					for (size_type k = 0; k < cols_; ++k)
-						product.at(i, j) += at(i, k) * _other.at(k, j);
+						product(i, j) += (*this)(i, j) * _other(i, j);
 				}
 			}
 			return product;
 		}
+		/**
+		 * \brief Checks for equality of this container and `_other`.
+		 *
+		 * \param _other Container to check for equality.
+		 * \return `true` if `*this` equals, element-wise `_other`, otherwise `false`.
+		 * \complexity Constant if `rows() != _other.rows() || columns != _other.columns()`,
+		 *             or if `this == &_other`, otherwise linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		bool operator==(const dynamic_matrix& _other) const noexcept {
-			if (rows_ != _other.rows_ || cols_ != _other.cols_)
-				return false;
 			if (this != &_other) {
-				for (size_type i = 0; i < rows_; ++i) {
-					for (size_type j = 0; j < cols_; ++j)
-						if (at(i, j) != _other.at(i, j)) return false;
-				}
+				if (rows_ != _other.rows_ || cols_ != _other.cols_)
+					return false;
+				return std::equal(mtx.begin(), mtx.end(), _other.mtx.begin());
 			}
 			return true;
 		}
+		/**
+		 * \brief Checks for inequality of this container and `_other`.
+		 *
+		 * \param _other Container to check for inequality.
+		 * \return `true` if `*this` unequals, element-wise `_other`, otherwise `false`.
+		 * \complexity Constant if `rows() != _other.rows() || columns != _other.columns()`,
+		 *             otherwise linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		bool operator!=(const dynamic_matrix& _other) const noexcept {
 			return !(*this == _other);
 		}
 	private:
-		std::vector<value_type, _Alloc> mtx;
+		std::vector<value_type, allocator_type> mtx;
 		size_type rows_;
 		size_type cols_;
 	};

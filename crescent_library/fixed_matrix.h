@@ -40,7 +40,7 @@ namespace crsc {
 		std::size_t _Cols
 	> class fixed_matrix {
 	public:
-		// public API type definitions
+		// PUBLIC API TYPE DEFINITIONS
 		typedef _Ty value_type;
 		typedef _Ty& reference;
 		typedef const _Ty& const_reference;
@@ -74,6 +74,7 @@ namespace crsc {
 			size_type cols;
 		};
 	public:
+		// CONSTRUCTION/ASSIGNMENT
 		/**
 		 * \brief Default constructor, initialises container with template-specified rows 
 		 *        and columns each taking the default-constructed value of `_Ty`.
@@ -160,9 +161,7 @@ namespace crsc {
 				swap(*this, _other);
 			return *this;
 		}
-
 		// CAPACITY
-		
 		/**
 		 * \brief Checks if the container has no elements.
 		 *
@@ -214,9 +213,7 @@ namespace crsc {
 		constexpr size_type max_size() const noexcept {
 			return mtx.max_size();
 		}
-
 		// ELEMENT ACCESS
-
 		/**
 		 * \brief Gets const_reference to element at specified row-column indices.
 		 *
@@ -276,6 +273,32 @@ namespace crsc {
 		 */
 		proxy_row_array operator[](size_type _row_index) {
 			return proxy_row_array(mtx, _row_index, _Cols);
+		}
+		/**
+		 * \brief Gets `const_reference` to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Constant reference to element at given position.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows() && _col_index < columns()`,
+		 *                  otherwise undefined behaviour.
+		 */
+		constexpr const_reference operator()(size_type _row_index, size_type _col_index) const {
+			return mtx[_row_index*_Cols + _col_index];
+		}
+		/**
+		 * \brief Gets `reference` to element at specified row-column indices.
+		 *
+		 * \param _row_index Row position.
+		 * \param _col_index Column position.
+		 * \return Reference to element at given position.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee if `_row_index < rows() && _col_index < columns()`,
+		 *                  otherwise undefined behaviour.
+		 */
+		reference operator()(size_type _row_index, size_type _col_index) {
+			return mtx[_row_index*_Cols + _col_index];
 		}
 		/**
 		 * \brief Returns a `const_reference` to the first element in the container.
@@ -364,9 +387,7 @@ namespace crsc {
 			}
 			return _os;
 		}
-
 		// ITERATORS
-
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
 		 *
@@ -453,9 +474,7 @@ namespace crsc {
 		reverse_iterator rend() {
 			return mtx.rend();
 		}
-
 		// OPERATIONS
-
 		/**
 		 * \brief Assigns the given value `_val` to all elements in the container.
 		 *
@@ -504,9 +523,9 @@ namespace crsc {
 			fixed_matrix<value_type, _Rows - 1, _Cols - 1> sub;
 			size_type row_erased = 0;
 			size_type col_erased = 0;
-			for (size_type i = 0; i < rows_ - 1; ++i) {
+			for (size_type i = 0; i < _Rows - 1; ++i) {
 				col_erased = 0;
-				for (size_type j = 0; j < cols_ - 1; ++j) {
+				for (size_type j = 0; j < _Cols - 1; ++j) {
 					if (i == _row_index)
 						row_erased = 1;
 					if (j == _col_index)
@@ -533,39 +552,73 @@ namespace crsc {
 				result += mtx[i*(_Cols + 1)];
 			return result;
 		}
-
 		// OPERATORS
-
+		/**
+		 * \brief Adds each element of `_other` container to this container.
+		 *
+		 * \param _other Container to add element-wise to this.
+		 * \return `*this`.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		fixed_matrix& operator+=(const fixed_matrix& _other) {
-			for (size_type i = 0; i < _Rows; ++i) {
-				for (size_type j = 0; j < _Cols; ++j)
-					operator[](i)[j] += _other.at(i, j);
-			}
+			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
+				*it += *it_other;
 			return *this;
 		}
+		/**
+		 * \brief Subtracts each element of `_other` container from this container.
+		 *
+		 * \param _other Container to subtract element-wise from this.
+		 * \return `*this`.
+		 * \complexity Linear in `rows()*columns()`.
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		fixed_matrix& operator-=(const fixed_matrix& _other) {
-			for (size_type i = 0; i < _Rows; ++i) {
-				for (size_type j = 0; j < _Cols; ++j)
-					operator[](i)[j] -= _other.at(i, j);
-			}
+			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
+				*it -= *it_other;
 			return *this;
 		}
+		/**
+		 * \brief Copies this container and adds each element of `_other` to the copy then returns it.
+		 *
+		 * \param _other Container to add to the copy.
+		 * \return Container consisting of sum of `*this` and `_other`.
+		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+	 	 *             `rows()*columns()` (additions).
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		fixed_matrix operator+(const fixed_matrix& _other) const {
-			fixed_matrix sum;
-			for (size_type i = 0; i < _Rows; ++i) {
-				for (size_type j = 0; j < _Cols; ++j)
-					sum.at(i, j) = at(i, j) + _other.at(i, j);
-			}
-			return sum;
+			fixed_matrix<value_type, _Rows, _Cols> tmp(*this);
+			return tmp += _other;
 		}
+		/**
+		 * \brief Copies this container and subtracts each element of `_other` from the copy then returns it.
+		 *
+		 * \param _other Container to subtract from the copy.
+		 * \return Container consisting of difference of `*this` and `_other`.
+		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+		 *             `rows()*columns()` (subtractions).
+		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		fixed_matrix operator-(const fixed_matrix& _other) const {
-			fixed_matrix difference;
-			for (size_type i = 0; i < _Rows; ++i) {
-				for (size_type j = 0; j < _Cols; ++j)
-					difference.at(i, j) = at(i, j) - _other.at(i, j);
-			}
-			return difference;
+			fixed_matrix<value_type, _Rows, _Cols> tmp(*this);
+			return tmp -= _other;
 		}
+		/**
+		 * \brief Performs matrix multiplication of `*this` multiplied by `_other` and returns the
+		 *        result as a new container.
+		 *
+		 * \param _other Container to multiply with `*this`.
+		 * \return Container consisting of product of `*this` and `_other`.
+		 * \complexity Linear in `rows()*_other.columns()*columns()`.
+	 	 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
+		 *                  in the container.
+		 */
 		template<
 			std::size_t _Second_Rows,
 			std::size_t _Second_Cols
@@ -574,24 +627,37 @@ namespace crsc {
 			for (size_type i = 0; i < _Rows; ++i) {
 				for (size_type j = 0; j < _Second_Cols; ++j) {
 					for (size_type k = 0; k < _Cols; ++k)
-						product.at(i, j) += at(i, k) * _other.at(k, j);
+						product(i, j) += (*this)(i, j) * _other(i, j);
 				}
 			}
 			return product;
 		}
+		/**
+		 * \brief Checks for equality of this container and `_other`.
+		 *
+		 * \param _other Container to check for equality.
+		 * \return `true` if `*this` equals, element-wise `_other`, otherwise `false`.
+		 * \complexity Constant if `rows() != _other.rows() || columns != _other.columns()`,
+		 *             otherwise linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		bool operator==(const fixed_matrix& _other) const noexcept {
-			if (this != &_other) {
-				for (size_type i = 0; i < _Rows; ++i) {
-					for (size_type j = 0; j < _Cols; ++j)
-						if (at(i, j) != _other.at(i, j)) return false;
-				}
-			}
+			if (this != &_other)
+				return std::equal(mtx.begin(), mtx.end(), _other.mtx.begin());
 			return true;
 		}
+		/**
+		 * \brief Checks for inequality of this container and `_other`.
+		 *
+		 * \param _other Container to check for inequality.
+		 * \return `true` if `*this` unequals, element-wise `_other`, otherwise `false`.
+		 * \complexity Constant if `rows() != _other.rows() || columns != _other.columns()`,
+	 	 *             otherwise linear in `rows()*columns()`.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
 		bool operator!=(const fixed_matrix& _other) const noexcept {
 			return !(*this == _other);
 		}
-
 	private:
 		std::array<value_type, _Rows*_Cols> mtx;
 	};
@@ -644,7 +710,6 @@ namespace crsc {
 	> fixed_matrix<_Ty, _rows, _cols> to_fixed_matrix(_Ty** c_arr_2d) {
 		return fixed_matrix<_Ty, _rows, _cols>(c_arr_2d);
 	}
-
 }
 
 #endif // !FIXED_MATRIX_H
