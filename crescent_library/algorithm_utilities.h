@@ -36,8 +36,8 @@ namespace crsc {
 	template<class InputIt, class _Ty>
 	std::set<InputIt> find_all(InputIt first, InputIt last, const _Ty& value) {
 		std::set<InputIt> found_set;
-		for (InputIt it = first; it != last; ++it) {
-			if (*it == value) found_set.insert(it);
+		for (; first != last; ++first) {
+			if (*first == value) found_set.insert(first);
 		}
 		return found_set;
 	}
@@ -53,8 +53,8 @@ namespace crsc {
 	template<class InputIt, class UnaryPredicate>
 	std::set<InputIt> find_all_if(InputIt first, InputIt last, UnaryPredicate p) {
 		std::set<InputIt> found_set;
-		for (InputIt it = first; it != last; ++it) {
-			if (p(*it)) found_set.insert(it);
+		for (; first != last; ++first) {
+			if (p(*first)) found_set.insert(first);
 		}
 		return found_set;
 	}
@@ -70,8 +70,8 @@ namespace crsc {
 	template<class InputIt, class UnaryPredicate>
 	std::set<InputIt> find_all_if_not(InputIt first, InputIt last, UnaryPredicate q) {
 		std::set<InputIt> found_set;
-		for (InputIt it = first; it != last; ++it) {
-			if (!q(*it)) found_set.insert(it);
+		for (; first != last; ++first) {
+			if (!q(*first)) found_set.insert(first);
 		}
 		return found_set;
 	}
