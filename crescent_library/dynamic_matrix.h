@@ -224,9 +224,9 @@ namespace crsc {
 		 * \return `*this`.
 		 * \complexity Linear in the size of `*this` and `_other`.
 		 */
-		dynamic_matrix& operator=(dynamic_matrix _other) {
+		dynamic_matrix& operator=(const dynamic_matrix& _other) {
 			if (this != &_other)
-				swap(*this, _other);	// copy-swap idiom
+				dynamic_matrix(_other).swap(*this);	// copy-swap idiom
 			return *this;
 		}
 		/**
