@@ -144,9 +144,9 @@ namespace crsc {
 		 * \param _other Another `fixed_matrix` container to be used as data source.
 		 * \return `*this`.
 		 */
-		fixed_matrix& operator=(fixed_matrix _other) {
+		fixed_matrix& operator=(const fixed_matrix& _other) {
 			if (this != &_other)
-				swap(*this, _other);
+				fixed_matrix(_other).swap(*this);
 			return *this;
 		}
 		/**

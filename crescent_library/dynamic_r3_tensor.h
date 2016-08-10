@@ -122,9 +122,9 @@ namespace crsc {
 		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const _Alloc& alloc)
 			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
 		~dynamic_r3_tensor() {}
-		dynamic_r3_tensor& operator=(dynamic_r3_tensor _other) {
+		dynamic_r3_tensor& operator=(const dynamic_r3_tensor& _other) {
 			if (this != &_other)
-				swap(*this, _other);
+				dynamic_r3_tensor(_other).swap(*this);
 			return *this;
 		}
 		dynamic_r3_tensor& operator=(dynamic_r3_tensor&& _other) {

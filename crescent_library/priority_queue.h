@@ -145,9 +145,9 @@ namespace crsc {
 		 * \return `*this`.
 		 * \complexity Linear in the size of the `_other`.
 		 */
-		priority_queue& operator=(priority_queue _other) {
+		priority_queue& operator=(const priority_queue& _other) {
 			if (this != &_other)
-				swap(*this, _other); // invoke copy-and-swap idiom
+				priority_queue(_other).swap(*this);
 			return *this;
 		}
 		/**
