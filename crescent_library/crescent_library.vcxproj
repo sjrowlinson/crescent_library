@@ -119,6 +119,7 @@
     <ClInclude Include="priority_queue.h" />
     <ClInclude Include="sfinae_operators.h" />
     <ClInclude Include="string_utilities.h" />
+    <ClInclude Include="threading_utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
