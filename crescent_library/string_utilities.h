@@ -9,11 +9,11 @@
 
 namespace crsc {
 	/**
-	 * \brief Splits a std::string around a given delimiter into a given std::vector of std::string's.
+	 * \brief Splits a `std::string` around a given delimiter into a given `std::vector<std::string>`.
 	 *
-	 * \param _s Instance of std::string to split.
-	 * \param _delim Character to split _s around.
-	 * \param _elems std::vector of std::string's to store split substrings.
+	 * \param _s Instance of `std::string` to split.
+	 * \param _delim `char` to split `_s` around.
+	 * \param _elems `std::vector` of `std::string`s to store split substrings.
 	 * \return Reference to _elems containing split substrings.
 	 */
 	std::vector<std::string>& split(const std::string& _s, char _delim, std::vector<std::string>& _elems) {
@@ -25,61 +25,61 @@ namespace crsc {
 		return _elems;
 	}
 	/**
-	 * \brief Splits a std::string around a given delimiter into a std::vector of std::string's.
+	 * \brief Splits a `std::string` around a given delimiter into a `std::vector<std::string>`.
 	 *
-	 * \param _s Instance of std::string to split.
-	 * \param _delim Character to split _s around.
-	 * \return A std::vector of std::string's containing each sub-string after splits.
+	 * \param _s Instance of `std::string` to split.
+	 * \param _delim `char` to split `_s` around.
+	 * \return A `std::vector` of `std::string`s containing each sub-string after splits.
 	 */
 	std::vector<std::string> split(const std::string& _s, char _delim) {
 		std::vector<std::string> elems;
 		return split(_s, _delim, elems);
 	}
 	/**
-	 * \brief Prepends a std::string with a given std::string.
+	 * \brief Prepends a `std::string` with a given `std::string`.
 	 *
-	 * \param _s Instance of std::string to modify.
-	 * \param _pr std::string to prepend _s with.
-	 * \return Reference to _s with prepended string _pr.
+	 * \param _s Instance of `std::string` to modify.
+	 * \param _pr `std::string` to prepend `_s` with.
+	 * \return Reference to `_s` with prepended string `_pr`.
 	 */
-	std::string& prepend(std::string& _s, const std::string _pr) {
+	std::string& prepend(std::string& _s, const std::string& _pr) {
 		return _s.insert(0, _pr);
 	}
 	/**
-	 * \brief Concatenates two std::string instances into a single std::string.
+	 * \brief Concatenates two `std::string` instances into a single `std::string`.
 	 *
-	 * \param _lhs First instance of std::string.
-	 * \param _rhs Second instance of std::string.
-	 * \return A std::string instance containing concatenated _lhs and _rhs.
+	 * \param _lhs First instance of `std::string`.
+	 * \param _rhs Second instance of `std::string`.
+	 * \return A `std::string` instance containing concatenated `_lhs` and `_rhs`.
 	 */
 	std::string concat(const std::string& _lhs, const std::string& _rhs) {
 		return _lhs + _rhs;
 	}
 	/**
-	 * \brief Determines whether a std::string instance starts with a given char.
+	 * \brief Determines whether a `std::string` instance starts with a given `char`.
 	 *
-	 * \param _s Instance of std::string.
-	 * \param _c Character to check against.
-	 * \return True if _s starts with _c, false otherwise.
+	 * \param _s Instance of `std::string`.
+	 * \param _c `char` to check against.
+	 * \return `true` if `_s` starts with `_c`, `false` otherwise.
 	 */
 	bool starts_with(const std::string& _s, char _c) {
 		return *_s.cbegin() == _c;
 	}
 	/**
-	 * \brief Determines whether a std::string instance ends with a given char.
+	 * \brief Determines whether a `std::string` instance ends with a given `char`.
 	 *
-	 * \param _s Instance of std::string.
-	 * \param _c Character to check against.
-	 * \return True if _s ends with _c, false otherwise.
+	 * \param _s Instance of `std::string`.
+	 * \param _c `char` to check against.
+	 * \return `true` if `_s` ends with `_c`, `false` otherwise.
  	 */
 	bool ends_with(const std::string& _s, char _c) {
 		return *--(_s.cend()) == _c;
 	}
 	/**
-	 * \brief Converts all char's in a std::string to upper case.
+	 * \brief Converts all `char`s in a `std::string` to upper case.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \return Reference to _s with all char's converted to upper case.
+	 * \param _s Reference to `std::string` instance.
+	 * \return Reference to `_s` with all `char`s converted to upper case.
 	 */
 	std::string& to_upper(std::string& _s) {
 		for (auto& c : _s)
@@ -87,10 +87,10 @@ namespace crsc {
 		return _s;
 	}
 	/**
-	 * \brief Converts all char's in a std::string to lower case.
+	 * \brief Converts all `char`s in a `std::string` to lower case.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \return Reference to _s with all char's converted to lower case.
+	 * \param _s Reference to `std::string` instance.
+	 * \return Reference to `_s` with all `char`s converted to lower case.
 	 */
 	std::string& to_lower(std::string& _s) {
 		for (auto& c : _s)
@@ -98,47 +98,50 @@ namespace crsc {
 		return _s;
 	}
 	/**
-	 * \brief Removes all whitespaces from a std::string.
+	 * \brief Removes all whitespaces from a `std::string`.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \return Reference to _s with all whitespace char's removed.
+	 * \param _s Reference to `std::string` instance.
+	 * \return Reference to `_s` with all whitespace `char`s removed.
 	 */
-	std::string& trim(std::string& _s) {
+	std::string& remove_whitespace(std::string& _s) {
 		// invoke erase-remove idiom and use std::isspace(char) to check for whitespaces.
-		_s.erase(std::remove_if(_s.begin(), _s.end(), [](char x) {return std::isspace(x); }), _s.end());
+		_s.erase(std::remove_if(_s.begin(), _s.end(), [](char x) { return std::isspace(x); }), _s.end());
 		return _s;
 	}
 	/**
-	 * \brief Removes all instances of any char in a given std::set<char> from a std::string.
+	 * \brief Removes all instances of any `char` in a given `std::set<char>` from a `std::string`.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \param _char_set A std::set containing instances of char to remove from _s.
-	 * \return Reference to _s with all instances of any char within _char_set removed.
+	 * \param _s Reference to `std::string` instance.
+	 * \param _char_set A `std::set` containing instances of `char` to remove from `_s`.
+	 * \return Reference to `_s` with all instances of any `char` within `_char_set` removed.
 	 */
 	std::string& trim(std::string& _s, const std::set<char>& _char_set) {
 		// invoke erase-remove idiom and pass _char_set to lambda captue for checking if char's occur
 		_s.erase(std::remove_if(_s.begin(), _s.end(), [&_char_set](char x) {return _char_set.find(x) != _char_set.end(); }), _s.end());
 		return _s;
 	}
+	/**
+	 * \brief Removes all instances of any `char` in a given `std::string` from a `std::string`.
+	 */
 	std::string& trim(std::string& _s, const std::string& _str_source) {
 		_s.erase(std::remove_if(_s.begin(), _s.end(), [&_str_source](char x) {return _str_source.find(x) != std::string::npos; }), _s.end());
 		return _s;
 	}
 	/**
-	 * \brief Removes all vowel characters from a std::string.
+	 * \brief Removes all vowel characters from a `std::string`.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \param Reference to _s with all vowels removed.
+	 * \param _s Reference to `std::string` instance.
+	 * \param Reference to `_s` with all vowels removed.
 	 */
 	std::string& remove_vowels(std::string& _s) {
 		std::set<char> vowel_set = { 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U' };
 		return trim(_s, vowel_set);
 	}
 	/**
-	 * \brief Removes all leading whitespace char's from a std::string instance.
+	 * \brief Removes all leading whitespace `char`s from a `std::string` instance.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \return Reference to _s with all leading whitespaces removed.
+	 * \param _s Reference to `std::string` instance.
+	 * \return Reference to `_s` with all leading whitespaces removed.
 	 */
 	std::string& remove_leading_whitespaces(std::string& _s) {
 		auto it = _s.begin();
@@ -154,15 +157,12 @@ namespace crsc {
 				break;
 		}
 		return _s;
-		// alternatively: 
-		//_s.erase(0, _s.find_first_not_of(' '));
-		//return _s;
 	}
 	/**
-	 * \brief Removes all trailing whitespace char's from a std::string instance.
+	 * \brief Removes all trailing whitespace `char`s from a `std::string` instance.
 	 *
-	 * \param _s Reference to std::string instance.
-	 * \return Reference to _s with all trailing whitespaces removed.
+	 * \param _s Reference to `std::string` instance.
+	 * \return Reference to `_s` with all trailing whitespaces removed.
  	 */
 	std::string& remove_trailing_whitespaces(std::string& _s) {
 		auto it = _s.rbegin();
@@ -180,9 +180,6 @@ namespace crsc {
 				break;
 		}
 		return _s;
-		// alternatively:
-		//_s.erase(_s.find_last_not_of(' '));
-		//return _s;
 	}
 }
 
