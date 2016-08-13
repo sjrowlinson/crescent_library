@@ -201,12 +201,8 @@ namespace crsc {
 		 * \complexity Linear in size of `_init_list` multiplied by linear in size of each inner list.
 		 */
 		dynamic_matrix(std::initializer_list<std::initializer_list<value_type>> _init_list, const _Alloc& alloc = _Alloc())
-			: mtx(_init_list.size()*_init_list.begin()->size(), alloc), rows_(_init_list.size()), cols_(_init_list.begin()->size()) {
-			auto it = mtx.begin();
-			for (const auto& el : _init_list) {
-				std::copy(el.begin(), el.end(), it);
-				std::advance(it, cols_);
-			}
+			: mtx(alloc), rows_(_init_list.size()), cols_(_init_list.begin()->size()) {
+			for (auto& el : _init_list) std::move(el.begin(), el.end(), std::back_inserter(mtx));
 		}
 		/**
 		 * \brief Destructs the container. The destructors of the elements are called and the used storage is deallocated.
@@ -241,6 +237,23 @@ namespace crsc {
 		dynamic_matrix& operator=(dynamic_matrix&& _other) {
 			if (this != &_other)
 				swap(*this, _other);
+			return *this;
+		}
+		/**
+		 * \brief Replaces the contents with those identified by the nested initializer list `ilist`.
+		 *
+		 * \param ilist Initializer list to use as data source.
+		 * \return `*this`.
+		 * \complexity If `ilist` dimensions equal the dimensions of the container then linear in the size of `ilist`
+		 *             otherwise linear in the size of `ilist` plus a call to `resize` using `ilist` dimensions.
+		 */
+		dynamic_matrix& operator=(std::initializer_list<std::initializer_list<value_type>> ilist) {
+			resize(ilist.size(), ilist.begin()->size());	// resize to ilist dimensions
+			auto it = mtx.begin();
+			for (auto& el : ilist) {	// move each inner list contents to rows of mtx
+				std::move(el.begin(), el.end(), it);
+				std::advance(it, cols_);
+			}
 			return *this;
 		}
 		/**
@@ -361,8 +374,8 @@ namespace crsc {
 		 */
 		const_reference at(size_type _row_index, size_type _col_index) const {
 			if (_row_index >= rows_ || _col_index >= cols_)
-				throw std::out_of_range("matrix indices out of bounds.");
-			return mtx.at(_row_index*cols_ + _col_index);
+				throw std::out_of_range("dynamic_matrix indices out of bounds.");
+			return mtx[_row_index*cols_ + _col_index];
 		}
 		/**
 		 * \brief Gets reference to element at specified row-column indices.
@@ -378,8 +391,8 @@ namespace crsc {
 		 */
 		reference at(size_type _row_index, size_type _col_index) {
 			if (_row_index >= rows_ || _col_index >= cols_)
-				throw std::out_of_range("matrix indices out of bounds.");
-			return mtx.at(_row_index*cols_ + _col_index);
+				throw std::out_of_range("dynamic_matrix indices out of bounds.");
+			return mtx[_row_index*cols_ + _col_index];
 		}
 		/**
 		 * \brief Gets a proxy object representing the row vector of the matrix at a given `_row_index`
@@ -617,8 +630,8 @@ namespace crsc {
 		 */
 		void clear() noexcept {
 			mtx.clear();
-			rows_ = static_cast<size_type>(0);
-			cols_ = static_cast<size_type>(0);
+			rows_ = 0U;
+			cols_ = 0U;
 		}
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos` where each
@@ -649,7 +662,8 @@ namespace crsc {
 		 * \param _row_pos Position one slot after insertion point.
 		 * \param _row_vec Instance of `std::vector` row to insert.
 		 * \return Iterator pointing to the first element inserted.
-		 * \throw Throws `std::invalid_argument` exception if `_row_pos > rows() || _row_vec.size() > columns()`.
+		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception 
+		 *        if `_row_pos > rows() || _row_vec.size() > columns()`, respectively.
 		 * \complexity If `_row_vec.size() == columns()` then linear in `columns()` plus linear in distance between
 		 *             `_row_pos` and `end` of the container, else if `_row_vec.size() < columns()` then linear in
 		 *             `columns()` plus linear in distance between `_row_pos` and `end` of the container plus linear
@@ -660,7 +674,7 @@ namespace crsc {
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
 			if (_row_pos > rows_)
-				throw std::invalid_argument("_row_pos must be <= current value of rows().");
+				throw std::out_of_range("_row_pos must be <= current value of rows().");
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			++rows_;
@@ -686,7 +700,8 @@ namespace crsc {
 		 * \param _row_pos Position one slot after insertion point.
 		 * \param _row_vec rvalue reference to instance of `std::vector` to move-insert.
 		 * \return Iterator pointing to the first element inserted.
-		 * \throw Throws `std::invalid_argument` exception if `_row_pos > rows() || _row_vec.size() > columns()`.
+		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception 
+		 *        if `_row_pos > rows() || _row_vec.size() > columns()`, respectively.
 		 * \complexity If `_row_vec.size() == columns()` then linear in `columns` plus linear in distance between
 		 *             `_row_pos` and `end` of the container, else if `_row_vec.size() < columns()` then linear in
 		 *             `columns()` plus linear in distance between `_row_pos` and `end` of the container plus linear
@@ -697,7 +712,7 @@ namespace crsc {
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> iterator insert_row(size_type _row_pos, std::vector<value_type>&& _row_vec = std::vector<value_type>()) {
 			if (_row_pos > rows_)
-				throw std::invalid_argument("_row_pos must be <= current value of rows().");
+				throw std::out_of_range("_row_pos must be <= current value of rows().");
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
 			++rows_;
@@ -738,7 +753,8 @@ namespace crsc {
 		 * \param _col_pos Position one slot after insertion point.
 		 * \param _row_vec Instance of `std::vector` column to insert.
 		 * \return Iterator pointing to the first element inserted.
-		 * \throw Throws `std::invalid_argument` exception if `_col_pos > columns() || _col_vec.size() > rows()`.
+		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception 
+		 *        if `_col_pos > columns() || _col_vec.size() > rows()`, respectively.
 		 * \complexity If `_col_vec.size() == rows()` then linear in `rows()` multiplied by linear in distance
 		 *             between `_cols_pos` and `end` of the container, else if `_col_vec.size() < rows()` then
 		 *             linear in `rows()` multiplied by linear in distance between `_col_pos` and `end` of the 
@@ -750,7 +766,7 @@ namespace crsc {
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
 			if (_col_pos > cols_)
-				throw std::invalid_argument("_col_pos must be <= current value of columns().");
+				throw std::out_of_range("_col_pos must be <= current value of columns().");
 			if (_col_vec.size() > rows_)
 				throw std::invalid_argument("_col_vec.size() must be <= current value of rows().");
 			iterator rtn; // val to return
@@ -794,6 +810,8 @@ namespace crsc {
 		 * \param _col_pos Position one slot after insertion point.
 		 * \param _col_vec rvalue reference to instance of `std::vector` to move-insert.
 		 * \return Iterator pointing the the first element inserted.
+		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception
+		 *        if `_col_pos > columns() || _col_vec.size() > rows()`, respectively.
 		 * \complexity If `_col_vec.size() == rows()` then linear in `rows()` multiplied by linear in distance
 		 *             between `_cols_pos` and `end` of the container, else if `_col_vec.size() < rows()` then
 		 *             linear in `rows()` multiplied by linear in distance between `_col_pos` and `end` of the 
@@ -805,7 +823,7 @@ namespace crsc {
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> iterator insert_column(size_type _col_pos, std::vector<value_type>&& _col_vec = std::vector<value_type>()) {
 			if (_col_pos > cols_)
-				throw std::invalid_argument("_col_pos must be <= current value of columns().");
+				throw std::out_of_range("_col_pos must be <= current value of columns().");
 			if (_col_vec.size() > rows_)
 				throw std::invalid_argument("_col_vec.size() must be <= current value of rows().");
 			iterator rtn; // val to return
@@ -825,7 +843,7 @@ namespace crsc {
 		 * \param _row_pos Row position to remove.
 		 * \return Iterator following the last removed element, i.e. the iterator pointing to
 		 *         to the first element of the next row or `end()` if last row was erased.
-		 * \throw Throws `std::invalid_argument` exception if `_row_pos >= rows()`.
+		 * \throw Throws `std::out_of_range` exception if `!(_row_pos < rows())`.
 		 * \complexity Linear in `columns()` plus linear in distance between last element of
 		 *             the row and `end` of the container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
@@ -834,8 +852,8 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> iterator erase_row(size_type _row_pos) {
-			if (_row_pos >= rows_)
-				throw std::invalid_argument("_row_pos must be < current value of rows().");
+			if (!(_row_pos < rows_))
+				throw std::out_of_range("_row_pos must be < current value of rows().");
 			--rows_;
 			return mtx.erase(mtx.cbegin() + _row_pos*cols_, mtx.cbegin() + cols_*(_row_pos + 1));
 		}
@@ -845,7 +863,7 @@ namespace crsc {
 		 * \param _col_pos Column position to remove.
 		 * \return Iterator following the last removed element, i.e. the iterator pointing
 		 *         to the next element along from the last row of the erased column.
-		 * \throw Throws `std::invalid_argument` exception if `_col_pos >= columns()`.
+		 * \throw Throws `std::out_of_range` exception if `!(_col_pos < columns())`.
 		 * \complexity Linear in `rows()` multiplied by linearly decreasing factor given
 		 *             by distance between each element in column and `end` of container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
@@ -854,8 +872,8 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
 		> iterator erase_column(size_type _col_pos) {
-			if (_col_pos >= cols_)
-				throw std::invalid_argument("_col_pos must be < current value of columns().");
+			if (!(_col_pos < cols_))
+				throw std::out_of_range("_col_pos must be < current value of columns().");
 			iterator rtn;
 			// erase el. of mtx at position offset from beginning by
 			// row, col position minus loop index to take account for
@@ -920,14 +938,12 @@ namespace crsc {
 		> void push_row(const std::vector<value_type>& _row_vec) {
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
-			if (_row_vec.size() == cols_) {
-				// push_back each element of _row_vec to form new row
+			if (_row_vec.size() == cols_) {	// push_back each element of _row_vec to form new row
 				for (const auto& el : _row_vec) {
 					mtx.push_back(el);
 				}
 			}
-			else {
-				// create local copy of _row_vec and resize to cols_
+			else {	// create local copy of _row_vec and resize to cols_
 				std::vector<value_type> resized = _row_vec;
 				resized.resize(cols_);
 				for (const auto& el : resized) {
@@ -965,6 +981,7 @@ namespace crsc {
 			// push_back each element of _row_vec to form new row
 			for (auto& el : _row_vec)
 				mtx.push_back(std::move(el));
+			++rows_;
 		}
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container where each element
@@ -1074,13 +1091,11 @@ namespace crsc {
 		> void rows_resize(size_type _rows) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
-			// expand number of rows in matrix
-			if (_rows > rows_) {
+			if (_rows > rows_) {	// expand number of rows in matrix
 				for (size_type i = 0; i < (_rows - tmp_rows); ++i)
 					insert_row(rows_, std::move(std::vector<value_type>(cols_)));
 			}
-			// contract number of rows in matrix
-			else {
+			else {	// contract number of rows in matrix
 				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
 					pop_row();
 			}
@@ -1106,13 +1121,11 @@ namespace crsc {
 		> void rows_resize(size_type _rows, const value_type& _val) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
-			// expand number of rows in matrix
-			if (_rows > rows_) {
+			if (_rows > rows_) {	// expand number of rows in matrix
 				for (size_type i = 0; i < (_rows - tmp_rows); ++i) 
 					insert_row(rows_, _val);
 			}
-			// contract number of rows in matrix
-			else {
+			else {	// contract number of rows in matrix
 				for (size_type i = 0; i < (tmp_rows - _rows); ++i)
 					pop_row();
 			}
@@ -1141,13 +1154,11 @@ namespace crsc {
 		> void columns_resize(size_type _cols) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
-			// expand number of columns in matrix
-			if (_cols > cols_) {
+			if (_cols > cols_) {	// expand number of columns in matrix
 				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
 					insert_column(cols_, std::move(std::vector<value_type>(rows_)));
 			}
-			// contract number of columns in matrix
-			else {
+			else {	// contract number of columns in matrix
 				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
 					pop_column();
 			}
@@ -1175,13 +1186,11 @@ namespace crsc {
 		> void columns_resize(size_type _cols, const value_type& _val) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
-			// expand number of columns in matrix
-			if (_cols > cols_) {
+			if (_cols > cols_) {	// expand number of columns in matrix
 				for (size_type i = 0; i < (_cols - tmp_cols); ++i)
 					insert_column(cols_, _val);
 			}
-			// contract number of columns in matrix
-			else {
+			else {	// contract number of columns in matrix
 				for (size_type i = 0; i < (tmp_cols - _cols); ++i)
 					pop_column();
 			}
@@ -1248,23 +1257,6 @@ namespace crsc {
 			lhs.swap(rhs);
 		}
 		/**
-		 * \brief Gets the submatrix of the container obtained by removing the specified row and column
-		 *        and returning the resulting matrix.
-		 *
-		 * \param _row_index Index of row to remove.
-		 * \param _col_index Index of column to remove.
-		 * \return Submatrix of the container with specified row, column removed.
-		 * \complexity Complexity of `erase_row(_row_index)` plus complexity of `erase_column(_col_index)`
-		 *             plus complexity of copy-construction of the container.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		dynamic_matrix submatrix(size_type _row_index, size_type _col_index) const noexcept {
-			dynamic_matrix<value_type, allocator_type> sub(*this);
-			sub.erase_row(_row_index);
-			sub.erase_column(_col_index);
-			return sub;
-		}
-		/**
 		 * \brief Erases the specified row and column from the container, yielding the submatrix.
 		 *
 		 * \param _row_index Index of row to remove.
@@ -1277,23 +1269,6 @@ namespace crsc {
 			erase_row(_row_index);
 			erase_column(_col_index);
 			return *this;
-		}
-		/**
-		 * \brief Computes the trace of a square `dynamic_matrix` container.
-		 *
-		 * \return The trace of the matrix-container.
-		 * \throw Throws `std::logic_error` if `rows() != columns()`.
-		 * \complexity Linear in `rows()`.
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes 
-		 *                  in the container.
-		 */
-		value_type trace() const {
-			if (rows_ != cols_)
-				throw std::logic_error("cannot compute trace() of non-square matrix.");
-			value_type result = value_type();
-			for (size_type i = 0; i < rows_; ++i)
-				result += mtx[i*(cols_ + 1)];
-			return result;
 		}
 		// OVERLOADED OPERATORS
 		/**
@@ -1469,15 +1444,17 @@ namespace crsc {
 		return identity_matrix;
 	}
 	/**
-	 * \brief Makes a `dynamic_matrix` object from a 2D C-style array.
+	 * \brief Converts a two dimensional C-style array `arr_2d` to a `dynamic_matrix`, deleting `arr_2d` in the process.
+	 *
+	 * This method initialises a `dynamic_matrix` with `arr_2d` and then deletes `arr_2d` from memory, therefore it `arr_2d`
+	 * was not allocated via heap storage then do not use this method - use `crsc::make_dynamic_matrix` instead.
 	 *
 	 * \tparam _Ty Type of stored elements.
 	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
 	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
-	 * \warning This method does not delete `_arr_2d` after use, memory management of `_arr_2d` is a responsibility of the caller.
-	 * \param _arr_2d Two-dimensional C-style array used as source to initialise elements of the container with.
-	 * \param _rows Number of rows.
-	 * \param _cols Number of columns.
+	 * \param arr_2d Two-dimensional C-style array used as source to initialise elements of the container with, deleted after use.
+	 * \param rows Number of rows.
+	 * \param cols Number of columns.
 	 * \param alloc Allocator to use for all memory allocations of this container.
 	 * \return A `dynamic_matrix` object constructed using the contents of `_arr_2d`.
 	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject to RVO).
@@ -1486,8 +1463,36 @@ namespace crsc {
 	 */
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** _arr_2d, std::size_t _rows, std::size_t _cols, const _Alloc& alloc = _Alloc()) {
-		return dynamic_matrix<_Ty, _Alloc>(_arr_2d, _rows, _cols, alloc);
+	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
+		dynamic_matrix<_Ty, _Alloc> dynmtx(arr_2d, rows, cols, alloc);
+		for (size_type i = 0; i < rows; ++i)
+			delete[] arr_2d[i];
+		delete[] arr_2d;
+		return dynmtx;
+	}
+	/**
+	 * \brief Makes a `dynamic_matrix` from a two dimensional C-style array `arr_2d`.
+	 *
+	 * This method initialises a `dynamic_matrix` with `arr_2d` but does not delete `arr_2d` from memory upon matrix
+	 * initialisation, if `arr_2d` was allocated via heap storage and it is no longer required after being used to 
+	 * construct a `dynamic_matrix` then use `crsc::to_dynamic_matrix` instead.
+	 *
+	 * \tparam _Ty Type of stored elements.
+	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
+	 *                of `Allocator` (see C++ Concepts). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \param arr_2d Two-dimensional C-style array used as source to initialise elements of the container with.
+	 * \param rows Number of rows.
+	 * \param cols Number of columns.
+	 * \param alloc Allocator to use for all memory allocations of this container.
+	 * \return A `dynamic_matrix` object constructed using the contents of `arr_2d`.
+	 * \complexity Linear in `rows*cols` plus complexity of container's copy constructor (subject to RVO).
+	 * \exceptionsafety See exception safeties of `dynamic_matrix(_arr_2d, _row, _cols, alloc)` constructor and copy constructor,
+	 *                  additionally undefined behaviour if either of `_rows`, `_cols` is not equal to rows, columns of `_arr_2d`.
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>
+	> dynamic_matrix<_Ty, _Alloc> make_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
+		return dynamic_matrix<_Ty, _Alloc>(arr_2d, rows, cols, alloc);
 	}
 }
 
