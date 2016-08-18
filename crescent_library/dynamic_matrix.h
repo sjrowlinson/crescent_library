@@ -652,22 +652,18 @@ namespace crsc {
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos`.
 		 *
-		 * If `_row_vec.size() < columns()` then `_row_vec` is copied locally and resized to
-		 * `columns()` before being inserted (preserving the class invariant).
+		 * The row-vector inserted must have `size() == columns()` otherwise an exception is thrown. Use 
+		 * `_row_vec.resize(columns())` before insertion if `_row_vec.size() < columns()` or resize this
+		 * container via `columns_resize(_row_vec.size())` to accomodate the extra columns required by the
+		 * row-vector to be inserted.
 		 *
-		 * \warning Attempting to insert a row vector with size greater than current `columns()` size results
-		 *          in an exception being thrown - a call to columns_resize() passing a size greater than or
-		 *          equal to `_row_vec.size()` is required before calling this method to successfully insert
-		 *          `_row_vec` to the matrix whilst expanding the size of each row vector.
 		 * \param _row_pos Position one slot after insertion point.
 		 * \param _row_vec Instance of `std::vector` row to insert.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception 
-		 *        if `_row_pos > rows() || _row_vec.size() > columns()`, respectively.
-		 * \complexity If `_row_vec.size() == columns()` then linear in `columns()` plus linear in distance between
-		 *             `_row_pos` and `end` of the container, else if `_row_vec.size() < columns()` then linear in
-		 *             `columns()` plus linear in distance between `_row_pos` and `end` of the container plus linear
-		 *             in `columns() - _row_vec.size()`.
+		 *        if `_row_pos > rows() || _row_vec.size() != columns()`, respectively.
+		 * \complexity Linear in `columns()` plus linear in distance between
+		 *             `_row_pos` and `end` of the container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 	 	 */
 		template<class _Uty = _Ty,
@@ -675,16 +671,10 @@ namespace crsc {
 		> iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
 			if (_row_pos > rows_)
 				throw std::out_of_range("_row_pos must be <= current value of rows().");
-			if (_row_vec.size() > cols_)
-				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
+			if (_row_vec.size() != cols_)
+				throw std::invalid_argument("_row_vec.size() must = current value of columns().");
 			++rows_;
-			// insert _row_vec contents to specified row position
-			if (_row_vec.size() == cols_)
-				return mtx.insert(mtx.cbegin() + _row_pos*cols_, _row_vec.cbegin(), _row_vec.cend());
-			// if row vec size < cols_ then copy it and resize locally before inserting
-			std::vector<value_type> resized = _row_vec;
-			resized.resize(cols_);
-			return mtx.insert(mtx.cbegin() + _row_pos*cols_, resized.cbegin(), resized.cend());
+			return mtx.insert(mtx.cbegin() + _row_pos*cols_, _row_vec.cbegin(), _row_vec.cend());
 		}
 		/**
 		 * \brief Inserts a row vector to the position one slot before `_row_pos` using move-semantics.
@@ -743,8 +733,10 @@ namespace crsc {
 		/**
 		 * \brief Inserts a column vector to the position one slot before `_col_pos`.
 		 *
-		 * If `_col_vec.size() < rows()` then `_col_vec` is copied locally and resized to
-		 * `rows()` before being inserted (preserving the class invariant).
+		 * The column-vector inserted must have `size() == rows()` otherwise an exception is thrown. Use 
+		 * `_col_vec.resize(rows())` before insertion if `_col_vec.size() < rows()` or resize this container
+		 * via `rows_resize(_col_vec.size())` to accommodate the extra rows required by the column-vector
+		 * to be inserted.
 		 *
 		 * \warning Attempting to insert a column vector with size greater than current `rows()` size
 		 *          results in an exception being thrown - a call to rows_resize() passing a size greater
@@ -754,11 +746,9 @@ namespace crsc {
 		 * \param _row_vec Instance of `std::vector` column to insert.
 		 * \return Iterator pointing to the first element inserted.
 		 * \throw Throws `std::out_of_range` exception, `std::invalid_argument` exception 
-		 *        if `_col_pos > columns() || _col_vec.size() > rows()`, respectively.
-		 * \complexity If `_col_vec.size() == rows()` then linear in `rows()` multiplied by linear in distance
-		 *             between `_cols_pos` and `end` of the container, else if `_col_vec.size() < rows()` then
-		 *             linear in `rows()` multiplied by linear in distance between `_col_pos` and `end` of the 
-		 *             container plus linear in `rows() - _col_vec.size()`.
+		 *        if `_col_pos > columns() || _col_vec.size() != rows()`, respectively.
+		 * \complexity Linear in `rows()` multiplied by linear in distance
+		 *             between `_cols_pos` and `end` of the container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
@@ -767,31 +757,17 @@ namespace crsc {
 		> iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
 			if (_col_pos > cols_)
 				throw std::out_of_range("_col_pos must be <= current value of columns().");
-			if (_col_vec.size() > rows_)
-				throw std::invalid_argument("_col_vec.size() must be <= current value of rows().");
+			if (_col_vec.size() != rows_)
+				throw std::invalid_argument("_col_vec.size() must = current value of rows().");
 			iterator rtn; // val to return
 			// no. of elements in _col_vec matches row size, insert each value of
 			// _col_vec sequentially into new column of matrix
-			if (_col_vec.size() == rows_) {
-				for (size_type i = 0; i < _col_vec.size(); ++i) {
-					// insert i'th el. of _col_vec at position offset from
-					// beginning by row, col position plus loop index to take
-					// account for extra values inserted on previous iteration
-					if (!i) rtn = mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, _col_vec[i]);
-					else mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, _col_vec[i]);
-				}
-				++cols_;
-				return rtn;
-			}
-			// copy _col_vec and resize to rows_ elements
-			std::vector<value_type> resized = _col_vec;
-			resized.resize(rows_);
-			for (size_type i = 0; i < resized.size(); ++i) {
-				// insert i'th el. of resized at position offset from
+			for (size_type i = 0; i < _col_vec.size(); ++i) {
+				// insert i'th el. of _col_vec at position offset from
 				// beginning by row, col position plus loop index to take
 				// account for extra values inserted on previous iteration
-				if (!i) rtn = mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, resized[i]);
-				else mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, resized[i]);
+				if (!i) rtn = mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, _col_vec[i]);
+				else mtx.insert(mtx.cbegin() + i*(cols_ + 1) + _col_pos, _col_vec[i]);
 			}
 			++cols_;
 			return rtn;
@@ -918,15 +894,15 @@ namespace crsc {
 		/**
 		 * \brief Pushes an extra row-vector to the back of the container.
 		 *
-		 * If `_row_vec.size() < columns()` then `_row_vec` is copied locally and resized to
-		 * `columns()` before being pushed back (preserving the class invariant).
+		 * The row-vector pushed must have `size() == columns()` otherwise an exception is thrown. Use 
+		 * `_row_vec.resize(columns())` before pushing if `_row_vec.size() < columns()` or resize this
+		 * container via `columns_resize(_row_vec.size())` to accomodate the extra columns required by the
+		 * row-vector to be pushed.
 		 *
 		 * \remark Equivalent to `insert_row(rows(), _row_vec)`.
 		 * \param _row_vec Instance of `std::vector` row to insert.
-	 	 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() > columns()`.
-		 * \complexity If `_row_vec.size() == columns()` then amortized linear in `columns()`, else
-		 *             if `_row_vec.size() < columns()` then amortized linear in `columns()` plus
-		 *             linear in `columns() - _row_vec.size()`.
+	 	 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() != columns()`.
+		 * \complexity Amortized linear in `columns()`.
 		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not
 		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
 		 *                  move constructor. If it throws, any guarantee is waived and the effects
@@ -936,19 +912,11 @@ namespace crsc {
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
 		> void push_row(const std::vector<value_type>& _row_vec) {
-			if (_row_vec.size() > cols_)
-				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
-			if (_row_vec.size() == cols_) {	// push_back each element of _row_vec to form new row
-				for (const auto& el : _row_vec) {
-					mtx.push_back(el);
-				}
-			}
-			else {	// create local copy of _row_vec and resize to cols_
-				std::vector<value_type> resized = _row_vec;
-				resized.resize(cols_);
-				for (const auto& el : resized) {
-					mtx.push_back(el);
-				}
+			if (_row_vec.size() != cols_)
+				throw std::invalid_argument("_row_vec.size() must = current value of columns().");
+			// push_back each element of _row_vec to form new row
+			for (const auto& el : _row_vec) {
+				mtx.push_back(el);
 			}
 			++rows_;
 		}
