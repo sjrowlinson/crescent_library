@@ -1,6 +1,5 @@
 #ifndef PRIORITY_QUEUE_H
 #define PRIORITY_QUEUE_H
-#include "sfinae_operators.h"
 #include <algorithm>
 #include <ostream>
 #include <set>
@@ -266,44 +265,6 @@ namespace crsc {
 				if (_p(*it)) it_set.insert(it);
 			}
 			return it_set;
-		}
-		/**
-		 * \brief Writes the contents of the container to a `std::ostream` in heap-order.
-		 *
-		 * \param _os Instance of `std::ostream` to write to.
-		 * \param _delim Delimiter for separation of container elements in stream.
-		 * \return Reference to modified `_os`.
-		 * \complexity Linear in the size of the container.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value
-				&& has_insertion_operator<_Uty>::value>
-		> std::ostream& write_ordered(std::ostream& _os, char _delim = ' ') const noexcept {
-			priority_queue<value_type, _Pr> tmp(*this);
-			while (!tmp.empty()) {
-				_os << tmp.top() << _delim;
-				tmp.dequeue();
-			}
-			return _os;
-		}
-		/**
-		 * \brief Writes the contents of the container to a `std::ostream` in non-heap-order,
-		 *        the elements shall be written in the order that they are stored in the 
-		 *        underlying contiguous memory block.
-		 *
-		 * \param _os Instance of `std::ostream` to write to.
-		 * \param _delim Delimiter for separation of container elements in stream.
-		 * \return Reference to modified `_os`.
-		 * \complexity Linear in the size of the container.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
-		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
-			for (const auto& el : heap_cntr)
-				_os << el << _delim;
-			return _os;
 		}
 		// MODIFIERS
 		/**
@@ -698,22 +659,6 @@ namespace crsc {
 				bubble_down(i);
 		}
 	};
-	/**
-	 * \brief Stream insertion operator for `crsc::priority_queue` of copyable type.
-	 *
-	 * \param _os Instance of `std::ostream` to write to.
-	 * \param _pq `crsc::priority_queue` container to write to stream.
-	 * \return Modified reference to `_os`.
-	 * \complexity Linear in the size of `_pq`.
-	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-	 */
-	template<typename _Ty,
-		class _Cntr,
-		class _Pr,
-		typename = std::enable_if_t<std::is_copy_assignable<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& _os, const priority_queue<_Ty, _Cntr, _Pr>& _pq) noexcept {
-		return _pq.write_ordered(_os);
-	}
 }
 
 #endif // !PRIORITY_QUEUE_H
