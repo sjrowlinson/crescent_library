@@ -513,27 +513,6 @@ namespace crsc {
 		pointer data() noexcept {
 			return mtx.data();
 		}
-		/**
-		 * \brief Sends the container data to a `std::ostream` instance in a mathematical-matrix style format.
-		 *
-		 * \param _os Instance of `std::ostream` to write to.
-	 	 * \param _delim Delimiter separating elements on each line of the `dynamic_matrix`.
-		 * \return Modified reference to `_os` containing the container data.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
-			size_type count = 0;
-			for (const auto& el : mtx) {
-				_os << el << _delim;
-				++count;
-				if (!(count % cols_))
-					_os << '\n';
-			}
-			return _os;
-		}
 		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
@@ -1380,8 +1359,15 @@ namespace crsc {
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& _os, const dynamic_matrix<_Ty, _Alloc>& _dm) {
-		return _dm.write(_os);
+	> std::ostream& operator<<(std::ostream& os, const dynamic_matrix<_Ty, _Alloc>& dm) {
+		dynamic_matrix<_Ty, _Alloc>::size_type count = 0;
+		for (const auto& el : dm) {
+			os << el << ' ';
+			++count;
+			if (!(count % dm.columns()))
+				os << '\n';
+		}
+		return os;
 	}
 	/**
 	 * \brief Makes an identity `dynamic_matrix` of specified size.
@@ -1414,7 +1400,7 @@ namespace crsc {
 	/**
 	 * \brief Converts a two dimensional C-style array `arr_2d` to a `dynamic_matrix`, deleting `arr_2d` in the process.
 	 *
-	 * This method initialises a `dynamic_matrix` with `arr_2d` and then deletes `arr_2d` from memory, therefore it `arr_2d`
+	 * This method initialises a `dynamic_matrix` with `arr_2d` and then deletes `arr_2d` from memory, therefore if `arr_2d`
 	 * was not allocated via heap storage then do not use this method - use `crsc::make_dynamic_matrix` instead.
 	 *
 	 * \tparam _Ty Type of stored elements.
@@ -1433,7 +1419,7 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>
 	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
 		dynamic_matrix<_Ty, _Alloc> dynmtx(arr_2d, rows, cols, alloc);
-		for (size_type i = 0; i < rows; ++i)
+		for (std::size_t i = 0; i < rows; ++i)
 			delete[] arr_2d[i];
 		delete[] arr_2d;
 		return dynmtx;
