@@ -505,31 +505,6 @@ namespace crsc {
 		pointer data() noexcept {
 			return tnsr.data();
 		}
-		/**
-		 * \brief Sends the container data to a `std::ostream` instance in a mathematical-tensor style format.
-		 *
-		 * \param _os Instance of `std::ostream` to write to.
-		 * \param _delims `std::pair` of delimiters, where first is element column-separator and second is slice seperator.
-		 * \return Modified reference to `_os` containing the container data.
-		 * \complexity Linear in `rows()*columns()*slices()`.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
-		> std::ostream& write(std::ostream& _os, const std::pair<char, char>& _delims = { ' ', ',' }) const {
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < cols_; ++j) {
-					_os << "(";
-					for (size_type k = 0; k < slices_; ++k) {
-						if (k != slices_ - 1) _os << at(i, j, k) << _delims.second;
-						else _os << at(i, j, k);
-					}
-					_os << ')' << _delims.first;
-				}
-				_os << '\n';
-			}
-			return _os;
-		}
 		// ITERATORS
 		const_iterator cbegin() const {
 			return tnsr.cbegin();
@@ -623,7 +598,19 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
 	> std::ostream& operator<<(std::ostream& os, const dynamic_r3_tensor<_Ty, _Alloc>& tnsr) {
-		return tnsr.write(os);
+		typedef typename dynamic_r3_tensor<_Ty, _Alloc>::size_type size_type;
+		for (size_type i = 0; i < tnsr.rows(); ++i) {
+			for (size_type j = 0; j < tnsr.columns(); ++j) {
+				os << '(';
+				for (size_type k = 0; k < tnsr.slices(); ++k) {
+					os << tnsr[i][j][k];
+					if (k != tnsr.slices() - 1) os << ',';
+				}
+				os << ") ";
+			}
+			os << '\n';
+		}
+		return os;
 	}
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>
