@@ -120,6 +120,7 @@
     <ClInclude Include="sfinae_operators.h" />
     <ClInclude Include="string_utilities.h" />
     <ClInclude Include="threading_utilities.h" />
+    <ClInclude Include="unstable_priority_queue.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
