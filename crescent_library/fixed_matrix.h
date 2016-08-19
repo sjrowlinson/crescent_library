@@ -366,27 +366,6 @@ namespace crsc {
 		pointer data() noexcept {
 			return mtx.data();
 		}
-		/**
-		 * \brief Sends the container data to a `std::ostream` instance in a mathematical-matrix style format.
-		 *
-		 * \param _os Instance of `std::ostream` to write to.
-		 * \param _delim Delimiter separating elements on each line of the `fixed_matrix`.
-		 * \return Modified reference to `_os`.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
-		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<has_insertion_operator<_Uty>::value>
-		> std::ostream& write(std::ostream& _os, char _delim = ' ') const noexcept {
-			size_type count = 0;
-			for (const auto& el : mtx) {
-				_os << el << _delim;
-				++count;
-				if (!(count % _Cols))
-					_os << '\n';
-			}
-			return _os;
-		}
 		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
@@ -665,8 +644,15 @@ namespace crsc {
 		std::size_t _Rows,
 		std::size_t _Cols,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& _os, const fixed_matrix<_Ty, _Rows, _Cols>& _fm) {
-		return _fm.write(_os);
+	> std::ostream& operator<<(std::ostream& os, const fixed_matrix<_Ty, _Rows, _Cols>& fm) {
+		fixed_matrix<_Ty, _Rows, _Cols>::size_type count = 0;
+		for (const auto& el : fm) {
+			os << el << ' ';
+			++count;
+			if (!(count % _Cols))
+				os << '\n';
+		}
+		return os;
 	}
 	/**
 	 * \brief Makes an identity `fixed_matrix` of template-specified size.
@@ -708,8 +694,19 @@ namespace crsc {
 		std::size_t _rows,
 		std::size_t _cols
 	> fixed_matrix<_Ty, _rows, _cols> to_fixed_matrix(_Ty** c_arr_2d) {
+		fixed_matrix<_Ty, _rows, _cols> fm(c_arr_2d);
+		for (std::size_t i = 0; i < _rows; ++i)
+			delete[] c_arr_2d[i];
+		delete[] c_arr_2d;
+		return fm;
+	}
+	template<typename _Ty,
+		std::size_t _rows,
+		std::size_t _cols
+	> fixed_matrix<_Ty, _rows, _cols> make_fixed_matrix(_Ty** c_arr_2d) {
 		return fixed_matrix<_Ty, _rows, _cols>(c_arr_2d);
 	}
+
 }
 
 #endif // !FIXED_MATRIX_H
