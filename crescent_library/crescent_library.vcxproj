@@ -111,6 +111,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="algorithm_utilities.h" />
+    <ClInclude Include="dynamic_array.h" />
     <ClInclude Include="dynamic_matrix.h" />
     <ClInclude Include="dynamic_r3_tensor.h" />
     <ClInclude Include="file_loader.h" />

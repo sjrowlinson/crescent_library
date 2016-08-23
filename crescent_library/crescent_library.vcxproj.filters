@@ -48,5 +48,8 @@
     <ClInclude Include="unstable_priority_queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dynamic_array.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
