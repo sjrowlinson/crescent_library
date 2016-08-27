@@ -1,6 +1,7 @@
 #ifndef DYNAMIC_ARRAY_H
 #define DYNAMIC_ARRAY_H
 #include <algorithm>
+#include <iostream>
 #include <initializer_list>
 #include <iterator>
 #include <memory>
@@ -27,12 +28,8 @@ public:
 	// CONSTRUCTION/ASSIGNMENT
 	dynamic_array_iterator(Ty* _ptr = nullptr) : ptr(_ptr) {}
 	dynamic_array_iterator(const dynamic_array_iterator&) = default;
-	dynamic_array_iterator(const dynamic_array_const_iterator<Ty>& citer)
-		: ptr() {
-	}
 	dynamic_array_iterator& operator=(const dynamic_array_iterator&) = default;
 	dynamic_array_iterator& operator=(const Ty* _ptr) { ptr = _ptr; return *this; }
-	dynamic_array_iterator& operator=(const dynamic_array_const_iterator<Ty>& citer) { ptr = citer.get_ptr(); return *this; }
 	// ITERATOR MOVEMENT
 	dynamic_array_iterator& operator+=(const std::ptrdiff_t& amount) { ptr += amount; return *this; }
 	dynamic_array_iterator& operator-=(const std::ptrdiff_t& amount) { ptr -= amount; return *this; }
@@ -188,20 +185,13 @@ public:
 	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 	// CONSTRUCTION/ASSIGNMENT
 	dynamic_array()
-		: arr_capacity(0), arr_size(0) {
-		allocate(0);
-	}
+		: arr_capacity(0), arr_size(0) { allocate(0); }
 	dynamic_array(size_type count)
-		: arr_capacity(count), arr_size(count) {
-		allocate(count);
-	}
+		: arr_capacity(count), arr_size(count) { allocate(count); }
 	dynamic_array(size_type count, const value_type& _val)
-		: arr_capacity(count), arr_size(count) {
-		allocate(count);
-		fill(_val);
-	}
+		: arr_capacity(count), arr_size(count) { allocate(count); fill(_val); }
 	dynamic_array(const dynamic_array& _other)
-		: arr_capacity(_other.arr_capacity), arr_size(_other.arr_size) {
+		: arr_capacity(_other.arr_capacity), arr_size(_other.arr_size) { 
 		allocate(arr_capacity);
 		std::copy(_other.arr, _other.arr + _other.arr_size, arr);
 	}
@@ -216,8 +206,15 @@ public:
 		std::move(ilist.begin(), ilist.end(), arr);
 	}
 	~dynamic_array() { destroy(); }
-	dynamic_array& operator=(dynamic_array _other) {
-		swap(*this, _other);	// copy-and-swap
+	dynamic_array& operator=(const dynamic_array& _other) { // copy-assign
+		if (this != &_other)
+			dynamic_array<value_type>(_other).swap(*this);
+		return *this;
+	}
+	dynamic_array& operator=(dynamic_array&& _other) { // move-assign
+		destroy();
+		arr = _other.arr;
+		_other.arr = nullptr;
 		return *this;
 	}
 	// CAPACITY
@@ -229,18 +226,18 @@ public:
 	// ELEMENT ACCESS
 	reference operator[](size_type n) { return arr[n]; }
 	const_reference operator[](size_type n) const { return arr[n]; }
-	reference at(size_type n) {	// bounds-checking mutable access
+	reference at(size_type n) {	// bounds-checking mutable elements access
 		if (!(n < arr_size)) throw std::out_of_range("dynamic_array index out of bounds.");
 		return arr[n];
 	}
-	const_reference at(size_type n) const { // bounds-checking immutable
+	const_reference at(size_type n) const {	// bounds-checking immutable element access
 		if (!(n < arr_size)) throw std::out_of_range("dynamic_array index out of bounds.");
 		return arr[n];
 	}
 	pointer data() { return &arr[0]; }
 	const_pointer data() const { return &arr[0]; }
 	// MODIFIERS
-	void clear() {	// remove all container elements, leaving capacity unchanged
+	void clear() {
 		for (size_type i = 0; i < arr_size; ++i) { // destruct each element
 			(&arr[i])->~value_type();
 		}
@@ -255,13 +252,13 @@ public:
 		pop_back();
 		return iterator(&arr[std::distance(cbegin(), pos)]);
 	}
-	iterator erase(const_iterator first, const_iterator last) {	// erase range [first, last) from container
+	iterator erase(const_iterator first, const_iterator last) {	// erase elements in range [first, last)
 		while (first != last) {
-			first = erase(first++);
+			last = erase(--last);
 		}
-		return first;
+		return iterator(&arr[std::distance(cbegin(), first)]);
 	}
-	iterator insert(const_iterator pos, const value_type& _val) {	// insert _val to position pos
+	iterator insert(const_iterator pos, const value_type& _val) {	// insert _val at position pos
 		size_type pos_index = std::distance(cbegin(), pos);
 		size_type iter_index = arr_size;
 		push_back(_val);
@@ -271,7 +268,7 @@ public:
 		}
 		return iterator(&arr[pos_index]);
 	}
-	iterator insert(const_iterator pos, value_type&& _val) {	// insert _val via move-semantics to position pos
+	iterator insert(const_iterator pos, value_type&& _val) {	// move-insert _val at position pos
 		size_type pos_index = std::distance(cbegin(), pos);
 		size_type iter_index = arr_size;
 		push_back(std::move(_val));
@@ -281,21 +278,19 @@ public:
 		}
 		return iterator(&arr[pos_index]);
 	}
-	iterator insert(const_iterator pos, size_type count, const value_type& _val) {	// insert count copies of _val to position pos
+	iterator insert(const_iterator pos, size_type count, const value_type& _val) {	// insert count copies of _val at position pos
 		while (count) {
-			insert(pos, _val);
+			pos = insert(pos, _val);
 			--count;
 		}
 		return iterator(&arr[std::distance(cbegin(), pos)]);
 	}
 	template<class InputIt>
-	iterator insert(const_iterator pos, InputIt first, InputIt last) {	// insert range [first, last) to position pos
-		while (first != last) {
-			insert(pos, *(first++));
-		}
+	iterator insert(const_iterator pos, InputIt first, InputIt last) {	// insert range of elements in [first, last) at position pos
+		while (last != first) pos = insert(pos, *(--last));
 		return iterator(&arr[std::distance(cbegin(), pos)]);
 	}
-	void push_back(const value_type& _val) {	// push element to back of container
+	void push_back(const value_type& _val) {	// push _val to back of container
 		// if size of container has reached capacity perform
 		// reallocation to larger storage 
 		if (arr_size == arr_capacity) reallocate((arr_capacity != 0) ? arr_capacity * 2 : 8);
@@ -303,7 +298,7 @@ public:
 		pointer val = new (arr + arr_size) value_type(_val);
 		++arr_size;
 	}
-	void push_back(value_type&& _val) {	// push element to back of container via move-semantics
+	void push_back(value_type&& _val) {		// push _val to back of container via move-semantics
 		// if size of container has reached capacity perform
 		// reallocation to larger storage 
 		if (arr_size == arr_capacity) reallocate((arr_capacity != 0) ? arr_capacity * 2 : 8);
@@ -311,7 +306,7 @@ public:
 		pointer val = new (arr + arr_size) value_type(std::move(_val));
 		++arr_size;
 	}
-	void pop_back() {
+	void pop_back() {	// remove last element of container
 		(&arr[arr_size - 1])->~value_type();	// destruct last element
 		--arr_size;
 	}
@@ -330,7 +325,7 @@ public:
 				pop_back();
 		}
 	}
-	void resize(size_type count, const value_type& _val) {	// resize with any extra elements taking value _val
+	void resize(size_type count, const value_type& _val) {	// resize container where extra values take value _val
 		if (count == arr_size) return;
 		size_type tmp_size_cpy = arr_size;
 		if (count > arr_size) { // expand container
@@ -345,7 +340,7 @@ public:
 				pop_back();
 		}
 	}
-	void swap(dynamic_array& _other) {	// exchange container with contents of _other
+	void swap(dynamic_array& _other) {	// exchange contents of container with those of _other
 		std::swap(arr, _other.arr);
 		std::swap(arr_capacity, _other.arr_capacity);
 		std::swap(arr_size, _other.arr_size);
@@ -364,10 +359,10 @@ private:
 	value_type* arr;
 	size_type arr_capacity;
 	size_type arr_size;
-	void allocate(size_type n) {	// allocate array storage
+	void allocate(size_type n) {	// dynamically allocate memory to array
 		arr = new value_type[n];
 	}
-	void reallocate(size_type new_cap) {	// reallocate array storage
+	void reallocate(size_type new_cap) {	// rellocate array memory to new_cap block
 		value_type* tmp = new value_type[new_cap];	// allocate temp array
 		size_type tmp_rows = (new_cap > arr_capacity) ? arr_capacity : new_cap;
 		// move all elements from arr to temp array
@@ -377,7 +372,7 @@ private:
 		arr = tmp; // reassign arr to tmp
 		arr_capacity = new_cap;
 	}
-	void destroy() {	// deallocate array storage
+	void destroy() {	// deallocate array memory
 		delete[] arr;
 	}
 	void fill(const value_type& _val) {	// fill array with _val
