@@ -51,5 +51,8 @@
     <ClInclude Include="dynamic_array.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="randomness.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
