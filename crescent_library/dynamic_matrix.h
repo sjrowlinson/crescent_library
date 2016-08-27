@@ -1219,101 +1219,6 @@ namespace crsc {
 		}
 		// OVERLOADED OPERATORS
 		/**
-		 * \brief Adds each element of `_other` container to this container.
-		 *
-		 * \param _other Container to add element-wise to this.
-		 * \return `*this`.
-		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
-		 *        columns() != _other.columns()`.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		dynamic_matrix& operator+=(const dynamic_matrix& _other) {
-			if (rows_ != _other.rows_ || cols_ != _other.cols_)
-				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
-			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
-				*it += *it_other;
-			return *this;
-		}
-		/**
-		 * \brief Subtracts each element of `_other` container from this container.
-		 *
-		 * \param _other Container to subtract element-wise from this.
-		 * \return `*this`.
-		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
-		 *        columns() != _other.columns()`.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		dynamic_matrix& operator-=(const dynamic_matrix& _other) {
-			if (rows_ != _other.rows_ || cols_ != _other.cols_)
-				throw std::invalid_argument("dynamic_matrix dimensions must agree for subtraction.");
-			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
-				*it -= *it_other;
-			return *this;
-		}
-		/**
-		 * \brief Copies this container and adds each element of `_other` to the copy then returns it.
-		 *
-		 * \param _other Container to add to the copy.
-		 * \return Container consisting of sum of `*this` and `_other`.
-		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
-		 *        columns() != _other.columns()`.
-		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
-		 *             `rows()*columns()` (additions).
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		dynamic_matrix operator+(const dynamic_matrix& _other) const {
-			if (rows_ != _other.rows_ || cols_ != _other.cols_)
-				throw std::invalid_argument("dynamic_matrix dimensions must agree for addition.");
-			dynamic_matrix<value_type, allocator_type> tmp(*this);
-			return tmp += _other;
-		}
-		/**
-		 * \brief Copies this container and subtracts each element of `_other` from the copy then returns it.
-		 *
-		 * \param _other Container to subtract from the copy.
-		 * \return Container consisting of difference of `*this` and `_other`.
-		 * \throw Throws `std::invalid_argument` exception if `rows() != _other.rows() ||
-		 *        columns() != _other.columns()`.
-		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
-		 *             `rows()*columns()` (subtractions).
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		dynamic_matrix operator-(const dynamic_matrix& _other) const {
-			if (rows_ != _other.rows_ || cols_ != _other.cols_)
-				throw std::invalid_argument("dynamic_matrix dimensions must agree for subtraction.");
-			dynamic_matrix<value_type, allocator_type> tmp(*this);
-			return tmp -= _other;
-		}
-		/**
-		 * \brief Performs matrix multiplication of `*this` multiplied by `_other` and returns the
-		 *        result as a new container.
-		 *
-		 * \param _other Container to multiply with `*this`.
-		 * \return Container consisting of product of `*this` and `_other`.
-		 * \throw Throws `std::invalid_argument` exception if `columns() != _other.rows()`.
-		 * \complexity Linear in `rows()*_other.columns()*columns()`.
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		dynamic_matrix operator*(const dynamic_matrix& _other) const {
-			if (cols_ != _other.rows_)
-				throw std::invalid_argument("columns() must equal _other.rows() for dynamic_matrix multiplication.");
-			dynamic_matrix<value_type, allocator_type> product(rows_, _other.cols_);
-			for (size_type i = 0; i < rows_; ++i) {
-				for (size_type j = 0; j < _other.cols_; ++j) {
-					for (size_type k = 0; k < cols_; ++k)
-						product(i, j) += (*this)(i, j) * _other(i, j);
-				}
-			}
-			return product;
-		}
-		/**
 		 * \brief Checks for equality of this container and `_other`.
 		 *
 		 * \param _other Container to check for equality.
@@ -1447,6 +1352,87 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>
 	> dynamic_matrix<_Ty, _Alloc> make_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
 		return dynamic_matrix<_Ty, _Alloc>(arr_2d, rows, cols, alloc);
+	}
+	/**
+	 * \brief Returns a `dynamic_matrix` whose elements equal the component-wise addition of `lhs` and `rhs`.
+	 * 
+	 * \param lhs First instance of `dynamic_matrix`.
+	 * \param rhs Second instance of `dynamic_matrix`.
+	 * \return Container consisting of sum of `lhs` and `rhs`.
+	 * \throw Throws `std::invalid_argument` exception if `lhs.rows() != rhs.rows() ||
+	 *        lhs.columns() != rhs.columns()`.
+	 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+	 *             `rows()*columns()` (additions).
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>
+	> dynamic_matrix<_Ty, _Alloc> matrix_sum(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+		if (lhs.rows() != rhs.rows() || lhs.columns() != rhs.columns())
+			throw std::invalid_argument("dynamic_matrix dimensions must agree for component-wise addition.");
+		dynamic_matrix<_Ty, _Alloc> sum(lhs.rows(), lhs.columns());
+		for (auto itlhs = lhs.begin(), itrhs = rhs.begin(), itsum = sum.begin(); itsum < sum.end(); ++itlhs, ++itrhs, ++itsum)
+			*itsum = *itlhs + *itrhs;
+		return sum;
+	}
+	/**
+	 * \brief Returns a `dynamic_matrix` whose elements equal the component-wise subtraction of `rhs` from `lhs`.
+	 *
+	 * \param lhs First instance of `dynamic_matrix`.
+	 * \param rhs Second instance of `dynamic_matrix`.
+	 * \return Container consisting of difference of `lhs` and `rhs`.
+	 * \throw Throws `std::invalid_argument` exception if `lhs.rows() != rhs.rows() ||
+	 *        lhs.columns() != rhs.columns()`.
+	 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
+	 *             `rows()*columns()` (subtractions).
+	 */
+	template<typename _Ty, 
+		class _Alloc = std::allocator<_Ty>
+	> dynamic_matrix<_Ty, _Alloc> matrix_difference(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+		if (lhs.rows() != rhs.rows() || lhs.columns() != rhs.columns())
+			throw std::invalid_argument("dynamic_matrix dimensions must agree for component-wise subtraction.");
+		dynamic_matrix<_Ty, _Alloc> difference(lhs.rows(), lhs.columns());
+		for (auto itlhs = lhs.begin(), itrhs = rhs.begin(), itdiff = difference.begin(); itdiff < difference.end(); ++itlhs, ++itrhs, ++itdiff)
+			*itdiff = *itlhs - *itrhs;
+		return difference;
+	}
+	/**
+	 * \brief Returns a `dynamic_matrix` which gives the matrix product of `lhs` with `rhs`.
+	 *
+	 * \param lhs First instance of `dynamic_matrix`.
+	 * \param rhs Second instance of `dynamic_matrix`.
+	 * \return Container consisting of product of `lhs` and `rhs`.
+	 * \throw Throws `std::invalid_argument` exception if `lhs.columns() != rhs.rows()`.
+	 * \complexity Linear in `lhs.rows()*rhs.columns()*lhs.columns()`.
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>
+	> dynamic_matrix<_Ty, _Alloc> matrix_product(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+		if (lhs.columns() != rhs.rows())
+			throw std::invalid_argument("dynamic_matrix dimensions must agree for matrix_product.");
+		dynamic_matrix<_Ty, _Alloc> product(lhs.rows(), rhs.columns());
+		for (std::size_t i = 0; i < product.rows(); ++i) {
+			for (std::size_t j = 0; j < product.columns(); ++j) {
+				for (std::size_t k = 0; k < lhs.columns())
+					product[i][j] += lhs[i][k] + rhs[k][j];
+			}
+		}
+		return product;
+	}
+	/**
+	 * \brief Computes the trace of a `dynamic_matrix` container instance `dm`.
+	 *
+	 * \param dm `dynamic_matrix` for which to compute the trace.
+	 * \return Matrix trace of `dm`.
+	 */
+	template<typename _Ty,
+		class _Alloc = std::allocator<_Ty>
+	> _Ty matrix_trace(const dynamic_matrix<_Ty, _Alloc>& dm) {
+		if (dm.rows() != dm.columns()) throw std::invalid_argument("cannot compute trace of non-square dynamic_matrix.");
+		_Ty trace = _Ty();
+		int count = 0;
+		for (auto it = dm.begin(); it < dm.end(); std::advance(it, dm.columns() + (count++)))
+			trace += *it;
+		return trace;
 	}
 }
 
