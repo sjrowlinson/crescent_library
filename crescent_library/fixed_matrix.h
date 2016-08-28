@@ -169,9 +169,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		constexpr bool empty() const noexcept {
-			return mtx.empty();
-		}
+		constexpr bool empty() const noexcept { return mtx.empty(); }
 		/**
 		 * \brief Returns the number of rows in the container.
 		 *
@@ -179,9 +177,7 @@ namespace crsc {
 		 * \complexity Constant.
 	 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		constexpr size_type rows() const noexcept {
-			return _Rows;
-		}
+		constexpr size_type rows() const noexcept { return _Rows; }
 		/**
 		 * \brief Returns the number of columns in the container.
 		 *
@@ -189,9 +185,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		constexpr size_type columns() const noexcept {
-			return _Cols;
-		}
+		constexpr size_type columns() const noexcept { return _Cols; }
 		/**
 		 * \brief Returns the size of the container in terms of number of elements it holds.
 		 *
@@ -199,9 +193,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		constexpr size_type size() const noexcept {
-			return mtx.size();
-		}
+		constexpr size_type size() const noexcept { return mtx.size(); }
 		/**
 		 * \brief Returns the maximum number of elements the container can hold, this is
 		 *        equivalent to `size()` as the container is of a fixed size.
@@ -210,9 +202,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		constexpr size_type max_size() const noexcept {
-			return mtx.max_size();
-		}
+		constexpr size_type max_size() const noexcept { return mtx.max_size(); }
 		// ELEMENT ACCESS
 		/**
 		 * \brief Gets const_reference to element at specified row-column indices.
@@ -307,9 +297,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		constexpr const_reference front() const {
-			return mtx.front();
-		}
+		constexpr const_reference front() const { return mtx.front(); }
 		/**
 		 * \brief Returns a `reference` to the first element in the container.
 		 *
@@ -317,9 +305,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		reference front() {
-			return mtx.front();
-		}
+		reference front() {	return mtx.front(); }
 		/**
 		 * \brief Returns a `const_reference` to the last element in the container.
 		 *
@@ -327,9 +313,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		constexpr const_reference back() const {
-			return mtx.back();
-		}
+		constexpr const_reference back() const { return mtx.back(); }
 		/**
 		 * \brief Returns a `reference` to the last element in the container.
 		 *
@@ -337,9 +321,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		reference back() {
-			return mtx.back();
-		}
+		reference back() { return mtx.back(); }
 		/**
 		 * \brief Returns `const_pointer` to the underlying array `const _Ty*` serving as element storage.
 		 *
@@ -350,9 +332,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_pointer data() const noexcept {
-			return mtx.data();
-		}
+		const_pointer data() const noexcept { return mtx.data(); }
 		/**
 		 * \brief Returns pointer to the underling array `_Ty*` serving as element storage.
 		 *
@@ -363,9 +343,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		pointer data() noexcept {
-			return mtx.data();
-		}
+		pointer data() noexcept { return mtx.data(); }
 		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
@@ -375,9 +353,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cbegin() const {
-			return mtx.cbegin();
-		}
+		const_iterator cbegin() const noexcept { return mtx.cbegin(); }
+		/**
+		 * \brief Returns a const_iterator the first element of the container.
+		 *
+		 * \remark If the container is empty, the return value will be equal to `cend()`.
+		 * \return Constant iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_iterator begin() const noexcept { return mtx.begin(); }
 		/**
 		 * \brief Returns an iterator to the first element of the container.
 		 *
@@ -386,9 +371,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator begin() {
-			return mtx.begin();
-		}
+		iterator begin() noexcept { return mtx.begin(); }
 		/**
 		 * \brief Returns a const_iterator to the past-the-end element of the container.
 		 *
@@ -396,9 +379,15 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cend() const {
-			return mtx.cend();
-		}
+		const_iterator cend() const noexcept { return mtx.cend(); }
+		/**
+		 * \brief Returns a const_iterator to the past-the-end element of the container.
+		 *
+		 * \return Constant iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_iterator end() const noexcept { return mtx.end(); }
 		/**
 		 * \brief Returns an iterator to the past-the-end element of the container.
 		 *
@@ -406,9 +395,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator end() {
-			return mtx.end();
-		}
+		iterator end() noexcept { return mtx.end(); }
 		/**
 		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
 		 *        corresponds to the last element of the non-reversed container.
@@ -417,9 +404,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crbegin() const {
-			return mtx.crbegin();
-		}
+		const_reverse_iterator crbegin() const noexcept { return mtx.crbegin(); }
+		/**
+		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
+		 *        corresponds to the last element of the non-reversed container.
+		 *
+	 	 * \return Constant reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_reverse_iterator rbegin() const noexcept { return mtx.rbegin(); }
 		/**
 		 * \brief Returns a reverse_iterator to the first element of the reversed container. It
 		 *        corresponds to the last element of the non-reversed container.
@@ -428,9 +422,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rbegin() {
-			return mtx.rbegin();
-		}
+		reverse_iterator rbegin() noexcept { return mtx.rbegin(); }
 		/**
 		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
 		 *        corresponds to the element preceding the first element of the non-reversed container.
@@ -439,9 +431,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crend() const {
-			return mtx.crend();
-		}
+		const_reverse_iterator crend() const noexcept { return mtx.crend(); }
+		/**
+		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
+		 *        corresponds to the element preceding the first element of the non-reversed container.
+		 *
+		 * \return Constance reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_reverse_iterator rend() const noexcept { return mtx.rend(); }
 		/**
 		 * \brief Returns a reverse_iterator to the past-the-end element of the reversed container. It
 		 *        corresponds to the element preceding the first element of the non-reversed container.
@@ -450,9 +449,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rend() {
-			return mtx.rend();
-		}
+		reverse_iterator rend() noexcept { return mtx.rend(); }
 		// OPERATIONS
 		/**
 		 * \brief Assigns the given value `_val` to all elements in the container.
@@ -461,9 +458,7 @@ namespace crsc {
 		 * \complexity Exactly `rows()*columns()` assignments.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		void fill(const value_type& _val) {
-			mtx.fill(_val);
-		}
+		void fill(const value_type& _val) { mtx.fill(_val); }
 		/**
 		 * \brief Exchanges the contents of the container with those of `_other`. Does not
 		 *        cause iterators and references to associate with the other container.
@@ -472,9 +467,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee.
 		 */
-		void swap(fixed_matrix& _other) {
-			mtx.swap(_other.mtx);
-		}
+		void swap(fixed_matrix& _other) { mtx.swap(_other.mtx); }
 		/**
 		 * \brief Exchanges the contents of two `crsc::fixed_matrix` containers. Does not
 		 *        cause iterators and references to associate with the other containers.
@@ -484,9 +477,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee.
 		 */
-		static void swap(fixed_matrix& lhs, fixed_matrix& rhs) {
-			lhs.swap(rhs);
-		}
+		static void swap(fixed_matrix& lhs, fixed_matrix& rhs) { lhs.swap(rhs); }
 		/**
 		 * \brief Gets the submatrix of the container obtained by removing the specified row and column
 		 *        and returning the resulting matrix.
@@ -514,103 +505,7 @@ namespace crsc {
 			}
 			return sub;
 		}
-		/**
-		 * \brief Computes the trace of a square `fixed_matrix` container.
-		 *
-		 * \return The trace of the matrix-container.
-		 * \throw Throws `std::logic_error` if `rows() != columns()`.
-		 * \complexity Linear in `rows()`.
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		value_type trace() const {
-			if (_Rows != _Cols)
-				throw std::logic_error("cannot compute trace() of non-square matrix.");
-			value_type result = value_type();
-			for (size_type i = 0; i < _Rows; ++i)
-				result += mtx[i*(_Cols + 1)];
-			return result;
-		}
 		// OPERATORS
-		/**
-		 * \brief Adds each element of `_other` container to this container.
-		 *
-		 * \param _other Container to add element-wise to this.
-		 * \return `*this`.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		fixed_matrix& operator+=(const fixed_matrix& _other) {
-			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
-				*it += *it_other;
-			return *this;
-		}
-		/**
-		 * \brief Subtracts each element of `_other` container from this container.
-		 *
-		 * \param _other Container to subtract element-wise from this.
-		 * \return `*this`.
-		 * \complexity Linear in `rows()*columns()`.
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		fixed_matrix& operator-=(const fixed_matrix& _other) {
-			for (auto it = mtx.begin(), it_other = _other.mtx.begin(); it < mtx.end(); ++it, ++it_other)
-				*it -= *it_other;
-			return *this;
-		}
-		/**
-		 * \brief Copies this container and adds each element of `_other` to the copy then returns it.
-		 *
-		 * \param _other Container to add to the copy.
-		 * \return Container consisting of sum of `*this` and `_other`.
-		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
-	 	 *             `rows()*columns()` (additions).
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		fixed_matrix operator+(const fixed_matrix& _other) const {
-			fixed_matrix<value_type, _Rows, _Cols> tmp(*this);
-			return tmp += _other;
-		}
-		/**
-		 * \brief Copies this container and subtracts each element of `_other` from the copy then returns it.
-		 *
-		 * \param _other Container to subtract from the copy.
-		 * \return Container consisting of difference of `*this` and `_other`.
-		 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
-		 *             `rows()*columns()` (subtractions).
-		 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		fixed_matrix operator-(const fixed_matrix& _other) const {
-			fixed_matrix<value_type, _Rows, _Cols> tmp(*this);
-			return tmp -= _other;
-		}
-		/**
-		 * \brief Performs matrix multiplication of `*this` multiplied by `_other` and returns the
-		 *        result as a new container.
-		 *
-		 * \param _other Container to multiply with `*this`.
-		 * \return Container consisting of product of `*this` and `_other`.
-		 * \complexity Linear in `rows()*_other.columns()*columns()`.
-	 	 * \exceptionsafety Strong-guarantee - if an exception is thrown there are no changes
-		 *                  in the container.
-		 */
-		template<
-			std::size_t _Second_Rows,
-			std::size_t _Second_Cols
-		> fixed_matrix<value_type, _Rows, _Second_Cols> operator*(const fixed_matrix<value_type, _Second_Rows, _Second_Cols>& _other) const {
-			fixed_matrix<value_type, _Rows, _Second_Cols> product;
-			for (size_type i = 0; i < _Rows; ++i) {
-				for (size_type j = 0; j < _Second_Cols; ++j) {
-					for (size_type k = 0; k < _Cols; ++k)
-						product(i, j) += (*this)(i, j) * _other(i, j);
-				}
-			}
-			return product;
-		}
 		/**
 		 * \brief Checks for equality of this container and `_other`.
 		 *
@@ -645,7 +540,7 @@ namespace crsc {
 		std::size_t _Cols,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
 	> std::ostream& operator<<(std::ostream& os, const fixed_matrix<_Ty, _Rows, _Cols>& fm) {
-		fixed_matrix<_Ty, _Rows, _Cols>::size_type count = 0;
+		typename fixed_matrix<_Ty, _Rows, _Cols>::size_type count = 0;
 		for (const auto& el : fm) {
 			os << el << ' ';
 			++count;
@@ -714,6 +609,36 @@ namespace crsc {
 		for (auto itsum = sum.begin(), itlhs = lhs.begin(), itrhs = rhs.begin(); itsum < sum.end(); ++itsum, ++itlhs, ++itrhs)
 			*itsum = *itlhs + *itrhs;
 		return sum;
+	}
+	template<typename Ty,
+		std::size_t Rows,
+		std::size_t Cols
+	> fixed_matrix<Ty, Rows, Cols> matrix_difference(const fixed_matrix<Ty, Rows, Cols>& lhs, const fixed_matrix<Ty, Rows, Cols>& rhs) {
+		fixed_matrix<Ty, Rows, Cols> difference;
+		for (auto itdiff = difference.begin(), itlhs = lhs.begin(), itrhs = rhs.begin(); itdiff < difference.end(); ++itdiff, ++itlhs, ++itrhs)
+			*itdiff = *itlhs + *itrhs;
+		return difference;
+	}
+	template<typename Ty,
+		std::size_t LHSRows, std::size_t LHSCols,
+		std::size_t RHSRows, std::size_t RHSCols
+	> fixed_matrix<Ty, LHSRows, RHSCols> matrix_product(const fixed_matrix<Ty, LHSRows, LHSCols>& lhs, const fixed_matrix<Ty, RHSRows, RHSCols>& rhs) {
+		fixed_matrix<Ty, LHSRows, RHSCols> product;
+		for (std::size_t i = 0; i < LHSRows; ++i) {
+			for (std::size_t j = 0; j < RHSCols; ++j) {
+				for (std::size_t k = 0; k < LHSCols; ++k)
+					product(i, j) += lhs(i, j) * rhs(k, j);
+			}
+		}
+		return product;
+	}
+	template<typename Ty,
+		std::size_t RowsCols
+	> Ty matrix_trace(const fixed_matrix<Ty, RowsCols, RowsCols>& fm) {
+		Ty trace = Ty();
+		for (auto it = fm.begin(); it < fm.end(); std::advance(it, RowsCols + 1))
+			trace += *it;
+		return trace;
 	}
 }
 
