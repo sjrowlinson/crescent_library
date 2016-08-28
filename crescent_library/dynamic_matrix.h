@@ -262,9 +262,7 @@ namespace crsc {
 		 * \return The associated allocator.
 		 * \complexity Constant.
 		 */
-		allocator_type get_allocator() const {
-			return mtx.get_allocator();
-		}
+		allocator_type get_allocator() const { return mtx.get_allocator(); }
 		// CAPACITY
 		/**
 		 * \brief Checks if the container has no elements.
@@ -273,9 +271,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		bool empty() const noexcept {
-			return mtx.empty();
-		}
+		bool empty() const noexcept { return mtx.empty(); }
 		/**
 		 * \brief Returns the number of rows in the container.
 		 *
@@ -283,9 +279,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		size_type rows() const noexcept {
-			return rows_;
-		}
+		size_type rows() const noexcept { return rows_; }
 		/**
 		 * \brief Returns the number of columns in the container.
 		 *
@@ -293,9 +287,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		size_type columns() const noexcept {
-			return cols_;
-		}
+		size_type columns() const noexcept { return cols_; }
 		/**
 		 * \brief Returns the size of the container in terms of number of elements it holds.
 		 *
@@ -303,9 +295,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		size_type size() const noexcept {
-			return mtx.size();
-		}
+		size_type size() const noexcept { return mtx.size(); }
 		/**
 		 * \brief Returns the maximum number of elements the container is able to hold due to
 		 *        system or library implementation limitations.
@@ -314,9 +304,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		size_type max_size() const noexcept {
-			return mtx.max_size();
-		}
+		size_type max_size() const noexcept { return mtx.max_size(); }
 		/**
 		 * \brief Returns the number of elements that the container has currently allocated space for.
 		 *
@@ -324,9 +312,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		size_type capacity() const noexcept {
-			return mtx.capacity();
-		}
+		size_type capacity() const noexcept { return mtx.capacity(); }
 		/**
 		 * \brief Increases the capacity of the container to a value that's greater than or
 		 *        equal to `_rows*_cols`, if `_rows*_cols` is greater than current `capacity()`
@@ -341,9 +327,7 @@ namespace crsc {
 		 *                  strong guarantee (no changes in container if exception is thrown). Otherwise
 		 *                  there is a basic guarantee (container guaranteed to end in a valid state).
 		 */
-		void reserve(size_type _rows, size_type _cols) {
-			mtx.reserve(_rows*_cols);
-		}
+		void reserve(size_type _rows, size_type _cols) { mtx.reserve(_rows*_cols); }
 		/**
 		 * \brief Requests the removal of unused container capacity.
 		 *
@@ -356,9 +340,7 @@ namespace crsc {
 		 *                  in container if exception is thrown). Otherwise there is a basic guarantee (container
 		 *                  guaranteed to end in a valid state).
 		 */
-		void shrink_to_fit() {
-			mtx.shrink_to_fit();
-		}
+		void shrink_to_fit() { mtx.shrink_to_fit(); }
 		// ELEMENT ACCESS
 		/**
 		 * \brief Gets const_reference to element at specified row-column indices.
@@ -453,9 +435,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		const_reference front() const {
-			return mtx.front();
-		}
+		const_reference front() const { return mtx.front(); }
 		/**
 		 * \brief Returns a reference to first element in the container.
 		 *
@@ -463,9 +443,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		reference front() {
-			return mtx.front();
-		}
+		reference front() { return mtx.front(); }
 		/**
 		 * \brief Returns a const_reference to last element in the container.
 		 *
@@ -473,9 +451,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		const_reference back() const {
-			return mtx.back();
-		}
+		const_reference back() const { return mtx.back(); }
 		/**
 		 * \brief Returns a reference to last element in the container.
 		 *
@@ -483,9 +459,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee if `!empty()`, otherwise undefined behaviour.
 		 */
-		reference back() {
-			return mtx.back();
-		}
+		reference back() { return mtx.back(); }
 		/**
 		 * \brief Returns const_pointer to the underlying array `const _Ty*` serving as element
 		 *        storage.
@@ -497,9 +471,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_pointer data() const noexcept {
-			return mtx.data();
-		}
+		const_pointer data() const noexcept { return mtx.data(); }
 		/**
 		 * \brief Returns pointer to the underlying array `_Ty*` serving as element storage.
 		 *
@@ -510,9 +482,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		pointer data() noexcept {
-			return mtx.data();
-		}
+		pointer data() noexcept { return mtx.data(); }
 		// ITERATORS
 		/**
 		 * \brief Returns a const_iterator the first element of the container.
@@ -962,9 +932,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
-		> void push_column(const value_type& _val) {
-			insert_column(cols_, _val);
-		}
+		> void push_column(const value_type& _val) { insert_column(cols_, _val); }
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container.
 		 *
@@ -984,9 +952,7 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
-		> void push_column(const std::vector<value_type>& _col_vec) {
-			insert_column(cols_, _col_vec);
-		}
+		> void push_column(const std::vector<value_type>& _col_vec) { insert_column(cols_, _col_vec); }
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container using move-semantics.
 		 *
@@ -1007,8 +973,8 @@ namespace crsc {
 		 */
 		template<class _Uty = _Ty,
 			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
-		> void push_column(std::vector<value_type>&& _col_vec = std::vector<value_type>()) {
-			insert_column(cols_, std::move(_col_vec));
+		> void push_column(std::vector<value_type>&& _col_vec = std::vector<value_type>()) { 
+			insert_column(cols_, std::move(_col_vec)); 
 		}
 		/**
 		 * \brief Pops the last row from the back of the container.
@@ -1033,9 +999,7 @@ namespace crsc {
 		 *                  move constructor, copy-assignment operator or move-assignment operator of
 		 *                  `_Ty`.
 		 */
-		void pop_column() {
-			erase_column(cols_ - 1);
-		}
+		void pop_column() {	erase_column(cols_ - 1); }
 		/**
 		 * \brief Resizes the container to contain `_rows` row vectors, where any extra values added
 		 *       (if any) are initialised according to the default constructor of `value_type`.
