@@ -706,7 +706,15 @@ namespace crsc {
 	> fixed_matrix<_Ty, _rows, _cols> make_fixed_matrix(_Ty** c_arr_2d) {
 		return fixed_matrix<_Ty, _rows, _cols>(c_arr_2d);
 	}
-
+	template<typename Ty,
+		std::size_t Rows,
+		std::size_t Cols
+	> fixed_matrix<Ty, Rows, Cols> matrix_sum(const fixed_matrix<Ty, Rows, Cols>& lhs, const fixed_matrix<Ty, Rows, Cols>& rhs) {
+		fixed_matrix<Ty, Rows, Cols> sum;
+		for (auto itsum = sum.begin(), itlhs = lhs.begin(), itrhs = rhs.begin(); itsum < sum.end(); ++itsum, ++itlhs, ++itrhs)
+			*itsum = *itlhs + *itrhs;
+		return sum;
+	}
 }
 
 #endif // !FIXED_MATRIX_H

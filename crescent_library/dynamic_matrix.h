@@ -522,9 +522,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cbegin() const noexcept {
-			return mtx.cbegin();
-		}
+		const_iterator cbegin() const noexcept { return mtx.cbegin(); }
+		/**
+		 * \brief Returns a const_iterator the first element of the container.
+		 *
+		 * \remark If the container is empty, the return value will be equal to `cend()`.
+		 * \return Constant iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+	 	 */
+		const_iterator begin() const noexcept { return mtx.begin(); }
 		/**
 		 * \brief Returns an iterator to the first element of the container.
 		 *
@@ -533,9 +540,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator begin() noexcept {
-			return mtx.begin();
-		}
+		iterator begin() noexcept { return mtx.begin(); }
 		/**
 		 * \brief Returns a const_iterator to the past-the-end element of the container.
 		 *
@@ -543,9 +548,15 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_iterator cend() const noexcept {
-			return mtx.cend();
-		}
+		const_iterator cend() const noexcept { return mtx.cend(); }
+		/**
+		 * \brief Returns a const_iterator to the past-the-end element of the container.
+		 *
+		 * \return Constant iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_iterator end() const noexcept { return mtx.end(); }
 		/**
 		 * \brief Returns an iterator to the past-the-end element of the container.
 		 *
@@ -553,9 +564,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		iterator end() noexcept {
-			return mtx.end();
-		}
+		iterator end() noexcept { return mtx.end(); }
 		/**
 		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
 		 *        corresponds to the last element of the non-reversed container.
@@ -564,9 +573,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crbegin() const noexcept {
-			return mtx.crbegin();
-		}
+		const_reverse_iterator crbegin() const noexcept { return mtx.crbegin(); }
+		/**
+		 * \brief Returns a const_reverse_iterator to the first element of the reversed container. It
+		 *        corresponds to the last element of the non-reversed container.
+		 *
+		 * \return Constant reverse iterator to the first element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_reverse_iterator rbegin() const noexcept { return mtx.rbegin(); }
 		/**
 		 * \brief Returns a reverse_iterator to the first element of the reversed container. It
 		 *        corresponds to the last element of the non-reversed container.
@@ -575,9 +591,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rbegin() noexcept {
-			return mtx.rbegin();
-		}
+		reverse_iterator rbegin() noexcept { return mtx.rbegin(); }
 		/**
 		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
 		 *        corresponds to the element preceding the first element of the non-reversed container.
@@ -586,9 +600,16 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		const_reverse_iterator crend() const noexcept {
-			return mtx.crend();
-		}
+		const_reverse_iterator crend() const noexcept { return mtx.crend(); }
+		/**
+		 * \brief Returns a const_reverse_iterator to the past-the-end element of the reversed container. It
+		 *        corresponds to the element preceding the first element of the non-reversed container.
+		 *
+		 * \return Constance reverse iterator to the past-the-end element.
+		 * \complexity Constant.
+		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
+		 */
+		const_reverse_iterator rend() const noexcept { return mtx.rend(); }
 		/**
 		 * \brief Returns a reverse_iterator to the past-the-end element of the reversed container. It
 		 *        corresponds to the element preceding the first element of the non-reversed container.
@@ -597,9 +618,7 @@ namespace crsc {
 		 * \complexity Constant.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		reverse_iterator rend() noexcept {
-			return mtx.rend();
-		}
+		reverse_iterator rend() noexcept { return mtx.rend(); }
 		// OPERATIONS/MODIFIERS
 		/**
 		 * \brief Removes all elements from the container but leaves the `capacity()` unchanged.
@@ -1265,7 +1284,7 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
 	> std::ostream& operator<<(std::ostream& os, const dynamic_matrix<_Ty, _Alloc>& dm) {
-		dynamic_matrix<_Ty, _Alloc>::size_type count = 0;
+		typename dynamic_matrix<_Ty, _Alloc>::size_type count = 0;
 		for (const auto& el : dm) {
 			os << el << ' ';
 			++count;
@@ -1412,8 +1431,8 @@ namespace crsc {
 		dynamic_matrix<_Ty, _Alloc> product(lhs.rows(), rhs.columns());
 		for (std::size_t i = 0; i < product.rows(); ++i) {
 			for (std::size_t j = 0; j < product.columns(); ++j) {
-				for (std::size_t k = 0; k < lhs.columns())
-					product[i][j] += lhs[i][k] + rhs[k][j];
+				for (std::size_t k = 0; k < lhs.columns(); ++k)
+					product(i,j) += lhs(i,k) * rhs(k,j);
 			}
 		}
 		return product;
@@ -1423,14 +1442,15 @@ namespace crsc {
 	 *
 	 * \param dm `dynamic_matrix` for which to compute the trace.
 	 * \return Matrix trace of `dm`.
+	 * \throw Throws `std::invalid_argument` exception if `dm.rows() != dm.columns()`.
+	 * \complexity Linear in `dm.rows()`.
 	 */
 	template<typename _Ty,
 		class _Alloc = std::allocator<_Ty>
 	> _Ty matrix_trace(const dynamic_matrix<_Ty, _Alloc>& dm) {
 		if (dm.rows() != dm.columns()) throw std::invalid_argument("cannot compute trace of non-square dynamic_matrix.");
 		_Ty trace = _Ty();
-		int count = 0;
-		for (auto it = dm.begin(); it < dm.end(); std::advance(it, dm.columns() + (count++)))
+		for (auto it = dm.begin(); it < dm.end(); std::advance(it, dm.columns() + 1))
 			trace += *it;
 		return trace;
 	}
