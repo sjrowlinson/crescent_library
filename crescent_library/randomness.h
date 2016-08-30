@@ -10,14 +10,28 @@ namespace crsc {
 	 * \brief Pseudo-random number generator for random values over a specified `Distribution`
 	 *        using a given `Generator` engine.
 	 *
+	 * A convenience wrapper around a generator engine and random number distribution used for 
+	 * generating random values quickly and simply. Any pre-defined generator from the C++ `<random>`
+	 * header may be used as the `Generator` type-param and any distribution from this header
+	 * may be used for the `Distribution` type-param. The next value in the random distribution
+	 * is generated via a call to `random_number_generator::operator()`. Resetting the internal
+	 * state of the distribution such that the next generating call is not dependent upon the last
+	 * call is achieved via a call to `random_number_generator::reset_distribution_state()`.
+	 *
+	 * Note that the type `Ty` (referenced as `result_type` in the class API) must match the type of
+	 * distribution `Distribution` (referenced as `distribution_type` in the class API) used, e.g.
+	 * if the `result_type` is `int` then it is undefined behaviour to use a distribution type 
+	 * intended for floating point types.
+	 *
 	 * \tparam Ty The type of the values to generate, must satisfy `std::is_arithmetic<Ty>`. Defaults
 	 *         to the integral type `int`.
 	 * \tparam Generator The type of the generator engine to use for pseudo-random generation, must
 	 *         meet the requirement of `UniformRandomBitGenerator` (see C++ Concepts). Defaults to
 	 *         the engine type `std::mt19937`.
 	 * \tparam Distribution The type of distribution over which to calculate the random numbers. The
-	 *         value type of the distribution must match the value type `Ty` of this class. Defaults
-	 *         to the distribution type `std::uniform_int_distribution<Ty>`.
+	 *         value type of the distribution must match the value type `Ty` of this class. Must meet
+	 *         the requirement of `RandomNumberDistribution` (see C++ Conecpts). Defaults to the
+	 *         distribution type `std::uniform_int_distribution<Ty>`.
 	 */
 	template<class Ty = int,
 		class Generator = std::mt19937,
@@ -37,7 +51,7 @@ namespace crsc {
 		 * \param _eng Generator engine to use.
 		 * \param _dist Distribution for random numbers.
 		 */
-		random_number_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
+		explicit random_number_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
 			: eng(std::move(_eng)), dist(std::move(_dist)) {}
 		/**
 		 * \brief Constructs the generator with a copy of the values of the engine `_eng` and
@@ -46,7 +60,7 @@ namespace crsc {
 		 * \param _eng Generator engine to use.
 		 * \param _dist Distribution for random numbers.
 		 */
-		random_number_generator(const Generator& _eng, const Distribution& _dist)
+		explicit random_number_generator(const Generator& _eng, const Distribution& _dist)
 			: eng(_eng), dist(_dist) {}
 		/**
 		 * \brief Copy constructor. Constructs the generator with a copy of the fields of `other`.
@@ -166,9 +180,9 @@ namespace crsc {
 		typedef typename uniform_pr_gen::generator_type generator_type;
 		typedef typename uniform_pr_gen::distribution_type distribution_type;
 		// CONSTRUCTION/ASSIGNMENT
-		uniform_random_probability_generator(Generator&& engine = Generator{std::random_device{}()})
+		explicit uniform_random_probability_generator(Generator&& engine = Generator{std::random_device{}()})
 			: generator(std::move(engine)) {}
-		uniform_random_probability_generator(const Generator& engine)
+		explicit uniform_random_probability_generator(const Generator& engine)
 			: generator(engine, distribution_type()) {}
 		uniform_random_probability_generator(const uniform_random_probability_generator& other)
 			: generator(other.generator) {}
@@ -213,8 +227,9 @@ namespace crsc {
 	 *         must meet the requirement of `UniformRandomBitGenerator` (see C++ Concepts). Defaults
 	 *         to the engine type `std::mt19937`.
 	 * \tparam Distribution The type of distribution over which to calculate the random numbers. The
-	 *         value type of the distribution must match the value type `Ty` of this class. Defaults
-	 *         to the distribution type `std::uniform_real_distribution<Ty>`.
+	 *         value type of the distribution must match the value type `Ty` of this class. Must meet
+	 *         the requirement of `RandomNumberDistribution` (see C++ Conecpts). Defaults to the
+	 *         distribution type `std::uniform_real_distribution<Ty>`.
 	 */
 	template<class Ty = double,
 		class Generator = std::mt19937,
@@ -235,7 +250,7 @@ namespace crsc {
 		 * \param _eng Generator engine to use.
 		 * \param _dist Distribution for random complex numbers.
 		 */
-		random_complex_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
+		explicit random_complex_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
 			: eng(std::move(_eng)), dist(std::move(_dist)) {}
 		/**
 		 * \brief Constructs the generator with a copy of the values of the engine `_eng` and
@@ -244,7 +259,7 @@ namespace crsc {
 		 * \param _eng Generator engine to use.
 		 * \param _dist Distribution for random complex numbers.
 		 */
-		random_complex_generator(const Generator& _eng, const Distribution& _dist)
+		explicit random_complex_generator(const Generator& _eng, const Distribution& _dist)
 			: eng(_eng), dist(_dist) {}
 		/**
 		 * \brief Copy constructor. Constructs the generator with a copy of the fields of `other`.
