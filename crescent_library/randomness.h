@@ -162,9 +162,17 @@ namespace crsc {
 	 * \class uniform_random_probability_generator
 	 *
 	 * \brief Pseudo-random number generator for random floating point values distributed
-	 *        uniformly over the range [0.0, 1.0].
+	 *        uniformly over the range [0.0, 1.0] using a given `Generator` engine.
+	 *
+	 * A convenience wrapper around a template specialisation of `crsc::random_number_generator` providing
+	 * a class to produce uniformly distributed floating point values in the range [0.0, 1.0]. Any pre-defined
+	 * generator from the C++ `<random>` header may be used as the `Generator` type-param. The next value in
+	 * the random distribution is generated via a call to `uniform_random_probability_generator::operator()`. 
+	 * Resetting the internal state of the distribution such that the next generating call is not dependent upon
+	 * the last call is achieved via a call to `uniform_random_probability_generator::reset_distribution_state()`.
 	 *
 	 * \tparam FloatType The type of the probabilities to generator, must satisfy `std::is_floating_point<FloatType>`.
+	 *         Defaults to the type `double`.
 	 * \tparam Generator The type of the generator engine to use for pseudo-random generation, must
 	 *         meet the requirement of `UniformRandomBitGenerator` (see C++ Concepts). Defaults to
 	 *         the engine type `std::mt19937`. 
@@ -219,7 +227,20 @@ namespace crsc {
 	/**
 	 * \class random_complex_generator
 	 *
-	 * \brief Generator for random complex numbers in `std::complex` object form.
+	 * \brief Generator for random complex numbers in `std::complex` object form over a specified `Distribution`
+	 *        using a given `Generator` engine.
+	 *
+	 * A convenience wrapper around a generator engine and random number distribution used for generating random complex
+	 * numbers quickly and simply. Any pre-defined generator from the C++ `<random>` header may be used as the `Generator`
+	 * type-param and any distribution from this header may be used for the `Distribution` type-param. The next value in
+	 * the random distribution is generated via a call to `random_complex_generator::operator(bool)` where the `bool` param
+	 * indicates whether the random complex number generated shall have equal Real and Imaginary parts. Resetting the internal
+	 * state of the distribution such that the next generating call is not dependent upon the last call is achieved via a 
+	 * call to `random_complex_generator::reset_distribution_state()`.
+	 *
+	 * Note that the type `Ty` (referenced as `real_imaginary_type` in the class API) must match the type of distribution
+	 * `Distribution` (referenced as `distribution_type` in the class API) used, e.g. if the `real_imaginary_type` is `int`
+	 * then it is undefined behaviour to use a distribution type intended for floating point types.
 	 *
 	 * \tparam Ty The type of the real and imaginary parts of the complex number, must
 	 *         satisfy `std::is_arithmetic<Ty>`. Defaults to the floating type `double`.
