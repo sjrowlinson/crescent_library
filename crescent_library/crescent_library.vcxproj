@@ -117,6 +117,7 @@
     <ClInclude Include="file_loader.h" />
     <ClInclude Include="file_reader.h" />
     <ClInclude Include="fixed_matrix.h" />
+    <ClInclude Include="mathematical_dynamic_matrix.h" />
     <ClInclude Include="priority_queue.h" />
     <ClInclude Include="randomness.h" />
     <ClInclude Include="sfinae_operators.h" />

@@ -8,6 +8,16 @@
 #include <stdexcept>
 
 namespace crsc {
+	template<typename Ty,
+		std::size_t Rows,
+		std::size_t Cols
+	> class fixed_matrix;
+	template<typename Ty,
+		std::size_t Rows,
+		std::size_t Cols
+	> void swap(const fixed_matrix<Ty, Rows, Cols>& lhs, const fixed_matrix<Ty, Rows, Cols>& rhs) {
+		lhs.swap(rhs);
+	}
 	/**
 	 * \class fixed_matrix
 	 *

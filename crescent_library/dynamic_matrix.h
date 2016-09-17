@@ -8,6 +8,14 @@
 #include <vector>
 
 namespace crsc {
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> class dynamic_matrix;
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> void swap(const dynamic_matrix<Ty, Allocator>& lhs, const dynamic_matrix<Ty, Allocator>& rhs) {
+		lhs.swap(rhs);
+	}
 	/**
 	 * \class dynamic_matrix
 	 *
@@ -1173,18 +1181,6 @@ namespace crsc {
 			mtx.swap(_other.mtx);
 			std::swap(rows_, _other.rows_);
 			std::swap(cols_, _other.cols_);
-		}
-		/**
-		 * \brief Exchanges the contents of two `crsc::dynamic_matrix` containers. Does not cause 
-		 *        iterators and references to associate with the other containers.
-		 *
-		 * \param lhs First instance of `dynamic_matrix`.
-		 * \param rhs Second instance of `dynamic_matrix`.
-		 * \complexity Constant.
-		 * \exceptionsafety No-throw guarantee.
-		 */
-		static void swap(dynamic_matrix& lhs, dynamic_matrix& rhs) {
-			lhs.swap(rhs);
 		}
 		/**
 		 * \brief Erases the specified row and column from the container, yielding the submatrix.
