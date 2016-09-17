@@ -9,11 +9,11 @@
 
 namespace crsc {
 	template<typename Ty,
-		class Allocator = std::allocator<Ty>
+		class Allocator
 	> class dynamic_matrix;
 	template<typename Ty,
 		class Allocator = std::allocator<Ty>
-	> void swap(const dynamic_matrix<Ty, Allocator>& lhs, const dynamic_matrix<Ty, Allocator>& rhs) {
+	> void swap(dynamic_matrix<Ty, Allocator>& lhs, dynamic_matrix<Ty, Allocator>& rhs) {
 		lhs.swap(rhs);
 	}
 	/**
