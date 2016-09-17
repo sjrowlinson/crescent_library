@@ -29,7 +29,7 @@ namespace crsc {
 	 *         meet the requirement of `UniformRandomBitGenerator` (see C++ Concepts). Defaults to
 	 *         the engine type `std::mt19937`.
 	 * \tparam Distribution The type of distribution over which to calculate the random numbers. The
-	 *         value type of the distribution must match the value type `Ty` of this class. Must meet
+	 *         value type of the distribution must match the result type `Ty` of this class. Must meet
 	 *         the requirement of `RandomNumberDistribution` (see C++ Conecpts). Defaults to the
 	 *         distribution type `std::uniform_int_distribution<Ty>`.
 	 */
@@ -52,6 +52,16 @@ namespace crsc {
 		 * \param _dist Distribution for random numbers.
 		 */
 		explicit random_number_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
+			: eng(std::move(_eng)), dist(std::move(_dist)) {}
+		/**
+		 * \brief Move constructs the generator with the values of the distribution `_dist`
+		 *       and the engine `_eng`, the latter of which is default-initialised with a
+		 *       single `std::random_device{}()` whilst the former is not default-initialised.
+		 *
+		 * \param _dist Distribution for random numbers.
+		 * \param _eng Generator engine to use.
+		 */
+		explicit random_number_generator(Distribution&& _dist, Generator&& _eng = Generator{std::random_device{}()})
 			: eng(std::move(_eng)), dist(std::move(_dist)) {}
 		/**
 		 * \brief Constructs the generator with a copy of the values of the engine `_eng` and
@@ -94,8 +104,10 @@ namespace crsc {
 		 * \return `*this`.
 		 */
 		random_number_generator& operator=(random_number_generator&& other) {
-			if (this != &other)
-				swap(*this, std::move(other));
+			if (this != &other) {
+				eng = std::move(other.eng);
+				dist = std::move(other.dist);
+			}
 			return *this;
 		}
 		// GENERATING OPERATOR()
@@ -144,13 +156,6 @@ namespace crsc {
 			std::swap(eng, other.eng);
 			std::swap(dist, other.dist);
 		}
-		/**
-		 * \brief Exchanges the fields of the generator `lhs` with those of `rhs`.
-		 *
-		 * \param lhs `random_number_generator` object to swap with `rhs`.
-		 * \param rhs `random_number_generator` object to swap with `lhs`.
-		 */
-		static void swap(random_number_generator& lhs, random_number_generator& rhs) { lhs.swap(rhs); }
 	private:
 		generator_type eng;
 		distribution_type dist;
@@ -188,36 +193,99 @@ namespace crsc {
 		typedef typename uniform_pr_gen::generator_type generator_type;
 		typedef typename uniform_pr_gen::distribution_type distribution_type;
 		// CONSTRUCTION/ASSIGNMENT
+		/**
+		 * \brief Move constructs the generator with the value of the pre-defined generator `engine`. This
+		 *        is also the default constructor.
+		 *
+		 * \param engine Generator engine to use.
+		 */
 		explicit uniform_random_probability_generator(Generator&& engine = Generator{std::random_device{}()})
 			: generator(std::move(engine)) {}
+		/**
+		 * \brief Constructs the gnerator with a copy of the pre-defined generator `engine`.
+		 *
+		 * \param engine Generator engine to use.
+		 */
 		explicit uniform_random_probability_generator(const Generator& engine)
 			: generator(engine, distribution_type()) {}
+		/**
+		 * \brief Copy constructor. Constructs the generator with a copy of the fields of `other`.
+		 *
+		 * \param other `uniform_random_probability_generator` instance to use as data source.
+		 */
 		uniform_random_probability_generator(const uniform_random_probability_generator& other)
 			: generator(other.generator) {}
+		/**
+		 * \brief Move constructor. Constructs the generator with the fields of `other` using
+		 *        move-semantics such that `other` is left in a valid but unspecified state.
+		 *
+		 * \param other `uniform_random_probability_generator` instance to use as data source.
+		 */
 		uniform_random_probability_generator(uniform_random_probability_generator&& other)
 			: generator(std::move(other.generator)) {}
+		/**
+		 * \brief Copy assignment operator. Replaces the generator with a copy of the fields of `other`.
+		 * \param other `uniform_random_probability_generator` instance to use as data source.
+		 * \return `*this`.
+		 */
 		uniform_random_probability_generator& operator=(const uniform_random_probability_generator& other) {
 			if (this != &other)
 				generator = other.generator;
 			return *this;
 		}
+		/**
+		 * \brief Move-assignment operator. Replaces the generator with the fields of `other` using move-semantics.
+		 * \param other `uniform_random_probability_generator` instance to use as data source.
+		 * \return `*this`.
+		 */
 		uniform_random_probability_generator& operator=(uniform_random_probability_generator&& other) {
 			if (this != &other)
 				generator = std::move(other.generator);
 			return *this;
 		}
 		// GENERATING OPERATOR()
+		/**
+		 * \brief Generates the next random number in the distribution.
+		 * \return The generated random number.
+		 */
 		result_type operator()() { return generator(); }
 		// GENERATOR AND DISTRIBUTION OBJECT ACCESS
+		/**
+		 * \brief Returns a copy of the underlying distribution.
+		 * \return A copy of the underlying distribution over which the random
+		 *         numbers are generated.
+		 */
 		generator_type get_generator() const noexcept { return generator.get_generator(); }
+		/**
+		 * \brief Returns a copy of the underlying distribution.
+		 * \return A copy of the underlying distribution over which the random
+		 *         numbers are generated.
+		 */
 		distribution_type get_distribution() const noexcept { return generator.get_distribution(); }
 		// PROPERTIES
+		/**
+		 * \brief Returns the minimum potentially generated value (always 0.0).
+		 * \return The minimum value potentially generated by the underlying distribution.
+		 */
 		constexpr result_type min() const { return generator.min(); }
+		/**
+		 * \brief Returns the maximum potentially generated value (always 1.0).
+		 * \return The maximum value potentially generated by the underlying distribution.
+		 */
 		constexpr result_type max() const { return generator.max(); }
 		// MODIFIERS
+		/**
+		 * \brief Resets the internal state of the underlying distribution object. After calling this function,
+		 *        the next call to `operator()` on the generator will not be dependent upon previous calls
+		 *        to `operator()`.
+		 */
 		void reset_distribution_state() { generator.reset_distribution_state(); }
+		/**
+		 * \brief Exchanges the fields of the generator with those of `other`.
+		 *
+		 * \param other `uniform_random_probability_generator` object to swap with.
+		 */
 		void swap(uniform_random_probability_generator& other) { generator.swap(other.generator); }
-		static void swap(uniform_random_probability_generator& lhs, uniform_random_probability_generator& rhs) { lhs.swap(rhs); }
 	private:
 		uniform_pr_gen generator;
 	};
@@ -272,6 +340,15 @@ namespace crsc {
 		 * \param _dist Distribution for random complex numbers.
 		 */
 		explicit random_complex_generator(Generator&& _eng = Generator{std::random_device{}()}, Distribution&& _dist = Distribution())
+			: eng(std::move(_eng)), dist(std::move(_dist)) {}
+		/**
+		 * \brief Move constructs the generator with the values of the distribution `_dist` and
+		 *        the engine `_eng`.
+		 *
+		 * \param _eng Generator engine to use.
+		 * \param _dist Distribution to use.
+		 */
+		explicit random_complex_generator(Distribution&& _dist, Generator&& _eng = Generator{std::random_device{}()})
 			: eng(std::move(_eng)), dist(std::move(_dist)) {}
 		/**
 		 * \brief Constructs the generator with a copy of the values of the engine `_eng` and
