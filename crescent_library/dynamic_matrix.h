@@ -8,14 +8,6 @@
 #include <vector>
 
 namespace crsc {
-	template<typename Ty,
-		class Allocator
-	> class dynamic_matrix;
-	template<typename Ty,
-		class Allocator = std::allocator<Ty>
-	> void swap(dynamic_matrix<Ty, Allocator>& lhs, dynamic_matrix<Ty, Allocator>& rhs) {
-		lhs.swap(rhs);
-	}
 	/**
 	 * \class dynamic_matrix
 	 *
@@ -1230,7 +1222,18 @@ namespace crsc {
 		std::vector<value_type, allocator_type> mtx;
 		size_type rows_;
 		size_type cols_;
+		void swap(dynamic_matrix& lhs, dynamic_matrix& rhs) { lhs.swap(rhs); }
 	};
+	/**
+	 * \brief Exchanges the contents of two `dynamic_matrix` containers, `lhs` and `rhs`.
+	 * \param lhs First instance of `dynamic_matrix`.
+	 * \param rhs Second instance of `dynamic_matrix`.
+	 */
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> void swap(dynamic_matrix<Ty, Allocator>& lhs, dynamic_matrix<Ty, Allocator>& rhs) {
+		lhs.swap(rhs);
+	}
 	/**
 	 * \brief Stream insertion operator. Inserts formatted `dynamic_matrix` contents to a `std::ostream`.
 	 *
@@ -1244,42 +1247,13 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>,
 		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
 	> std::ostream& operator<<(std::ostream& os, const dynamic_matrix<_Ty, _Alloc>& dm) {
-		typename dynamic_matrix<_Ty, _Alloc>::size_type count = 0;
+		typename dynamic_matrix<_Ty, _Alloc>::size_type count = 0U;
 		for (const auto& el : dm) {
 			os << el << ' ';
 			++count;
-			if (!(count % dm.columns()))
-				os << '\n';
+			if (!(count % dm.columns())) os << '\n';
 		}
 		return os;
-	}
-	/**
-	 * \brief Makes an identity `dynamic_matrix` of specified size.
-	 *
-	 * \tparam _Ty Type of stored elements.
-	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
-	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
-	 * \remark Only enabled if `std::is_arithmetic<_Ty>::value`.
-	 * \param _rows Number of rows.
-	 * \param _cols Number of columns.
-	 * \param alloc Allocator to use for all memory allocations of this container.
-	 * \return Identity `dynamic_matrix` of given dimensions.
-	 * \throw Throws `std::logic_error` if `_rows != _cols`.
-	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject to RVO).
-	 * \exceptionsafety See exception safeties of `dynamic_matrix(_rows, _cols, alloc)` constructor and copy constructor.
-	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>,
-		class = std::enable_if_t<std::is_arithmetic<_Ty>::value>
-	> dynamic_matrix<_Ty, _Alloc> make_identity_matrix(std::size_t _rows, std::size_t _cols, const _Alloc& alloc = _Alloc()) {
-		if (_rows != _cols)
-			throw std::logic_error("identity_matrix must have _rows == _cols.");
-		dynamic_matrix<_Ty, _Alloc> identity_matrix(_rows, _cols, alloc);
-		for (std::size_t i = 0; i < _rows; ++i) {
-			for (std::size_t j = 0; j < _cols; ++j)
-				if (i == j) identity_matrix[i][j] = static_cast<_Ty>(1);
-		}
-		return identity_matrix;
 	}
 	/**
 	 * \brief Converts a two dimensional C-style array `arr_2d` to a `dynamic_matrix`, deleting `arr_2d` in the process.
@@ -1303,8 +1277,7 @@ namespace crsc {
 		class _Alloc = std::allocator<_Ty>
 	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
 		dynamic_matrix<_Ty, _Alloc> dynmtx(arr_2d, rows, cols, alloc);
-		for (std::size_t i = 0; i < rows; ++i)
-			delete[] arr_2d[i];
+		for (std::size_t i = 0; i < rows; ++i) delete[] arr_2d[i];
 		delete[] arr_2d;
 		return dynmtx;
 	}
@@ -1389,9 +1362,10 @@ namespace crsc {
 		if (lhs.columns() != rhs.rows())
 			throw std::invalid_argument("dynamic_matrix dimensions must agree for matrix_product.");
 		dynamic_matrix<_Ty, _Alloc> product(lhs.rows(), rhs.columns());
-		for (std::size_t i = 0; i < product.rows(); ++i) {
-			for (std::size_t j = 0; j < product.columns(); ++j) {
-				for (std::size_t k = 0; k < lhs.columns(); ++k)
+		typedef typename dynamic_matrix<Ty, Alloc>::size_type size_type;
+		for (size_type i = 0; i < product.rows(); ++i) {
+			for (size_type j = 0; j < product.columns(); ++j) {
+				for (size_type k = 0; k < lhs.columns(); ++k)
 					product(i,j) += lhs(i,k) * rhs(k,j);
 			}
 		}
