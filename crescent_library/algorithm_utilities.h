@@ -13,7 +13,7 @@ namespace crsc {
 	 * \param _vec `std::vector` of data.
 	 * \return `std::vector` of indices ordered by sorting of `_vec`.
 	 */
-	template<typename _Ty> std::vector<std::size_t> tag_sort(const std::vector<_Ty>& _vec) {
+	template<typename Ty> std::vector<std::size_t> tag_sort(const std::vector<Ty>& _vec) {
 		// allocate std::vector for tag indices with capacity of _vec
 		std::vector<std::size_t> tag_vec(_vec.size());
 		// fill tag_vec with ascending positive integers representing indices
@@ -33,8 +33,8 @@ namespace crsc {
 	 * \param value Value to compare the elements to.
 	 * \return `std::set<InputIt>` containing iterators to all occurrences of `value` in the range.
 	 */
-	template<class InputIt, class _Ty>
-	std::set<InputIt> find_all(InputIt first, InputIt last, const _Ty& value) {
+	template<class InputIt, class Ty>
+	std::set<InputIt> find_all(InputIt first, InputIt last, const Ty& value) {
 		std::set<InputIt> found_set;
 		for (; first != last; ++first) {
 			if (*first == value) found_set.insert(first);

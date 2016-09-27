@@ -29,9 +29,9 @@ namespace crsc {
 	 * iteration and forward iteration are allowed. The order of iteration uses an "in-order traversal" such that elements of the 
 	 * `dynamic_r3_tensor` are iterated through by rows from left to right, top to bottom with slices traversed from front to back.
 	 *
-	 * \tparam _Ty The type of the elements.
-	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements of 
-	 *         `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \tparam Ty The type of the elements.
+	 * \tparam Allocator An allocator that is used to acquire memory to store the elements. The type must meet the requirements of 
+	 *         `Allocator` (see C++ Standard). Behaviour is undefined if `Allocator::value_type != Ty`.
 	 * \remark As this is a dynamic data structure the dimensions of the `dynamic_r3_tensor` do NOT need to be known at compile-time,
 	 *         these dimensions can be manipulated at run-time.
 	 * \invariant Every row shall have an equal number of elements, every column shall have an equal number of elements and every
@@ -39,23 +39,23 @@ namespace crsc {
 	 * \author Samuel Rowlinson
 	 * \date July, 2016
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
 	> class dynamic_r3_tensor {
 	public:
 		// PUBLIC API TYPE DEFINITIONS
-		typedef _Ty value_type;
-		typedef _Ty& reference;
-		typedef const _Ty& const_reference;
-		typedef _Ty* pointer;
-		typedef const _Ty* const_pointer;
+		typedef Ty value_type;
+		typedef Ty& reference;
+		typedef const Ty& const_reference;
+		typedef Ty* pointer;
+		typedef const Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-		typedef _Alloc allocator_type;
-		typedef typename std::vector<_Ty, _Alloc>::const_iterator const_iterator;
-		typedef typename std::vector<_Ty, _Alloc>::iterator iterator;
-		typedef typename std::vector<_Ty, _Alloc>::const_reverse_iterator const_reverse_iterator;
-		typedef typename std::vector<_Ty, _Alloc>::reverse_iterator reverse_iterator;
+		typedef Allocator allocator_type;
+		typedef typename std::vector<Ty, Allocator>::const_iterator const_iterator;
+		typedef typename std::vector<Ty, Allocator>::iterator iterator;
+		typedef typename std::vector<Ty, Allocator>::const_reverse_iterator const_reverse_iterator;
+		typedef typename std::vector<Ty, Allocator>::reverse_iterator reverse_iterator;
 	private:
 		/**
 		 * \class proxy_column_vector
@@ -65,7 +65,7 @@ namespace crsc {
 		 */
 		class proxy_column_vector {
 		public:
-			proxy_column_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _col_index, size_type _cols, size_type _rows)
+			proxy_column_vector(std::vector<value_type, Allocator>& _vec, size_type _row_index, size_type _col_index, size_type _cols, size_type _rows)
 				: vec(_vec), row_index(_row_index), col_index(_col_index), tensor_columns(_cols), tensor_rows(_rows) {
 			}
 			const_reference operator[](size_type s) const {
@@ -75,7 +75,7 @@ namespace crsc {
 				return vec[(s*tensor_rows + col_index)*tensor_columns + row_index];
 			}
 		private:
-			std::vector<value_type, _Alloc>& vec;
+			std::vector<value_type, Allocator>& vec;
 			size_type row_index;
 			size_type col_index;
 			size_type tensor_columns;
@@ -89,7 +89,7 @@ namespace crsc {
 		 */
 		class proxy_row_vector {
 		public:
-			proxy_row_vector(std::vector<value_type, _Alloc>& _vec, size_type _row_index, size_type _cols, size_type _rows)
+			proxy_row_vector(std::vector<value_type, Allocator>& _vec, size_type _row_index, size_type _cols, size_type _rows)
 				: vec(_vec), row_index(_row_index), tensor_columns(_cols), tensor_rows(_rows) {
 			}
 			proxy_column_vector operator[](size_type c) const {
@@ -99,7 +99,7 @@ namespace crsc {
 				return proxy_column_vector(vec, row_index, c, tensor_columns, tensor_rows);
 			}
 		private:
-			std::vector<value_type, _Alloc>& vec;
+			std::vector<value_type, Allocator>& vec;
 			size_type row_index;
 			size_type tensor_columns;
 			size_type tensor_rows;
@@ -112,17 +112,17 @@ namespace crsc {
 		 *
 		 * \complexity Constant.
 		 */
-		dynamic_r3_tensor() : dynamic_r3_tensor(_Alloc()) {}
+		dynamic_r3_tensor() : dynamic_r3_tensor(Allocator()) {}
 		/**
 		 * \brief Initialises empty container (zero rows, columns and slices) using a specificed allocator `alloc`.
 		 *
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Constant.
 		 */
-		explicit dynamic_r3_tensor(const _Alloc& alloc)
+		explicit dynamic_r3_tensor(const Allocator& alloc)
 			: tnsr(alloc), rows_(0), cols_(0), slices_(0) {}
 		/**
-		 * \brief Constructs the container with `_rows*_cols` default-inserted instances of `_Ty`.
+		 * \brief Constructs the container with `_rows*_cols` default-inserted instances of `Ty`.
 		 *
 		 * \param _row Number of rows.
 		 * \param _cols Number of columns.
@@ -130,7 +130,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols*_slices`.
 		 */
-		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const _Alloc& alloc = _Alloc())
+		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const Allocator& alloc = Allocator())
 			: tnsr(_rows*_cols*_slices, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {}
 		/**
 		 * \brief Constructs the container with `_rows*_cols*_slices` copies of elements with value `_val`.
@@ -142,7 +142,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols*_slices`.
 		 */
-		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const value_type& _val, const _Alloc& alloc = _Alloc())
+		explicit dynamic_r3_tensor(size_type _rows, size_type _cols, size_type _slices, const value_type& _val, const Allocator& alloc = Allocator())
 			: tnsr(_rows*_cols*_slices, _val, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {}
 		/**
 		 * \brief Constructs the container with the contents of a three-dimensional C-style array `arr_3d`.
@@ -154,7 +154,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols*_slices`.
 		 */
-		explicit dynamic_r3_tensor(value_type*** arr_3d, size_type _rows, size_type _cols, size_type _slices, const _Alloc& alloc = _Alloc())
+		explicit dynamic_r3_tensor(value_type*** arr_3d, size_type _rows, size_type _cols, size_type _slices, const Allocator& alloc = Allocator())
 			: tnsr(_rows*_cols*_slices, alloc), rows_(_rows), cols_(_cols), slices_(_slices) {
 			for (size_type i = 0; i < _rows; ++i) {
 				for (size_type j = 0; j < _cols; ++j) {
@@ -179,7 +179,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_other.rows()*_other.columns()`.
 		 */
-		dynamic_r3_tensor(const dynamic_r3_tensor& _other, const _Alloc& alloc)
+		dynamic_r3_tensor(const dynamic_r3_tensor& _other, const Allocator& alloc)
 			: tnsr(_other.tnsr, alloc), rows_(_other.rows_), cols_(_other.cols_), slices_(_other.slices_) {}
 		/**
 		 * \brief Move constructor. Constructs the container with the contents of `_other` using move-semantics. Allocator is
@@ -197,7 +197,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity If `alloc != _other.get_allocator()` linear, otherwise constant.
 		 */
-		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const _Alloc& alloc)
+		dynamic_r3_tensor(dynamic_r3_tensor&& _other, const Allocator& alloc)
 			: tnsr(std::move(_other.tnsr), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)), slices_(std::move(_other.slices_)) {}
 		/**
 		 * \brief Destructs the container. The destructors of the elements are called and the used storage is deallocated. Note
@@ -323,7 +323,7 @@ namespace crsc {
 		 * \param _cols Number of columns to allocate storage for.
 		 * \param _slices Number of slices to allocate storage for.
 		 * \throw Throws `std::length_error` if `_rows*_cols*_slices > max_size()`. Or any exception
-		 *        thrown by `_Alloc::allocate()` (typically `std::bad_alloc`).
+		 *        thrown by `Allocator::allocate()` (typically `std::bad_alloc`).
 		 * \exceptionsafety If no reallocations happen of if the type of the elements has either a
 		 *                  non-throwing move constructor or a copy constructor, then there is a
 		 *                  strong guarantee (no changes in container if exception is thrown). Otherwise
@@ -479,7 +479,7 @@ namespace crsc {
 			return tnsr.back();
 		}
 		/**
-		 * \brief Returns `const_pointer` to the underlying array `const _Ty*` serving as element
+		 * \brief Returns `const_pointer` to the underlying array `const Ty*` serving as element
 		 *        storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range,
@@ -493,7 +493,7 @@ namespace crsc {
 			return tnsr.data();
 		}
 		/**
-		 * \brief Returns `pointer` to the underlying array `_Ty*` serving as element storage.
+		 * \brief Returns `pointer` to the underlying array `Ty*` serving as element storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range,
 		 * even if the container is empty - `data()` is non-dereferencable in this case.
@@ -580,7 +580,7 @@ namespace crsc {
 			lhs.swap(rhs);
 		}
 	private:
-		std::vector<value_type, _Alloc> tnsr;
+		std::vector<value_type, Allocator> tnsr;
 		size_type rows_;
 		size_type cols_;
 		size_type slices_;
@@ -594,11 +594,11 @@ namespace crsc {
 	 * \complexity Linear in `rows()*columns()*slices()`.
 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>,
-		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& os, const dynamic_r3_tensor<_Ty, _Alloc>& tnsr) {
-		typedef typename dynamic_r3_tensor<_Ty, _Alloc>::size_type size_type;
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>,
+		class = std::enable_if_t<has_insertion_operator<Ty>::value>
+	> std::ostream& operator<<(std::ostream& os, const dynamic_r3_tensor<Ty, Allocator>& tnsr) {
+		typedef typename dynamic_r3_tensor<Ty, Allocator>::size_type size_type;
 		for (size_type i = 0; i < tnsr.rows(); ++i) {
 			for (size_type j = 0; j < tnsr.columns(); ++j) {
 				os << '(';
@@ -612,11 +612,11 @@ namespace crsc {
 		}
 		return os;
 	}
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_r3_tensor<_Ty, _Alloc> to_dynamic_r3_tensor(_Ty*** arr_3d,
-		std::size_t rows, std::size_t cols, std::size_t slices, const _Alloc& alloc = _Alloc()) {
-		dynamic_r3_tensor<_Ty, _Alloc> dyntnsr(arr_3d, rows, cols, slices, alloc);
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_r3_tensor<Ty, Allocator> to_dynamic_r3_tensor(Ty*** arr_3d,
+		std::size_t rows, std::size_t cols, std::size_t slices, const Allocator& alloc = Allocator()) {
+		dynamic_r3_tensor<Ty, Allocator> dyntnsr(arr_3d, rows, cols, slices, alloc);
 		for (std::size_t i = 0; i < rows; ++i) {
 			for (std::size_t j = 0; j < cols; ++j) {
 				delete[] arr_3d[i][j];
@@ -626,10 +626,10 @@ namespace crsc {
 		delete[] arr_3d;
 		return dyntnsr;
 	}
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_r3_tensor<_Ty, _Alloc> to_dynamic_r3_tensor(_Ty*** arr_3d,
-		std::size_t rows, std::size_t cols, std::size_t slices, const _Alloc& alloc = _Alloc()) {
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_r3_tensor<Ty, Allocator> to_dynamic_r3_tensor(Ty*** arr_3d,
+		std::size_t rows, std::size_t cols, std::size_t slices, const Allocator& alloc = Allocator()) {
 		return dyntnsr(arr_3d, rows, cols, slices, alloc);
 	}
 }

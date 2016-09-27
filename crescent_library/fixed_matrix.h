@@ -34,7 +34,7 @@ namespace crsc {
 	 * iteration uses an "in-order traversal" such that elements of the `fixed_matrix` are iterated through 
 	 * by rows from left to right, top to bottom.
 	 *
-	 * \tparam _Ty The type of the elements.
+	 * \tparam Ty The type of the elements.
 	 * \tparam _Rows Number of matrix rows.
 	 * \tparam _Cols Number of matrix columns.
 	 * \remark The dimensions of the matrix must be known at compile-time and cannot be altered at any time
@@ -45,23 +45,23 @@ namespace crsc {
 	 * \author Samuel Rowlinson
 	 * \date July, 2016
 	 */
-	template<typename _Ty,
+	template<typename Ty,
 		std::size_t _Rows,
 		std::size_t _Cols
 	> class fixed_matrix {
 	public:
 		// PUBLIC API TYPE DEFINITIONS
-		typedef _Ty value_type;
-		typedef _Ty& reference;
-		typedef const _Ty& const_reference;
-		typedef _Ty* pointer;
-		typedef const _Ty* const_pointer;
+		typedef Ty value_type;
+		typedef Ty& reference;
+		typedef const Ty& const_reference;
+		typedef Ty* pointer;
+		typedef const Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-		typedef typename std::array<_Ty, _Rows*_Cols>::const_iterator const_iterator;
-		typedef typename std::array<_Ty, _Rows*_Cols>::iterator iterator;
-		typedef typename std::array<_Ty, _Rows*_Cols>::const_reverse_iterator const_reverse_iterator;
-		typedef typename std::array<_Ty, _Rows*_Cols>::reverse_iterator reverse_iterator;
+		typedef typename std::array<Ty, _Rows*_Cols>::const_iterator const_iterator;
+		typedef typename std::array<Ty, _Rows*_Cols>::iterator iterator;
+		typedef typename std::array<Ty, _Rows*_Cols>::const_reverse_iterator const_reverse_iterator;
+		typedef typename std::array<Ty, _Rows*_Cols>::reverse_iterator reverse_iterator;
 	private:
 		/**
 		 * \class proxy_row_array
@@ -87,7 +87,7 @@ namespace crsc {
 		// CONSTRUCTION/ASSIGNMENT
 		/**
 		 * \brief Default constructor, initialises container with template-specified rows 
-		 *        and columns each taking the default-constructed value of `_Ty`.
+		 *        and columns each taking the default-constructed value of `Ty`.
 		 */
 		fixed_matrix() : mtx() {}
 		/**
@@ -333,7 +333,7 @@ namespace crsc {
 		 */
 		reference back() { return mtx.back(); }
 		/**
-		 * \brief Returns `const_pointer` to the underlying array `const _Ty*` serving as element storage.
+		 * \brief Returns `const_pointer` to the underlying array `const Ty*` serving as element storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range, even if
 		 * the container is empty - `data()` is non-dereferencable in this case.
@@ -344,7 +344,7 @@ namespace crsc {
 		 */
 		const_pointer data() const noexcept { return mtx.data(); }
 		/**
-		 * \brief Returns pointer to the underling array `_Ty*` serving as element storage.
+		 * \brief Returns pointer to the underling array `Ty*` serving as element storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range, even if
 		 * the container is empty - `data()` is non-dereferencable in this case.
@@ -545,12 +545,12 @@ namespace crsc {
 	private:
 		std::array<value_type, _Rows*_Cols> mtx;
 	};
-	template<typename _Ty,
+	template<typename Ty,
 		std::size_t _Rows,
 		std::size_t _Cols,
-		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& os, const fixed_matrix<_Ty, _Rows, _Cols>& fm) {
-		typename fixed_matrix<_Ty, _Rows, _Cols>::size_type count = 0;
+		class = std::enable_if_t<has_insertion_operator<Ty>::value>
+	> std::ostream& operator<<(std::ostream& os, const fixed_matrix<Ty, _Rows, _Cols>& fm) {
+		typename fixed_matrix<Ty, _Rows, _Cols>::size_type count = 0;
 		for (const auto& el : fm) {
 			os << el << ' ';
 			++count;
@@ -562,24 +562,24 @@ namespace crsc {
 	/**
 	 * \brief Makes an identity `fixed_matrix` of template-specified size.
 	 * 
-	 * \tparam _Ty The type of stored elements, must satisfy `std::is_arithmetic<_Ty>::value`.
+	 * \tparam Ty The type of stored elements, must satisfy `std::is_arithmetic<Ty>::value`.
 	 * \tparam _rows Number of rows.
 	 * \tparam _cols Number of columns.
-	 * \remark Only enabled if `_rows == _columns && std::is_arithmetic<_Ty>::value`.
+	 * \remark Only enabled if `_rows == _columns && std::is_arithmetic<Ty>::value`.
 	 * \return Identity `fixed_matrix` of given dimensions.
 	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject
 	 *             to RVO).
 	 */
-	template<typename _Ty,
+	template<typename Ty,
 		std::size_t _rows,
 		std::size_t _cols,
 		class = std::enable_if_t<_rows == _cols
-			&& std::is_arithmetic<_Ty>::value>
-	> fixed_matrix<_Ty, _rows, _cols> make_identity_matrix() {
-		fixed_matrix<_Ty, _rows, _cols> identity_matrix();
+			&& std::is_arithmetic<Ty>::value>
+	> fixed_matrix<Ty, _rows, _cols> make_identity_matrix() {
+		fixed_matrix<Ty, _rows, _cols> identity_matrix();
 		for (std::size_t i = 0; i < _rows; ++i) {
 			for (std::size_t j = 0; j < _cols; ++j)
-				if (i == j) identity_matrix[i][j] = static_cast<_Ty>(1);
+				if (i == j) identity_matrix[i][j] = static_cast<Ty>(1);
 		}
 		return identity_matrix;
 	}
@@ -587,7 +587,7 @@ namespace crsc {
 	 * \brief Makes a `fixed_matrix` object from a 2D C-style array.
 	 *
 	 * \warning This method does not delete `c_arr_2d` after use.
-	 * \tparam _Ty The type of stored elements.
+	 * \tparam Ty The type of stored elements.
 	 * \tparam _rows Number of rows.
 	 * \tparam _cols Number of columns.
 	 * \param c_arr_2d Two-dimensional C-style array used as data source.
@@ -595,21 +595,21 @@ namespace crsc {
 	 * \complexity Linear in `_rows*_cols` plus complexity of container's copy constructor (subject
 	 *             to RVO).
 	 */
-	template<typename _Ty,
+	template<typename Ty,
 		std::size_t _rows,
 		std::size_t _cols
-	> fixed_matrix<_Ty, _rows, _cols> to_fixed_matrix(_Ty** c_arr_2d) {
-		fixed_matrix<_Ty, _rows, _cols> fm(c_arr_2d);
+	> fixed_matrix<Ty, _rows, _cols> to_fixed_matrix(Ty** c_arr_2d) {
+		fixed_matrix<Ty, _rows, _cols> fm(c_arr_2d);
 		for (std::size_t i = 0; i < _rows; ++i)
 			delete[] c_arr_2d[i];
 		delete[] c_arr_2d;
 		return fm;
 	}
-	template<typename _Ty,
+	template<typename Ty,
 		std::size_t _rows,
 		std::size_t _cols
-	> fixed_matrix<_Ty, _rows, _cols> make_fixed_matrix(_Ty** c_arr_2d) {
-		return fixed_matrix<_Ty, _rows, _cols>(c_arr_2d);
+	> fixed_matrix<Ty, _rows, _cols> make_fixed_matrix(Ty** c_arr_2d) {
+		return fixed_matrix<Ty, _rows, _cols>(c_arr_2d);
 	}
 	template<typename Ty,
 		std::size_t Rows,

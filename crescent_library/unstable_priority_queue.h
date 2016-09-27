@@ -15,33 +15,33 @@ namespace crsc {
 	 *        such that the heap ordering can be broken by the user; therefore `bubble_up`, `bubble_down` and `heapify`
 	 *        methods are provided as part of the containers' public API to allow correct heap re-ordering to be called.
 	 *
-	 * The element priorities are compared by default using `std::less<_Ty>` such that the largest element is always at
+	 * The element priorities are compared by default using `std::less<Ty>` such that the largest element is always at
 	 * the top of the heap, this comparator can be altered as a template argument to any other `Compare` type such as 
-	 * `std::greater<_Ty>` which would define minimum binary heap behaviour such that the smallest element is always on
+	 * `std::greater<Ty>` which would define minimum binary heap behaviour such that the smallest element is always on
 	 * the top of the heap (providing constant lookup for the smallest stored item).
 	 *
-	 * \tparam _Ty The type of the stored elements.
+	 * \tparam Ty The type of the stored elements.
 	 * \tparam Container The type of the underlying container to use to store the elements. The container must satisfy the
 	 *         requirements of `SequenceContainer` and its iterators must satisfy the requirements of `RandomAccessIterator`
 	 *         (see C++ Concepts). Additionally, it must provide the following functions with the usual semantics:
 	 *         - `push_back()`
 	 *         - `pop_back()`
 	 *         - `emplace_back()`
-	 * \tparam Priority A `Compare` type providing strict weak ordering, defaults to `std::less<_Ty>`.
+	 * \tparam Priority A `Compare` type providing strict weak ordering, defaults to `std::less<Ty>`.
 	 * \author Samuel Rowlinson
 	 * \date August, 2016
 	 */
-	template<class _Ty,
-		class Container = std::vector<_Ty>,
-		class Priority = std::less<_Ty>
+	template<class Ty,
+		class Container = std::vector<Ty>,
+		class Priority = std::less<Ty>
 	> class unstable_priority_queue {
 	public:
 		// PUBLIC API TYPE DEFINITIONS
-		typedef _Ty value_type;
-		typedef _Ty& reference;
-		typedef const _Ty& const_reference;
-		typedef _Ty* pointer;
-		typedef const _Ty* const_pointer;
+		typedef Ty value_type;
+		typedef Ty& reference;
+		typedef const Ty& const_reference;
+		typedef Ty* pointer;
+		typedef const Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
 		typedef typename Container::iterator iterator;

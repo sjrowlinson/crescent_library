@@ -13,9 +13,9 @@ namespace crsc {
 	 * \brief A container adaptor (wrapping a `std::vector` as the heap storage) that provides constant time lookup
 	 *        of the largest (by default) element, at the expense of logarithmic insertion and extraction.
 	 *
-	 * The element priorities are compared by default using `std::less<_Ty>` such that the largest element is always
+	 * The element priorities are compared by default using `std::less<Ty>` such that the largest element is always
 	 * at the top of the heap, this comparator can be altered as a template argument to any other `Compare` type such
-	 * as `std::greater<_Ty>` which would define minimum binary heap behaviour such that the smallest element is
+	 * as `std::greater<Ty>` which would define minimum binary heap behaviour such that the smallest element is
 	 * always on the top of the heap (providing constant lookup for the smallest item).
 	 *
 	 * Unlike `std::priority_queue` this container only allows the wrapping of a `std::vector` as the underlying
@@ -24,31 +24,31 @@ namespace crsc {
 	 * STL priority queue does not provide. In addition, similarly to `std::priority_queue`, every method is guaranteed
 	 * to preserve the class invariant such that the heap is not invalidated at any point between method calls.
 	 *
-	 * \tparam _Ty The type of the elements.
+	 * \tparam Ty The type of the elements.
 	 * \tparam _Cntr The type of the underlying container to use to store the elements. The container must satisfy the
 	 *         requirements of `SequenceContainer` and its iterators must satisfy the requirements of `RandomAccessIterator`
 	 *         (see C++ Concepts). Additionally, it must provide the following functions with the usual semantics:
 	 *         - `push_back()`
 	 *         - `pop_back()`
 	 *         - `emplace_back()`
-	 * \tparam _Pr A `Compare` type providing a strict weak ordering, defaults to `std::less<_Ty>`.
+	 * \tparam _Pr A `Compare` type providing a strict weak ordering, defaults to `std::less<Ty>`.
 	 * \invariant The heap (whose ordering/behaviour is defined by the comparator `_Pr`) shall never be invalidated
 	 *            between method calls, and if any exceptions are thrown by a method the heap shall never be left in
 	 *            a state which would invalidate the heap.
 	 * \author Samuel Rowlinson
 	 * \date July, 2016
 	 */
-	template<typename _Ty,
-		class _Cntr = std::vector<_Ty>,
-		class _Pr = std::less<_Ty>
+	template<typename Ty,
+		class _Cntr = std::vector<Ty>,
+		class _Pr = std::less<Ty>
 	> class priority_queue {
 	public:
 		// PUBLIC API TYPE DEFINITIONS
-		typedef _Ty value_type;
-		typedef _Ty& reference;
-		typedef const _Ty& const_reference;
-		typedef _Ty* pointer;
-		typedef const _Ty* const_pointer;
+		typedef Ty value_type;
+		typedef Ty& reference;
+		typedef const Ty& const_reference;
+		typedef Ty* pointer;
+		typedef const Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
 		typedef typename _Cntr::const_iterator const_iterator;
@@ -276,8 +276,8 @@ namespace crsc {
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void enqueue(const value_type& _val) {
 			heap_cntr.push_back(_val);
 			bubble_up(heap_cntr.size() - 1);
@@ -291,8 +291,8 @@ namespace crsc {
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> void enqueue(value_type&& _val) {
 			heap_cntr.push_back(std::move(_val));
 			bubble_up(heap_cntr.size() - 1);
@@ -343,8 +343,8 @@ namespace crsc {
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void alter(const std::pair<value_type, value_type>& _tgt_alt) {
 			auto it = std::find(heap_cntr.begin(), heap_cntr.end(), _tgt_alt.first);
 			if (it != heap_cntr.end()) {
@@ -363,8 +363,8 @@ namespace crsc {
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void alter(const_iterator _pos, const value_type& _alter_to_val) {
 			auto index = std::distance(heap_cntr.cbegin(), _pos); // index of changed element
 			bool b_up = comp(heap_cntr[index], _alter_to_val);
@@ -381,8 +381,8 @@ namespace crsc {
 		 * \exceptionsafety Strong-guarantee, if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> void alter(const_iterator _pos, value_type&& _alter_to_val) {
 			auto index = std::distance(heap_cntr.cbegin(), _pos); // index of changed element
 			bool b_up = comp(heap_cntr[index], _alter_to_val);
@@ -403,8 +403,8 @@ namespace crsc {
 		 *                  in the container.
 		 */
 		template<class UnaryPredicate,
-			class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+			class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void alter(const value_type& _alter_to_val, UnaryPredicate _p) {
 			auto it = std::find_if(heap_cntr.begin(), heap_cntr.end(), _p);
 			if (it != heap_cntr.end()) {
@@ -428,8 +428,8 @@ namespace crsc {
 		 *                  in the container.
 		 */
 		template<class UnaryPredicate,
-			class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+			class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> void alter(value_type&& _alter_to_val, UnaryPredicate _p) {
 			auto it = std::find_if(heap_cntr.begin(), heap_cntr.end(), _p);
 			if (it != heap_cntr.end()) {

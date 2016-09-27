@@ -35,9 +35,9 @@ namespace crsc {
 	 * - Insertion or removal of rows/columns at the end - linear in number of columns/rows respectively: \[O(n_c)\], \[O(n_r)\]. 
 	 * - Insertion or removal of rows/columns - linear in `std::distance` to the end of the `dynamic_matrix` O(n).
 	 *
-	 * \tparam _Ty The type of the elements.
-	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
-	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \tparam Ty The type of the elements.
+	 * \tparam Allocator An allocator that is used to acquire memory to store the elements. The type must meet the requirements
+	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `Allocator::value_type != Ty`.
 	 * \remark As this is a dynamic data structure the dimensions of the `dynamic_matrix` do NOT need to be known at
 	 *         compile-time, these dimensions can be manipulated at run-time. This structure occupies slightly more
 	 *         memory than a fixed-size matrix for this reason - if memory is a concern and fixed dimensions are known
@@ -47,23 +47,23 @@ namespace crsc {
 	 * \author Samuel Rowlinson
 	 * \date July, 2016
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
 	> class dynamic_matrix {
 	public:
 		// PUBLIC API TYPE DEFINITIONS
-		typedef _Ty value_type;
-		typedef _Ty& reference;
-		typedef const _Ty& const_reference;
-		typedef _Ty* pointer;
-		typedef const _Ty* const_pointer;
+		typedef Ty value_type;
+		typedef Ty& reference;
+		typedef const Ty& const_reference;
+		typedef Ty* pointer;
+		typedef const Ty* const_pointer;
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
-		typedef _Alloc allocator_type;
-		typedef typename std::vector<_Ty, _Alloc>::const_iterator const_iterator;
-		typedef typename std::vector<_Ty, _Alloc>::iterator iterator;
-		typedef typename std::vector<_Ty, _Alloc>::const_reverse_iterator const_reverse_iterator;
-		typedef typename std::vector<_Ty, _Alloc>::reverse_iterator reverse_iterator;
+		typedef Allocator allocator_type;
+		typedef typename std::vector<Ty, Allocator>::const_iterator const_iterator;
+		typedef typename std::vector<Ty, Allocator>::iterator iterator;
+		typedef typename std::vector<Ty, Allocator>::const_reverse_iterator const_reverse_iterator;
+		typedef typename std::vector<Ty, Allocator>::reverse_iterator reverse_iterator;
 	private:
 		/**
 		 * \class proxy_row_vector
@@ -93,7 +93,7 @@ namespace crsc {
 		 *
 		 * \complexity Constant.
 	 	 */
-		dynamic_matrix() : dynamic_matrix(_Alloc()) {}
+		dynamic_matrix() : dynamic_matrix(Allocator()) {}
 		/**
 		 * \brief Default constructor, initialises empty container (zero rows and columns) with
 		 *        specified allocator.
@@ -101,18 +101,18 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Constant.
 		 */
-		explicit dynamic_matrix(const _Alloc& alloc)
+		explicit dynamic_matrix(const Allocator& alloc)
 			: mtx(alloc), rows_(0), cols_(0) {}
 		/**
 		 * \brief Constructs the container with `_rows*_cols` default-inserted
-		 *        instances of `_Ty`.
+		 *        instances of `Ty`.
 		 *
 		 * \param _rows Number of rows.
 		 * \param _cols Number of columns.
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols`.
 		 */
-		explicit dynamic_matrix(size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
+		explicit dynamic_matrix(size_type _rows, size_type _cols, const Allocator& alloc = Allocator())
 			: mtx(_rows*_cols, alloc), rows_(_rows), cols_(_cols) {}
 		/**
 		 * \brief Constructs the container with `_rows*_cols` copies of elements
@@ -124,7 +124,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols`.
 		 */
-		explicit dynamic_matrix(size_type _rows, size_type _cols, const value_type& _val, const _Alloc& alloc = _Alloc())
+		explicit dynamic_matrix(size_type _rows, size_type _cols, const value_type& _val, const Allocator& alloc = Allocator())
 			: mtx(_rows*_cols, _val, alloc), rows_(_rows), cols_(_cols) {}
 		/**
 		 * \brief Constructs the container with `_rows*cols` elements with values 
@@ -141,7 +141,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_rows*_cols`.
 		 */
-		explicit dynamic_matrix(value_type** _arr_2d, size_type _rows, size_type _cols, const _Alloc& alloc = _Alloc())
+		explicit dynamic_matrix(value_type** _arr_2d, size_type _rows, size_type _cols, const Allocator& alloc = Allocator())
 			: mtx(_rows*_cols, value_type(), alloc), rows_(_rows), cols_(_cols) {
 			for (size_type i = 0; i < _rows; ++i) {
 				for (size_type j = 0; j < _cols; ++j)
@@ -168,7 +168,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in `_other.rows()*_other.columns()`.
 		 */
-		dynamic_matrix(const dynamic_matrix& _other, const _Alloc& alloc)
+		dynamic_matrix(const dynamic_matrix& _other, const Allocator& alloc)
 			: mtx(_other.mtx, alloc), rows_(_other.rows_), cols_(_other.cols_) {}
 		/**
 		 * \brief Move constructor. Constructs the containers with the contents
@@ -190,7 +190,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity If `alloc != _other.get_allocator()` linear, otherwise constant.
 		 */
-		dynamic_matrix(dynamic_matrix&& _other, const _Alloc& alloc)
+		dynamic_matrix(dynamic_matrix&& _other, const Allocator& alloc)
 			: mtx(std::move(_other.mtx), alloc), rows_(std::move(_other.rows_)), cols_(std::move(_other.cols_)) {}
 		/**
 		 * \brief Constructs the container with the contents of the nested `std::initializer_list _init_list`.
@@ -200,7 +200,7 @@ namespace crsc {
 		 * \param alloc Allocator to use for all memory allocations of this container.
 		 * \complexity Linear in size of `_init_list` multiplied by linear in size of each inner list.
 		 */
-		dynamic_matrix(std::initializer_list<std::initializer_list<value_type>> _init_list, const _Alloc& alloc = _Alloc())
+		dynamic_matrix(std::initializer_list<std::initializer_list<value_type>> _init_list, const Allocator& alloc = Allocator())
 			: mtx(alloc), rows_(_init_list.size()), cols_(_init_list.begin()->size()) {
 			for (auto& el : _init_list) std::move(el.begin(), el.end(), std::back_inserter(mtx));
 		}
@@ -321,7 +321,7 @@ namespace crsc {
 		 * \param _rows Number of rows to allocate storage for.
 		 * \param _cols Number of columns to allocate storage for.
 		 * \throw Throws `std::length_error` if `_rows*_cols > max_size()`. Or any exception
-		 *        thrown by `_Alloc::allocate()` (typically `std::bad_alloc`).
+		 *        thrown by `Allocator::allocate()` (typically `std::bad_alloc`).
 		 * \exceptionsafety If no reallocations happen of if the type of the elements has either a 
 		 *                  non-throwing move constructor or a copy constructor, then there is a 
 		 *                  strong guarantee (no changes in container if exception is thrown). Otherwise
@@ -461,7 +461,7 @@ namespace crsc {
 		 */
 		reference back() { return mtx.back(); }
 		/**
-		 * \brief Returns const_pointer to the underlying array `const _Ty*` serving as element
+		 * \brief Returns const_pointer to the underlying array `const Ty*` serving as element
 		 *        storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range,
@@ -473,7 +473,7 @@ namespace crsc {
 		 */
 		const_pointer data() const noexcept { return mtx.data(); }
 		/**
-		 * \brief Returns pointer to the underlying array `_Ty*` serving as element storage.
+		 * \brief Returns pointer to the underlying array `Ty*` serving as element storage.
 		 *
 		 * This pointer is such that the range `[data(), data() + size()]` is always a valid range,
 		 * even if the container is empty - `data()` is non-dereferencable in this case.
@@ -612,8 +612,8 @@ namespace crsc {
 		 * \complexity Linear in `columns()` plus linear in distance between `_row_pos` and `end` of the container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> iterator insert_row(size_type _row_pos, const value_type& _val) {
 			return insert_row(_row_pos, std::move(std::vector<value_type>(cols_, _val)));
 		}
@@ -634,8 +634,8 @@ namespace crsc {
 		 *             `_row_pos` and `end` of the container.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 	 	 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> iterator insert_row(size_type _row_pos, const std::vector<value_type>& _row_vec) {
 			if (_row_pos > rows_)
 				throw std::out_of_range("_row_pos must be <= current value of rows().");
@@ -666,8 +666,8 @@ namespace crsc {
 		 *             in `columns() - _row_vec.size()`.
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> iterator insert_row(size_type _row_pos, std::vector<value_type>&& _row_vec = std::vector<value_type>()) {
 			if (_row_pos > rows_)
 				throw std::out_of_range("_row_pos must be <= current value of rows().");
@@ -693,8 +693,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> iterator insert_column(size_type _col_pos, const value_type& _val) {
 			return insert_column(_col_pos, std::move(std::vector<value_type>(rows_, _val)));
 		}
@@ -720,8 +720,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> iterator insert_column(size_type _col_pos, const std::vector<value_type>& _col_vec) {
 			if (_col_pos > cols_)
 				throw std::out_of_range("_col_pos must be <= current value of columns().");
@@ -763,8 +763,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> iterator insert_column(size_type _col_pos, std::vector<value_type>&& _col_vec = std::vector<value_type>()) {
 			if (_col_pos > cols_)
 				throw std::out_of_range("_col_pos must be <= current value of columns().");
@@ -793,8 +793,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> iterator erase_row(size_type _row_pos) {
 			if (!(_row_pos < rows_))
 				throw std::out_of_range("_row_pos must be < current value of rows().");
@@ -813,8 +813,8 @@ namespace crsc {
 		 * \exceptionsafety Strong guarantee - if an exception is thrown there are no changes
 		 *                  in the container.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> iterator erase_column(size_type _col_pos) {
 			if (!(_col_pos < cols_))
 				throw std::out_of_range("_col_pos must be < current value of columns().");
@@ -834,8 +834,8 @@ namespace crsc {
 		 * \complexity Exactly `rows()*columns()` assignments.
 		 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void fill(const value_type& _val) noexcept {
 			std::fill(mtx.begin(), mtx.end(), _val);
 		}
@@ -846,14 +846,14 @@ namespace crsc {
 		 * \remark Equivalent to `insert_row(rows(), _val)`.
 		 * \param _val Value to initialise all elements of the newly inserted row with.
 		 * \complexity Amortized linear in `columns()`.
-		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not 
+		 * \exceptionsafety If `Ty`'s move constructor is not `noexcept` and `Ty` is not 
 		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
 		 *                  move constructor. If it throws, any guarantee is waived and the effects
 		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
 		 *                  is thrown there are no changes in the container).
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void push_row(const value_type& _val) {
 			for (size_type i = 0; i < cols_; ++i)
 				mtx.push_back(_val);
@@ -871,14 +871,14 @@ namespace crsc {
 		 * \param _row_vec Instance of `std::vector` row to insert.
 	 	 * \throw Throws `std::invalid_argument` exception if `_row_vec.size() != columns()`.
 		 * \complexity Amortized linear in `columns()`.
-		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not
+		 * \exceptionsafety If `Ty`'s move constructor is not `noexcept` and `Ty` is not
 		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
 		 *                  move constructor. If it throws, any guarantee is waived and the effects
 		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
 		 *                  is thrown there are no changes in the container).
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void push_row(const std::vector<value_type>& _row_vec) {
 			if (_row_vec.size() != cols_)
 				throw std::invalid_argument("_row_vec.size() must = current value of columns().");
@@ -901,14 +901,14 @@ namespace crsc {
 		 * \complexity If `_row_vec.size() == columns()` then amortized linear in `columns()`, else
 		 *             if `_row_vec.size() < columns()` then amortized linear in `columns()` plus
 		 *             linear in `columns() - _row_vec.size()`.
-		 * \exceptionsafety If `_Ty`'s move constructor is not `noexcept` and `_Ty` is not
+		 * \exceptionsafety If `Ty`'s move constructor is not `noexcept` and `Ty` is not
 		 *                  `CopyInsertable` into `*this`, `dynamic_matrix` will use the throwing
 		 *                  move constructor. If it throws, any guarantee is waived and the effects
 		 *                  are unspecified. Otherwise, there is a strong guarantee (if an exception
 		 *                  is thrown there are no changes in the container).
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> void push_row(std::vector<value_type>&& _row_vec = std::vector<value_type>()) {
 			if (_row_vec.size() > cols_)
 				throw std::invalid_argument("_row_vec.size() must be <= current value of columns().");
@@ -926,12 +926,12 @@ namespace crsc {
 		 * \remark Equivalent to `insert_column(columns(), _val)`.
 		 * \param _val Value to initialise all elements of the newly inserted column with.
 		 * \complexity Amortized linear in `rows()`.
-		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
-		 *                  is `CopyInsertable` or `std::is_nothrow_most_constructible<_Ty>::value == true`,
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_most_constructible<Ty>::value == true`,
 		 *                  there is a strong guarantee (no changes in the container).
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void push_column(const value_type& _val) { insert_column(cols_, _val); }
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container.
@@ -945,13 +945,13 @@ namespace crsc {
 		 * \complexity If `_col_vec.size() == rows()` then amortized linear in `rows()`, else if
 		 *             `_col_vec.size() < rows()` then amortized linear in `rows()` plus linear in
 		 *             `rows() - _col_vec.size()`.
-		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
-		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<_Ty>::value == true`,
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<Ty>::value == true`,
 		 *                  there is a strong guarantee (no changes in the container). Additionally, if
 		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void push_column(const std::vector<value_type>& _col_vec) { insert_column(cols_, _col_vec); }
 		/**
 		 * \brief Pushes an extra column-vector to the back of the container using move-semantics.
@@ -966,13 +966,13 @@ namespace crsc {
 		 * \complexity If `_col_vec.size() == rows()` then amortized linear in `rows()`, else if
 		 *             `_col_vec.size() < rows()` then amortized linear in `rows()` plus linear in
 		 *             `rows() - _col_vec.size()`.
-		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `_Ty`
-		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<_Ty>::value == true`,
+		 * \exceptionsafety If an exception is thrown when inserting a single element at the `end`, and `Ty`
+		 *                  is `CopyInsertable` or `std::is_nothrow_move_constructible<Ty>::value == true`,
 		 *                  there is a strong guarantee (no changes in the container). Additionally, if
 		 *                  `std::invalid_argument` exception is thrown there is also a strong guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value>
 		> void push_column(std::vector<value_type>&& _col_vec = std::vector<value_type>()) { 
 			insert_column(cols_, std::move(_col_vec)); 
 		}
@@ -997,7 +997,7 @@ namespace crsc {
 		 *             by distance between each element in column and `end` of container.
 		 * \exceptionsafety No-throw guarantee unless an exception is thrown by the copy constructor, 
 		 *                  move constructor, copy-assignment operator or move-assignment operator of
-		 *                  `_Ty`.
+		 *                  `Ty`.
 		 */
 		void pop_column() {	erase_column(cols_ - 1); }
 		/**
@@ -1015,9 +1015,9 @@ namespace crsc {
 		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
-				&& std::is_default_constructible<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value
+				&& std::is_default_constructible<Uty>::value>
 		> void rows_resize(size_type _rows) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
@@ -1046,8 +1046,8 @@ namespace crsc {
 		 *                  the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void rows_resize(size_type _rows, const value_type& _val) {
 			size_type tmp_rows = rows_;
 			if (_rows == rows_) return;
@@ -1078,9 +1078,9 @@ namespace crsc {
 		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
-				&& std::is_default_constructible<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value
+				&& std::is_default_constructible<Uty>::value>
 		> void columns_resize(size_type _cols) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
@@ -1111,8 +1111,8 @@ namespace crsc {
 		 *                  and the container is `empty()` then undefined behaviour otherwise no-throw
 		 *                  guarantee.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void columns_resize(size_type _cols, const value_type& _val) {
 			size_type tmp_cols = cols_;
 			if (_cols == cols_) return;
@@ -1135,9 +1135,9 @@ namespace crsc {
 		 * \complexity Complexity of `rows_resize(_rows)` plus complexity of `columns_resize(_cols)`.
 		 * \exceptionsafety See exception-safeties of `rows_resize` and `columns_resize`.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_move_assignable<_Uty>::value
-				&& std::is_default_constructible<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_move_assignable<Uty>::value
+				&& std::is_default_constructible<Uty>::value>
 		> void resize(size_type _rows, size_type _cols) {
 			rows_resize(_rows);
 			columns_resize(_cols);
@@ -1155,8 +1155,8 @@ namespace crsc {
 		 *             of `columns_resize(_cols, _val)`.
 		 * \exceptionsafety See exception-safeties of `rows_resize` and `columns_resize`.
 		 */
-		template<class _Uty = _Ty,
-			class = std::enable_if_t<std::is_copy_assignable<_Uty>::value>
+		template<class Uty = Ty,
+			class = std::enable_if_t<std::is_copy_assignable<Uty>::value>
 		> void resize(size_type _rows, size_type _cols, const value_type& _val) {
 			rows_resize(_rows, _val);
 			columns_resize(_cols, _val);
@@ -1243,11 +1243,11 @@ namespace crsc {
 	 * \complexity Linear in `rows()*columns()`.
 	 * \exceptionsafety No-throw guarantee, `noexcept` specification.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>,
-		class = std::enable_if_t<has_insertion_operator<_Ty>::value>
-	> std::ostream& operator<<(std::ostream& os, const dynamic_matrix<_Ty, _Alloc>& dm) {
-		typename dynamic_matrix<_Ty, _Alloc>::size_type count = 0U;
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>,
+		class = std::enable_if_t<has_insertion_operator<Ty>::value>
+	> std::ostream& operator<<(std::ostream& os, const dynamic_matrix<Ty, Allocator>& dm) {
+		typename dynamic_matrix<Ty, Allocator>::size_type count = 0U;
 		for (const auto& el : dm) {
 			os << el << ' ';
 			++count;
@@ -1261,9 +1261,9 @@ namespace crsc {
 	 * This method initialises a `dynamic_matrix` with `arr_2d` and then deletes `arr_2d` from memory, therefore if `arr_2d`
 	 * was not allocated via heap storage then do not use this method - use `crsc::make_dynamic_matrix` instead.
 	 *
-	 * \tparam _Ty Type of stored elements.
-	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
-	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \tparam Ty Type of stored elements.
+	 * \tparam Allocator An allocator that is used to acquire memory to store the elements. The type must meet the requirements
+	 *                of `Allocator` (see C++ Standard). Behaviour is undefined if `Allocator::value_type != Ty`.
 	 * \param arr_2d Two-dimensional C-style array used as source to initialise elements of the container with, deleted after use.
 	 * \param rows Number of rows.
 	 * \param cols Number of columns.
@@ -1273,10 +1273,10 @@ namespace crsc {
 	 * \exceptionsafety See exception safeties of `dynamic_matrix(_arr_2d, _row, _cols, alloc)` constructor and copy constructor,
 	 *                  additionally undefined behaviour if either of `_rows`, `_cols` is not equal to rows, columns of `_arr_2d`.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix< _Ty, _Alloc> to_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
-		dynamic_matrix<_Ty, _Alloc> dynmtx(arr_2d, rows, cols, alloc);
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_matrix< Ty, Allocator> to_dynamic_matrix(Ty** arr_2d, std::size_t rows, std::size_t cols, const Allocator& alloc = Allocator()) {
+		dynamic_matrix<Ty, Allocator> dynmtx(arr_2d, rows, cols, alloc);
 		for (std::size_t i = 0; i < rows; ++i) delete[] arr_2d[i];
 		delete[] arr_2d;
 		return dynmtx;
@@ -1288,9 +1288,9 @@ namespace crsc {
 	 * initialisation, if `arr_2d` was allocated via heap storage and it is no longer required after being used to 
 	 * construct a `dynamic_matrix` then use `crsc::to_dynamic_matrix` instead.
 	 *
-	 * \tparam _Ty Type of stored elements.
-	 * \tparam _Alloc An allocator that is used to acquire memory to store the elements. The type must meet the requirements
-	 *                of `Allocator` (see C++ Concepts). Behaviour is undefined if `_Alloc::value_type != _Ty`.
+	 * \tparam Ty Type of stored elements.
+	 * \tparam Allocator An allocator that is used to acquire memory to store the elements. The type must meet the requirements
+	 *                of `Allocator` (see C++ Concepts). Behaviour is undefined if `Allocator::value_type != Ty`.
 	 * \param arr_2d Two-dimensional C-style array used as source to initialise elements of the container with.
 	 * \param rows Number of rows.
 	 * \param cols Number of columns.
@@ -1300,10 +1300,10 @@ namespace crsc {
 	 * \exceptionsafety See exception safeties of `dynamic_matrix(_arr_2d, _row, _cols, alloc)` constructor and copy constructor,
 	 *                  additionally undefined behaviour if either of `_rows`, `_cols` is not equal to rows, columns of `_arr_2d`.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix<_Ty, _Alloc> make_dynamic_matrix(_Ty** arr_2d, std::size_t rows, std::size_t cols, const _Alloc& alloc = _Alloc()) {
-		return dynamic_matrix<_Ty, _Alloc>(arr_2d, rows, cols, alloc);
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_matrix<Ty, Allocator> make_dynamic_matrix(Ty** arr_2d, std::size_t rows, std::size_t cols, const Allocator& alloc = Allocator()) {
+		return dynamic_matrix<Ty, Allocator>(arr_2d, rows, cols, alloc);
 	}
 	/**
 	 * \brief Returns a `dynamic_matrix` whose elements equal the component-wise addition of `lhs` and `rhs`.
@@ -1316,12 +1316,12 @@ namespace crsc {
 	 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
 	 *             `rows()*columns()` (additions).
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix<_Ty, _Alloc> matrix_sum(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_matrix<Ty, Allocator> matrix_sum(const dynamic_matrix<Ty, Allocator>& lhs, const dynamic_matrix<Ty, Allocator>& rhs) {
 		if (lhs.rows() != rhs.rows() || lhs.columns() != rhs.columns())
 			throw std::invalid_argument("dynamic_matrix dimensions must agree for component-wise addition.");
-		dynamic_matrix<_Ty, _Alloc> sum(lhs.rows(), lhs.columns());
+		dynamic_matrix<Ty, Allocator> sum(lhs.rows(), lhs.columns());
 		for (auto itlhs = lhs.begin(), itrhs = rhs.begin(), itsum = sum.begin(); itsum < sum.end(); ++itlhs, ++itrhs, ++itsum)
 			*itsum = *itlhs + *itrhs;
 		return sum;
@@ -1337,12 +1337,12 @@ namespace crsc {
 	 * \complexity Linear in `rows()*columns()` (assignments) plus linear in
 	 *             `rows()*columns()` (subtractions).
 	 */
-	template<typename _Ty, 
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix<_Ty, _Alloc> matrix_difference(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+	template<typename Ty, 
+		class Allocator = std::allocator<Ty>
+	> dynamic_matrix<Ty, Allocator> matrix_difference(const dynamic_matrix<Ty, Allocator>& lhs, const dynamic_matrix<Ty, Allocator>& rhs) {
 		if (lhs.rows() != rhs.rows() || lhs.columns() != rhs.columns())
 			throw std::invalid_argument("dynamic_matrix dimensions must agree for component-wise subtraction.");
-		dynamic_matrix<_Ty, _Alloc> difference(lhs.rows(), lhs.columns());
+		dynamic_matrix<Ty, Allocator> difference(lhs.rows(), lhs.columns());
 		for (auto itlhs = lhs.begin(), itrhs = rhs.begin(), itdiff = difference.begin(); itdiff < difference.end(); ++itlhs, ++itrhs, ++itdiff)
 			*itdiff = *itlhs - *itrhs;
 		return difference;
@@ -1356,12 +1356,12 @@ namespace crsc {
 	 * \throw Throws `std::invalid_argument` exception if `lhs.columns() != rhs.rows()`.
 	 * \complexity Linear in `lhs.rows()*rhs.columns()*lhs.columns()`.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> dynamic_matrix<_Ty, _Alloc> matrix_product(const dynamic_matrix<_Ty, _Alloc>& lhs, const dynamic_matrix<_Ty, _Alloc>& rhs) {
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> dynamic_matrix<Ty, Allocator> matrix_product(const dynamic_matrix<Ty, Allocator>& lhs, const dynamic_matrix<Ty, Allocator>& rhs) {
 		if (lhs.columns() != rhs.rows())
 			throw std::invalid_argument("dynamic_matrix dimensions must agree for matrix_product.");
-		dynamic_matrix<_Ty, _Alloc> product(lhs.rows(), rhs.columns());
+		dynamic_matrix<Ty, Allocator> product(lhs.rows(), rhs.columns());
 		typedef typename dynamic_matrix<Ty, Alloc>::size_type size_type;
 		for (size_type i = 0; i < product.rows(); ++i) {
 			for (size_type j = 0; j < product.columns(); ++j) {
@@ -1379,11 +1379,11 @@ namespace crsc {
 	 * \throw Throws `std::invalid_argument` exception if `dm.rows() != dm.columns()`.
 	 * \complexity Linear in `dm.rows()`.
 	 */
-	template<typename _Ty,
-		class _Alloc = std::allocator<_Ty>
-	> _Ty matrix_trace(const dynamic_matrix<_Ty, _Alloc>& dm) {
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> Ty matrix_trace(const dynamic_matrix<Ty, Allocator>& dm) {
 		if (dm.rows() != dm.columns()) throw std::invalid_argument("cannot compute trace of non-square dynamic_matrix.");
-		_Ty trace = _Ty();
+		Ty trace = Ty();
 		for (auto it = dm.begin(); it < dm.end(); std::advance(it, dm.columns() + 1))
 			trace += *it;
 		return trace;
