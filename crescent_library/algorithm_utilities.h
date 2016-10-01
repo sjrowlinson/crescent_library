@@ -132,6 +132,21 @@ namespace crsc {
 		return nreplaced;
 	}
 	/**
+	 * \brief Fills the range `[first, last)` with sequentially decreasing values, starting with `value` and
+	 *        repetitively evaluating `--value`.
+	 *
+	 * \param first Beginning of range to fill.
+	 * \param last End of range to fill.
+	 * \param value Initial value to store, `--value` must be well-formed.
+	 */
+	template<class ForwardIterator, class Ty>
+	void iota_opp(ForwardIterator first, ForwardIterator last, Ty value) {
+		while (first != last) {
+			*first++ = value;
+			--value;
+		}
+	}
+	/**
 	 * \brief Makes an `std::map` acting as a "singular-key" histogram produced from the data in the
 	 *        range `[first, last)`, where the `key_type` is the type of the data in this range
 	 *        and the `value_type` is an integral type. Each element within the range is given
