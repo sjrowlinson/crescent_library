@@ -16,7 +16,8 @@ namespace crsc {
 	 * \param vec `std::vector` of data.
 	 * \return `std::vector` of indices ordered by sorting of `_vec`.
 	 */
-	template<typename Ty> std::vector<std::size_t> tag_sort(const std::vector<Ty>& vec) {
+	template<typename Ty> 
+	std::vector<std::size_t> tag_sort(const std::vector<Ty>& vec) {
 		// allocate std::vector for tag indices with capacity of _vec
 		std::vector<std::size_t> tag_vec(vec.size());
 		// fill tag_vec with ascending positive integers representing indices
@@ -24,6 +25,23 @@ namespace crsc {
 		// sort tag_vec using a lambda based on ordering of _vec
 		std::sort(std::begin(tag_vec), std::end(tag_vec), [&vec](const auto& lhs, const auto& rhs) {
 			return vec[lhs] < vec[rhs];
+		});
+		return tag_vec;
+	}
+	/**
+	 * \brief Tag-sorts elements in the range `[first, last)` returning a `std::vector<std::size_t>`
+	 *        of the sorted indices.
+	 *
+	 * \param first Beginning of the range to tag-sort.
+	 * \param last End of the range to tag-sort.
+	 * \return `std::vector<std::size_t>` of indices ordered by sorting of range.
+	 */
+	template<class InputIt>
+	std::vector<std::size_t> tag_sort(InputIt first, InputIt last) {
+		std::vector<std::size_t> tag_vec(std::distance(first, last));
+		std::iota(std::begin(tag_vec), std::end(tag_vec), 0);
+		std::sort(std::begin(tag_vec), std::end(tag_vec), [&first, &last](const auto& lhs, const auto& rhs) {
+			return *first < *(++first);
 		});
 		return tag_vec;
 	}
@@ -193,8 +211,7 @@ namespace crsc {
 	 * \param InputIt first Beginning of data range.
 	 * \param InputIt last End of data range.
 	 * \param alloc Allocator to use for all memory allocations of this container.
-	 * \complexity - Average Case: linear in `distance` between `first` and `last`, multiplied by logarithmic in `distance` between
-	 *               `first` and `last`.
+	 * \complexity - Average Case: linear in `distance` between `first` and `last`.
 	 *             - Worst Case: quadratic in `distance` between `first` and `last`.
 	 */
 	template<class InputIt,
