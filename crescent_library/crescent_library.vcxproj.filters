@@ -57,5 +57,8 @@
     <ClInclude Include="mathematical_dynamic_matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="polynomials.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
