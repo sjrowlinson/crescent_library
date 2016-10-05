@@ -1,5 +1,6 @@
 #ifndef ALGORITHM_UTILITIES_H
 #define ALGORITHM_UTILITIES_H
+#include "randomness.h"
 #include <algorithm>
 #include <map>
 #include <numeric>
@@ -44,6 +45,19 @@ namespace crsc {
 			return *first < *(++first);
 		});
 		return tag_vec;
+	}
+	/**
+	 * \brief Returns a random element from the range `[first, last)`.
+	 * \param first Beginning of the range.
+	 * \param last End of the range.
+	 * \return Iterator to random element within the range `[first, last)`.
+	 */
+	template<class InputIt>
+	InputIt random_element(InputIt first, InputIt last) {
+		std::size_t range_size = std::distance(first, last);
+		crsc::random_number_generator<std::size_t> rng(std::uniform_int_distribution<std::size_t>(0U, range_size));
+		std::advance(first, rng(eng));
+		return first;
 	}
 	/**
 	 * \brief Searches for elements with value `value` in the range `[first, last)` and returns
