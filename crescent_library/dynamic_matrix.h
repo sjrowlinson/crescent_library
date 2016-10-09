@@ -1306,6 +1306,36 @@ namespace crsc {
 		return dynamic_matrix<Ty, Allocator>(arr_2d, rows, cols, alloc);
 	}
 	/**
+	 * \brief Returns the specified row of a `crsc::dynamic_matrix` instance as a `std::vector`.
+	 * \param dm `crsc::dynamic_matrix` instance.
+	 * \param row row index.
+	 * \return `std::vector` containing all elements from `row` row index.
+	 */
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> std::vector<Ty, Allocator> dynamic_matrix_row(const dynamic_matrix<Ty, Allocator>& dm, std::size_t row) {
+		std::vector<Ty, Allocator> row_vec;
+		row_vec.reserve(dm.columns());
+		for (auto i = 0U; i < dm.columns(); ++i)
+			row_vec.push_back(dm(row, i));
+		return row_vec;
+	}
+	/**
+	 * \brief Returns the specified column of a `crsc::dynamic_matrix` instance as a `std::vector`.
+	 * \param dm `crsc::dynamic_matrix` instance.
+	 * \param col column index.
+	 * \return `std::vector` containing all elements from `col` column index. 
+	 */
+	template<typename Ty,
+		class Allocator = std::allocator<Ty>
+	> std::vector<Ty, Allocator> dynamic_matrix_column(const dynamic_matrix<Ty, Allocator>& dm, std::size_t col) {
+		std::vector<Ty, Allocator> col_vec;
+		col_vec.reserve(dm.rows());
+		for (auto i = 0U; i < dm.rows(); ++i)
+			col_vec.push_back(dm(i, col));
+		return col_vec;
+	}
+	/**
 	 * \brief Returns a `dynamic_matrix` whose elements equal the component-wise addition of `lhs` and `rhs`.
 	 * 
 	 * \param lhs First instance of `dynamic_matrix`.
@@ -1362,7 +1392,7 @@ namespace crsc {
 		if (lhs.columns() != rhs.rows())
 			throw std::invalid_argument("dynamic_matrix dimensions must agree for matrix_product.");
 		dynamic_matrix<Ty, Allocator> product(lhs.rows(), rhs.columns());
-		typedef typename dynamic_matrix<Ty, Alloc>::size_type size_type;
+		typedef typename dynamic_matrix<Ty, Allocator>::size_type size_type;
 		for (size_type i = 0; i < product.rows(); ++i) {
 			for (size_type j = 0; j < product.columns(); ++j) {
 				for (size_type k = 0; k < lhs.columns(); ++k)
