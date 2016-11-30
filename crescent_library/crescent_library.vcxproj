@@ -121,6 +121,7 @@
     <ClInclude Include="polynomials.h" />
     <ClInclude Include="priority_queue.h" />
     <ClInclude Include="randomness.h" />
+    <ClInclude Include="ranged_histogram.h" />
     <ClInclude Include="sfinae_operators.h" />
     <ClInclude Include="string_utilities.h" />
     <ClInclude Include="threading_utilities.h" />

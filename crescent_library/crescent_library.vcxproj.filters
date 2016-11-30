@@ -60,5 +60,8 @@
     <ClInclude Include="polynomials.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ranged_histogram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
