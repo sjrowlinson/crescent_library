@@ -16,7 +16,7 @@ namespace crsc {
 	 * \param vec `std::vector` of data.
 	 * \return `std::vector` of indices ordered by sorting of `_vec`.
 	 */
-	template<typename Ty> 
+	template<typename Ty>
 	std::vector<std::size_t> tag_sort(const std::vector<Ty>& vec) {
 		// allocate std::vector for tag indices with capacity of _vec
 		std::vector<std::size_t> tag_vec(vec.size());
@@ -44,6 +44,25 @@ namespace crsc {
 			return *first < *(++first);
 		});
 		return tag_vec;
+	}
+	template<class Ty>
+	std::vector<std::pair<Ty, Ty>> zip(const std::vector<Ty>& vec1, const std::vector<Ty>& vec2) {
+		std::vector<std::pair<Ty, Ty>> zipped;
+		zipped.reserve(std::max(vec1.size(), vec2.size()));
+		for (auto it1 = vec1.begin(), it2 = vec2.begin(); it1 < vec1.end() || it2 < vec2.end(); ++it1, ++it2)
+			zipped.push_back(std::make_pair(*it1, *it2));
+		return zipped;
+	}
+	template<class Ty>
+	std::pair<std::vector<Ty>, std::vector<Ty>> unzip(const std::vector<std::pair<Ty, Ty>>& zipped_vec) {
+		std::vector<Ty> vec1, vec2;
+		vec1.reserve(zipped_vec.size());
+		vec2.reserve(zipped_vec.size());
+		for (const auto& p : zipped_vec) {
+			vec1.push_back(p.first); 
+			vec2.push_back(p.second);
+		}
+		return{ vec1, vec2 };
 	}
 	/**
 	 * \brief Returns a random element from the range `[first, last)`.
