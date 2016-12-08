@@ -38,10 +38,10 @@ namespace mc {
 		std::function<Ty(InputIt, InputIt, const std::array<Ty, Dims>&, Args&&...)> f, Args&&... f_args) {
 		std::vector<std::array<Ty, Dims>> posterior; posterior.reserve(samples); // pre-allocate for speed
 		std::mt19937 mt_eng(std::random_device{}()); // mersenne-twister engine for prng
-		std::uniform_real_distribution<> pdist(0.0, 1.0); // generate probabilities
+		std::uniform_real_distribution<Ty> pdist(Ty(), static_cast<Ty>(1.0)); // generate probabilities
 		std::array<std::normal_distribution<Ty>, Dims> jdist_arr;
 		// jump distributions for each variable
-		for (std::size_t i = 0U; i < Dims; ++i) jdist[i] = std::normal_distribution<Ty>(0.0, jsigma[i]);
+		for (std::size_t i = 0U; i < Dims; ++i) jdist_arr[i] = std::normal_distribution<Ty>(Ty(), jsigma[i]);
 		std::array<Ty, Dims> curr_state = init;
 		std::array<Ty, Dims> prop_state = init;
 		std::array<Ty, Dims> jump_arr;
@@ -52,7 +52,7 @@ namespace mc {
 		// monte-carlo loop
 		for (std::size_t i = 0U; i < samples; ++i) {
 			// compute current posterior
-			p_curr = f(first, last, curr_state, std::forward<Args>(f_args));
+			p_curr = f(first, last, curr_state, std::forward<Args>(f_args)...);
 			for (std::size_t j = 0U; j < Dims; ++j) { 
 				jump_arr[j] = jdist_arr[j](mt_eng); // generate random jump
 				prop_state[j] = curr_state[j] + jdist_arr[j](mt_eng); // translate proposed state
@@ -65,7 +65,7 @@ namespace mc {
 			}
 			if (skip) continue; // if proposed fell outside prior, skip to next loop iter
 			// cmpute proposed posterior
-			else p_prop = f(first, last, prop_state, std::forward<Args>(f_args));
+			else p_prop = f(first, last, prop_state, std::forward<Args>(f_args)...);
 			ratio = p_prop / p_curr;
 			// metropolis-hasting algorithm criterion
 			if (ratio >= static_cast<Ty>(1.0) || ratio > pdist(mt_eng)) curr_state = prop_state;
