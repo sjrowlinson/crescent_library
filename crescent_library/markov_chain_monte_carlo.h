@@ -14,6 +14,10 @@ namespace mc {
 	 * \brief Performs a Markov Chain Monte-Carlo analysis in `Dims` dimensions on data in the 
 	 *        range `[first, last)` using the Metropolis-Hastings algorithm to decide on jump
 	 *        sampling conditions.
+	 * \tparam Ty Type of data stored in data range, must satisfy `std::is_floating_point<Ty>::value`.
+	 * \tparam Dims Number of dimensions.
+	 * \tparam InputIt `InputIterator` type.
+	 * \tparam Args Types of arguments to forward to function `f`.
 	 * \param first Beginning of data range.
 	 * \param last End of data range.
 	 * \param init Initial values for each variable.
@@ -21,7 +25,7 @@ namespace mc {
 	 * \param jsigma Normal distribution standard deviation for the jumps on each variable.
 	 * \param samples Number of samples to perform.
 	 * \param f Functional form of posterior pdf.
-	 * \param f_args Optional arguments to pass to function `f`.
+	 * \param f_args Optional arguments to forward to function `f`.
 	 * \return A `std::vector` containing the `Dims` dimensional posterior pdf data.
 	 */
 	template<class Ty,
@@ -31,7 +35,7 @@ namespace mc {
 		class = std::enable_if_t<std::is_floating_point<Ty>::value>
 	> std::vector<std::array<Ty, Dims>> mcmc_metropolis_hastings(InputIt first, InputIt last, const std::array<Ty, Dims>& init,
 		const std::array<std::pair<Ty, Ty>, Dims>& prior, const std::array<Ty, Dims>& jsigma, std::size_t samples,
-		std::function<Ty(InputIt, InputIt, const std::array<Ty, Dims>, std::tuple<Args...>&&)> f, std::tuple<Args...>&& f_args) {
+		std::function<Ty(InputIt, InputIt, const std::array<Ty, Dims>&, Args&&...)> f, Args&&... f_args) {
 		std::vector<std::array<Ty, Dims>> posterior; posterior.reserve(samples); // pre-allocate for speed
 		std::mt19937 mt_eng(std::random_device{}()); // mersenne-twister engine for prng
 		std::uniform_real_distribution<> pdist(0.0, 1.0); // generate probabilities
@@ -48,7 +52,7 @@ namespace mc {
 		// monte-carlo loop
 		for (std::size_t i = 0U; i < samples; ++i) {
 			// compute current posterior
-			p_curr = f(first, last, curr_state, std::forward(f_args));
+			p_curr = f(first, last, curr_state, std::forward<Args>(f_args));
 			for (std::size_t j = 0U; j < Dims; ++j) { 
 				jump_arr[j] = jdist_arr[j](mt_eng); // generate random jump
 				prop_state[j] = curr_state[j] + jdist_arr[j](mt_eng); // translate proposed state
@@ -61,7 +65,7 @@ namespace mc {
 			}
 			if (skip) continue; // if proposed fell outside prior, skip to next loop iter
 			// cmpute proposed posterior
-			else p_prop = f(first, last, prop_state, std::forward(f_args));
+			else p_prop = f(first, last, prop_state, std::forward<Args>(f_args));
 			ratio = p_prop / p_curr;
 			// metropolis-hasting algorithm criterion
 			if (ratio >= static_cast<Ty>(1.0) || ratio > pdist(mt_eng)) curr_state = prop_state;
