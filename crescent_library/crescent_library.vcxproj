@@ -117,6 +117,7 @@
     <ClInclude Include="file_loader.h" />
     <ClInclude Include="file_reader.h" />
     <ClInclude Include="fixed_matrix.h" />
+    <ClInclude Include="markov_chain_monte_carlo.h" />
     <ClInclude Include="mathematical_dynamic_matrix.h" />
     <ClInclude Include="polynomials.h" />
     <ClInclude Include="priority_queue.h" />

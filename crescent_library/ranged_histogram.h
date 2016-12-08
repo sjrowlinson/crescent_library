@@ -1,12 +1,54 @@
 #ifndef RANGED_HISTOGRAM_H
 #define RANGED_HISTOGRAM_H
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <map>
 #include <numeric>
 #include <type_traits>
+#include <vector>
 
 namespace hist {
+	template<class RTy,
+		class = std::enable_if_t<std::is_arithmetic<RTy>::value>
+	> class ranged_hist {
+		struct range_less { // less comparator for a range std::pair
+			template<class Ty>
+			constexpr bool operator()(const std::pair<Ty, Ty>& lhs,
+				const std::pair<Ty, Ty>& rhs) const {
+				return lhs.first < rhs.first;
+			}
+		};
+		typedef std::map<std::pair<RTy, RTy>, std::size_t, range_less> rhist_t;
+	public:
+		typedef RTy range_type;
+		typedef std::pair<RTy, RTy> bin_type;
+		typedef std::size_t frequency_type;
+		ranged_hist() : rh(), nbins(0U), bin_sizes_(), has_equal_bins(true) {}
+
+	private:
+		template<class InputIt>
+		void bin_data_(InputIt first, InputIt last, std::size_t nbins) {
+			bin_sizes_.clear();
+			has_equal_bins = true;
+			auto minmax = *std::minmax_element(first, last);
+			range_type min = std::floor(minmax.first);
+			range_type max = std::floor(minmax.second);
+			bin_sizes_.push_back((max - min) / nbins);
+			range_type bs_recip = 1.0 / bin_sizes_[0];
+			for (std::size_t i = 0U; i < nbins; ++i)
+				rh[std::make_pair(min + i*bin_sizes_[0], min + (i + 1)*bin_sizes_[0])] = 0U;
+			for (; first < last; ++first) {
+				std::size_t bin = (*first - min)*bs_recip;
+				rh[std::make_pair(min + bin*bin_sizes_[0], min + (bin + 1)*bin_sizes_[0])]++;
+			}
+		}
+		rhist_t rh;
+		std::size_t nbins;
+		bool has_equal_bins;
+		std::vector<range_type> bin_sizes_;
+	};
+
 	template<class RTy,
 		std::size_t NBins,
 		class = std::enable_if_t<std::is_arithmetic<RTy>::value>
