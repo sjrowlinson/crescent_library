@@ -51,6 +51,7 @@ namespace mc {
 		bool skip = false; // skip to next loop iter flag
 		// monte-carlo loop
 		for (std::size_t i = 0U; i < samples; ++i) {
+			skip = false; // reset skip status
 			// compute current posterior
 			p_curr = f(first, last, curr_state, std::forward<Args>(f_args)...);
 			for (std::size_t j = 0U; j < Dims; ++j) { 
@@ -63,7 +64,7 @@ namespace mc {
 					break;
 				}	
 			}
-			if (skip) continue; // if proposed fell outside prior, skip to next loop iter
+			if (skip) { posterior.push_back(curr_state); continue; } // if proposed fell outside prior, skip to next loop iter
 			// cmpute proposed posterior
 			else p_prop = f(first, last, prop_state, std::forward<Args>(f_args)...);
 			ratio = p_prop / p_curr;
