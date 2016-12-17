@@ -186,6 +186,34 @@ namespace crsc {
             range_type ybin_size;
         };
         
+        template<class RTy, class InputIt>
+        ranged_histogram<RTy> make_ranged_histogram(InputIt first, InputIt last, std::size_t bins) {
+            return ranged_histogram<RTy>(first, last, bins);
+        }
+        template<class RTy, class InputIt>
+        ranged_histogram_2d<RTy> make_ranged_histogram_2d(InputIt first_x, InputIt last_x,
+            InputIt first_y, InputIt last_y, std::size_t xbins, std::size_t ybins) {
+            return ranged_histogram_2d<RTy>(first_x, last_x, first_y, last_y, xbins, ybins);
+        }
+        
+        template<class RTy>
+        std::map<RTy, std::size_t> range_midpoints(const ranged_histogram<RTy>& hst) {
+            std::map<RTy, std::size_t> midpts;
+            for (const auto& p : hst)
+                midpts[(p.first.first + p.first.second)/2.0] = p.second;
+            return midpts;
+        }
+        template<class RTy>
+        std::map<std::pair<RTy, RTy>, std::size_t> range_midpoints(const ranged_histogram_2d<RTy>& hst) {
+            std::map<std::pair<RTy, RTy>, std::size_t> midpts;
+            for (const auto& p : hst)
+                midpts[std::make_pair(
+                    (p.first.first.first + p.first.first.second)/2.0,
+                    (p.first.second.first + p.first.second.second)/2.0
+                )] = p.second;
+            return midpts;
+        }
+        
         template<class RTy>
         ranged_histogram<RTy> marginalise_y(const ranged_histogram_2d<RTy>& hist_2d) {
             std::map<std::pair<RTy, RTy>, std::size_t> marginalised;
