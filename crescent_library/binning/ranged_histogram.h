@@ -1,211 +1,206 @@
 #ifndef RANGED_HISTOGRAM_H
 #define RANGED_HISTOGRAM_H
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <map>
 #include <numeric>
 #include <type_traits>
-#include <vector>
 
-namespace hist {
-	template<class RTy,
-		class = std::enable_if_t<std::is_arithmetic<RTy>::value>
-	> class ranged_hist {
-		struct range_less { // less comparator for a range std::pair
-			template<class Ty>
-			constexpr bool operator()(const std::pair<Ty, Ty>& lhs,
-				const std::pair<Ty, Ty>& rhs) const {
-				return lhs.first < rhs.first;
-			}
-		};
-		typedef std::map<std::pair<RTy, RTy>, std::size_t, range_less> rhist_t;
-	public:
-		typedef RTy range_type;
-		typedef std::pair<RTy, RTy> bin_type;
-		typedef std::size_t frequency_type;
-		ranged_hist() : rh(), nbins(0U), bin_sizes_(), has_equal_bins(true) {}
+namespace crsc {
+    namespace hist {
+        template<class RTy,
+            class = std::enable_if_t<std::is_arithmetic<RTy>::value>
+        > class ranged_histogram {
+            // underlying container for ranged_histogram
+            typedef std::map<std::pair<RTy, RTy>, std::size_t> rhist_t;
+        public:
+            // PUBLIC TYPEDEFS
+            typedef RTy range_type;
+            typedef std::pair<RTy, RTy> bin_type;
+            typedef std::size_t frequency_type;
+            typedef typename rhist_t::const_iterator const_iterator;
+            typedef typename rhist_t::const_reverse_iterator const_reverse_iterator;
+            // CONSTRUCTION / DESTRUCTION
+            /**
+             * \brief Construct empty `ranged_histogram` with no bins.
+             */
+            ranged_histogram() : rh(), nbins(0U), bin_size(range_type()) {}
+            /**
+             * brief Construct `ranged_histogram` with `_nbins` bins of equal width
+             *       from a range of data `[first, last)`.
+             * \param first Beginning of data range to bin.
+             * \param last End of data range to bin.
+             * \param _nbins Number of equal-width bins to construct in histogram.
+             */
+            template<class InputIt>
+            ranged_histogram(InputIt first, InputIt last, std::size_t _nbins) 
+                : rh(), bin_size(range_type()) {
+                bin_data_(first, last, _nbins);
+            }
+            ranged_histogram(rhist_t&& range_map) : rh(std::move(range_map)),
+                nbins(range_map.size()) {
+                bin_size = (*range_map.begin()).second - (*range_map.begin()).first;    
+            }           
+            // BIN PROPERTIES
+            /**
+             * \brief Returns the number of bins in the histogram.
+             * \return The number of bins.
+             */
+            std::size_t bins() const noexcept { return nbins; }
+            range_type bin_width() const noexcept { return bin_size; }
+            // DATA BINNING
+            /**
+             * \brief Bins the data in the range `[first, last)` using equal-width bins.
+             * \param first Beginning of data range to bin.
+             * \param last End of data range to bin.
+             * \param _nbins Number of equal-width bins to construct in histogram.
+             */
+            template<class InputIt>
+            void bin_data(InputIt first, InputIt last, std::size_t _nbins) {
+                bin_data_(first, last, _nbins);
+            }
+            // FREQUENCY ACCESS
+            /**
+             * \brief Read-only access of freqeuncy for a given bin.
+             * \return The frequency of the given bin.
+             */
+            frequency_type operator[](const bin_type& bin) const noexcept { return rh[bin]; }
+            /**
+             * \brief Read-only access of freqeuncy for a given bin.
+             * \return The frequency of the given bin.
+             */
+            frequency_type operator[](bin_type&& bin) const noexcept { return rh[std::move(bin)]; }
+            // ITERATORS
+            const_iterator begin() const noexcept { return rh.begin(); }
+            const_iterator cbegin() const noexcept { return rh.cbegin(); }
+            const_iterator end() const noexcept { return rh.end(); }
+            const_iterator cend() const noexcept { return rh.cend(); }
+            const_reverse_iterator rbegin() const noexcept { return rh.rbegin(); }
+            const_reverse_iterator crbegin() const noexcept { return rh.crbegin(); }
+            const_reverse_iterator rend() const noexcept { return rh.rend(); }
+            const_reverse_iterator crend() const noexcept { return rh.crend(); }
+        private:
+            template<class InputIt>
+            void bin_data_(InputIt first, InputIt last, std::size_t _nbins) {
+                nbins = _nbins;
+                auto minmax = *std::minmax_element(first, last);
+                // get min and max of data range
+                range_type min = std::floor(minmax.first);
+                range_type max = std::floor(minmax.second);
+                bin_size = (max - min) / nbins;
+                // store reciprocal of bin size for computation speed
+                range_type bs_recip = static_cast<range_type>(1.0 / bin_size);
+                // zero-initialise frequencies of each bin
+                for (std::size_t i = 0U; i < nbins; ++i)
+                    rh[std::make_pair(min + i*bin_size, min + (i + 1)*bin_size)] = 0U;
+                for (; first < last; ++first) { // bin data 
+                    std::size_t bin = (*first - min)*bs_recip; // find correct bin
+                    rh[std::make_pair(min + bin*bin_size, min + (bin + 1)*bin_size)]++;
+                }
+            }
+            rhist_t rh;
+            std::size_t nbins;
+            range_type bin_size;
+        };
 
-	private:
-		template<class InputIt>
-		void bin_data_(InputIt first, InputIt last, std::size_t nbins) {
-			bin_sizes_.clear();
-			has_equal_bins = true;
-			auto minmax = *std::minmax_element(first, last);
-			range_type min = std::floor(minmax.first);
-			range_type max = std::floor(minmax.second);
-			bin_sizes_.push_back((max - min) / nbins);
-			range_type bs_recip = 1.0 / bin_sizes_[0];
-			for (std::size_t i = 0U; i < nbins; ++i)
-				rh[std::make_pair(min + i*bin_sizes_[0], min + (i + 1)*bin_sizes_[0])] = 0U;
-			for (; first < last; ++first) {
-				std::size_t bin = (*first - min)*bs_recip;
-				rh[std::make_pair(min + bin*bin_sizes_[0], min + (bin + 1)*bin_sizes_[0])]++;
-			}
-		}
-		rhist_t rh;
-		std::size_t nbins;
-		bool has_equal_bins;
-		std::vector<range_type> bin_sizes_;
-	};
-
-	template<class RTy,
-		std::size_t NBins,
-		class = std::enable_if_t<std::is_arithmetic<RTy>::value>
-	> class ranged_histogram {
-		struct range_less { // less comparator for a range std::pair
-			template<class Ty>
-			constexpr bool operator()(const std::pair<Ty, Ty>& lhs,
-				const std::pair<Ty, Ty>& rhs) const {
-				return lhs.first < rhs.first;
-			}
-		};
-		typedef std::map<std::pair<RTy, RTy>, std::size_t, range_less> rhist_t;
-	public:
-		typedef RTy range_type; // type of range limits
-		typedef std::pair<RTy, RTy> key_type; // key of std::map
-											  // default constructor
-		ranged_histogram() : rh(), bin_size_(range_type()) {}
-		template<class InputIt>
-		ranged_histogram(InputIt first, InputIt last)
-			: rh(), bin_size_(range_type()) { // construct from data range
-											  // get extrema of data set
-			auto minmax = std::minmax_element(first, last);
-			range_type min = std::floor(*minmax.first);
-			range_type max = std::ceil(*minmax.second);
-			bin_size_ = (max - min) / NBins; // equal size bins
-											 // compute bin size reciprocal to avoid repeated divisions
-			range_type bs_recip = 1.0 / bin_size_;
-			// zero initialise frequencies of each bin
-			for (std::size_t i = 0U; i < NBins; ++i)
-				rh[std::make_pair(min + i*bin_size_, min + (i + 1)*bin_size_)] = 0U;
-			for (; first < last; ++first) { // iterate through data in range to bin
-				std::size_t bin = (*first - min)*bs_recip; // find correct bin
-				rh[std::make_pair(min + bin*bin_size_, min + (bin + 1)*bin_size_)]++;
-			}
-		}
-		// number of bins in histogram
-		constexpr std::size_t bins() const noexcept { return NBins; }
-		// size of each bin
-		range_type bin_size() const noexcept { return bin_size_; }
-		// accessor for frequency of a a given bin
-		std::size_t& operator[](const key_type& key) { return rh[key]; }
-		// make a std::map of the mid-points of the bin ranges
-		std::map<range_type, std::size_t> binned_midranges() const {
-			std::map<range_type, std::size_t> mid_hist;
-			for (const auto& p : rh)
-				mid_hist[(p.first.first + p.first.second) / 2.0] = p.second;
-			return mid_hist;
-		}
-	private:
-		rhist_t rh;
-		range_type bin_size_;
-	};
-
-	template<class RTy,
-		std::size_t XNBins,
-		std::size_t YNBins,
-		class = std::enable_if_t<std::is_arithmetic<RTy>::value>
-	> class ranged_histogram_2d {
-		typedef std::map<std::pair<
-			std::pair<RTy, RTy>,
-			std::pair<RTy, RTy>>, std::size_t> rhist_t;
-	public:
-		typedef RTy range_type; // type of range limits
-		typedef std::pair<std::pair<RTy, RTy>, std::pair<RTy, RTy>> key_type; // key of std::map
-																			  // default constructor
-		ranged_histogram_2d() : rh(), xbin_size(range_type()), ybin_size(range_type()) {}
-		template<class InputIt>
-		ranged_histogram_2d(InputIt first_x, InputIt last_x,
-			InputIt first_y, InputIt last_y) : rh(),
-			xbin_size(range_type()), ybin_size(range_type()) { // construct from data ranges
-															   // get extrema of each data set
-			auto minmax_x = std::minmax_element(first_x, last_x);
-			auto minmax_y = std::minmax_element(first_y, last_y);
-			range_type min_x = std::floor(*minmax_x.first);
-			range_type max_x = std::ceil(*minmax_x.second);
-			range_type min_y = std::floor(*minmax_y.first);
-			range_type max_y = std::ceil(*minmax_y.second);
-			// equal size bins
-			xbin_size = (max_x - min_x) / XNBins;
-			ybin_size = (max_y - min_y) / YNBins;
-			// compute reciprocals of bin sizes to avoid
-			// repeated divisions in binning loop
-			range_type bs_x_recip = 1.0 / xbin_size;
-			range_type bs_y_recip = 1.0 / ybin_size;
-			// zero initialise frequencies of each bin
-			for (std::size_t i = 0U; i < XNBins; ++i) {
-				for (std::size_t j = 0U; j < YNBins; ++j)
-					rh[std::make_pair(
-						std::make_pair(min_x + i*xbin_size, min_x + (i + 1)*xbin_size),
-						std::make_pair(min_y + j*ybin_size, min_y + (j + 1)*ybin_size)
-					)] = 0U;
-			}
-			// iterate through data in ranges to bin
-			for (; first_x < last_x || first_y < last_y; ++first_x, ++first_y) {
-				std::size_t bin_x = (*first_x - min_x)*bs_x_recip; // find correct bin for x data
-				std::size_t bin_y = (*first_y - min_y)*bs_y_recip; // find correct bin for y data
-				rh[std::make_pair(
-					std::make_pair(min_x + bin_x*xbin_size, min_x + (bin_x + 1)*xbin_size),
-					std::make_pair(min_y + bin_y*ybin_size, min_y + (bin_y + 1)*ybin_size)
-				)]++;
-			}
-		}
-		// number of bins in x dimension
-		constexpr std::size_t xbins() const noexcept { return XNBins; }
-		// number of bins in y dimension
-		constexpr std::size_t ybins() const noexcept { return YNBins; }
-		// size of x dimension bin
-		range_type bin_size_x() const noexcept { return xbin_size; }
-		// size of y dimension bin
-		range_type bin_size_y() const noexcept { return ybin_size; }
-		// accessor for frequency of a given bin
-		std::size_t& operator[](const key_type& key) { return rh[key]; }
-		// make a std::map of the mid-points of the bin ranges
-		std::map<std::pair<range_type, range_type>, std::size_t>
-			binned_midranges() const {
-			std::map<std::pair<range_type, range_type>, std::size_t> mid_hist;
-			for (const auto& p : rh)
-				mid_hist[std::make_pair(
-				(p.first.first.first + p.first.first.second) / 2.0,
-					(p.first.second.first + p.first.second.second) / 2.0
-				)] = p.second;
-			return mid_hist;
-		}
-		// marginalise out the y-dimension of the histogram, making a ranged_histogram
-		ranged_histogram<range_type, XNBins> marginalise_y() const {
-			ranged_histogram<range_type, XNBins> marginalised;
-			std::size_t i = 0U; std::size_t acc = 0U;
-			for (const auto& p : rh) {
-				acc += p.second; // accumulate frequencies for each x bin 
-				if (!(i % XNBins)) { // check for multiple of XNBins
-					marginalised[p.first.first] =
-						static_cast<std::size_t>(xbin_size*acc);
-					acc = 0U;
-				}
-				++i;
-			}
-			return marginalised;
-		}
-	private:
-		rhist_t rh;
-		range_type xbin_size;
-		range_type ybin_size;
-	};
-	template<class RTy,
-		std::size_t NBins,
-		class InputIt
-	> ranged_histogram<RTy, NBins> make_ranged_histogram(InputIt first, InputIt last) {
-		return ranged_histogram<RTy, NBins>(first, last);
-	}
-	template<class RTy,
-		std::size_t XNBins,
-		std::size_t YNBins,
-		class InputIt
-	> ranged_histogram_2d<RTy, XNBins, YNBins> make_ranged_histogram_2d(InputIt first_x,
-		InputIt last_x, InputIt first_y, InputIt last_y) {
-		return ranged_histogram_2d<RTy, XNBins, YNBins>(first_x, last_x, first_y, last_y);
-	}
+        template<class RTy,
+            class = std::enable_if_t<std::is_arithmetic<RTy>::value>
+        > class ranged_histogram_2d {
+            typedef std::map<std::pair<
+                std::pair<RTy, RTy>,
+                std::pair<RTy, RTy>>, std::size_t> rhist_t;
+        public:
+            // PUBLIC TYPEDEFS
+            typedef RTy range_type;
+            typedef std::pair<std::pair<RTy, RTy>, std::pair<RTy, RTy>> bin_type;
+            typedef std::size_t frequency_type;
+            typedef typename rhist_t::const_iterator const_iterator;
+            typedef typename rhist_t::const_reverse_iterator const_reverse_iterator;
+            // CONSTRUCTION / DESTRUCTION
+            ranged_histogram_2d() : rh(), nbinsx(0U), nbinsy(0U), 
+                xbin_size(range_type()), ybin_size(range_type()) {}
+            template<class InputIt>
+            ranged_histogram_2d(InputIt first_x, InputIt last_x, InputIt first_y, InputIt last_y,
+                std::size_t xbins, std::size_t ybins) : rh() {
+                bin_data_(first_x, last_x, first_y, last_y, xbins, ybins);
+            }
+            // BIN PROPERTIES
+            std::size_t xbins() const noexcept { return nbinsx; }
+            std::size_t ybins() const noexcept { return nbinsy; }
+            range_type xbin_width() const noexcept { return xbin_size; }
+            range_type ybin_width() const noexcept { return ybin_size; }
+            // DATA BINNING
+            template<class InputIt>
+            void bin_data(InputIt first_x, InputIt last_x, InputIt first_y, InputIt last_y, 
+                std::size_t xbins, std::size_t ybins) {
+                bin_data_(first_x, last_x, first_y, last_y, xbins, ybins);
+            }
+            // FREQUENCY ACCESS
+            frequency_type operator[](const bin_type& bin) { return rh[bin]; }
+            frequency_type operator[](bin_type&& bin) { return rh[std::move(bin)]; }
+            // ITERATORS
+            const_iterator begin() const noexcept { return rh.begin(); }
+            const_iterator cbegin() const noexcept { return rh.cbegin(); }
+            const_iterator end() const noexcept { return rh.end(); }
+            const_iterator cend() const noexcept { return rh.cend(); }
+            const_reverse_iterator rbegin() const noexcept { return rh.rbegin(); }
+            const_reverse_iterator crbegin() const noexcept { return rh.crbegin(); }
+            const_reverse_iterator rend() const noexcept { return rh.rend(); }
+            const_reverse_iterator crend() const noexcept { return rh.crend(); }
+        private:
+            template<class InputIt>
+            void bin_data_(InputIt first_x, InputIt last_x, InputIt first_y, InputIt last_y,
+                std::size_t xbins, std::size_t ybins) {
+                nbinsx = xbins;
+                nbinsy = ybins;
+                auto minmax_x = *std::minmax_element(first_x, last_x);
+                auto minmax_y = *std::minmax_element(first_y, last_y);
+                range_type min_x = std::floor(*minmax_x.first);
+                range_type max_x = std::ceil(*minmax_x.second);
+                range_type min_y = std::floor(*minmax_y.first);
+                range_type max_y = std::ceil(*minmax_y.second);
+                xbin_size = (max_x - min_x)/nbinsx;
+                ybin_size = (max_y - min_y)/nbinsy;
+                range_type bs_x_recip = static_cast<range_type>(1.0 / xbin_size);
+                range_type bs_y_recip = static_cast<range_type>(1.0 / ybin_size);
+                for (std::size_t i = 0U; i < nbinsx; ++i) {
+                    for (std::size_t j = 0U; j < nbinsy; ++j) 
+                        rh[std::make_pair(
+                            std::make_pair(min_x + i*xbin_size, min_x + (i+1)*xbin_size),
+                            std::make_pair(min_y + j*ybin_size, min_y + (j+1)*ybin_size)
+                        )] = 0U;
+                }
+                for (; first_x < last_x || first_y < last_y; ++first_x; ++first_y) {
+                    std::size_t bin_x = (*first_x - min_x)*bs_x_recip;
+                    std::size_t bin_y = (*first_y - min_y)*bs_y_recip;
+                    rh[std::make_pair(
+                        std::make_pair(min_x + bin_x*xbin_size, min_x + (bin_x + 1)*xbin_size),
+                        std::make_pair(min_y + bin_y*ybin_size, min_y + (bin_y + 1)*ybin_size)
+                    )]++;
+                }
+            }
+            rhist_t rh;
+            std::size_t nbinsx;
+            std::size_t nbinsy;
+            range_type xbin_size;
+            range_type ybin_size;
+        };
+        
+        template<class RTy>
+        ranged_histogram<RTy> marginalise_y(const ranged_histogram_2d<RTy>& hist_2d) {
+            std::map<std::pair<RTy, RTy>, std::size_t> marginalised;
+            std::size_t i = 0U; std::size_t acc = 0U;
+            for (const auto& p : hist_2d) {
+                acc += p.second;
+                if (!(i % hist_2d.xbins())) {
+                    marginalised[p.first.first] = 
+                        static_cast<std::size_t>(hist_2d.xbin_width()*acc);
+                    acc = 0U;
+                }
+                ++i;
+            }
+            return ranged_histogram<RTy>(std::move(marginalised));
+        }
+    }
 }
-
 #endif // !RANGED_HISTOGRAM_H
