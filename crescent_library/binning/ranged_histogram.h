@@ -37,10 +37,30 @@ namespace crsc {
                 : rh(), bin_size(range_type()) {
                 bin_data_(first, last, _nbins);
             }
-            ranged_histogram(rhist_t&& range_map) : rh(std::move(range_map)),
-                nbins(range_map.size()) {
-                bin_size = (*range_map.begin()).second - (*range_map.begin()).first;    
-            }           
+            /**
+             * \brief Construct `ranged_histogram` from a copy of a `std::map<std::pair<RTy, RTy>,
+             *        std::size_t` instance.
+             * \param range_map A `std::map` with key equal to `ranged_histogram::bin_type` and
+             *        mapped type equal to `std::size_t`.
+             */
+            explicit ranged_histogram(const rhist_t& range_map) : rh(range_map),
+                nbins(rh.size()) {
+                bin_size = (*rh.begin()).second - (*rh.begin()).first;
+            }
+            /**
+             * \brief Construct `ranged_histogram` from a `std::map<std::pair<RTy, RTy>,
+             *        std::size_t` instance via move-semantics.
+             * \param range_map A `std::map` with key equal to `ranged_histogram::bin_type` and
+             *        mapped type equal to `std::size_t`.
+             */
+            explicit ranged_histogram(rhist_t&& range_map) : rh(std::move(range_map)),
+                nbins(rh.size()) {
+                bin_size = (*rh.begin()).second - (*rh.begin()).first;    
+            }
+            ranged_histogram(const ranged_histogram& other) : rh(other.rh), 
+                nbins(other.nbins), bin_size(other.bin_size) {}
+            ranged_histogram(ranged_histogram&& other) : rh(std::move(other.rh)),
+                nbins(std::move(other.nbins)), bin_size(std::move(other.bin_size)) {}
             // BIN PROPERTIES
             /**
              * \brief Returns the number of bins in the histogram.
@@ -124,6 +144,12 @@ namespace crsc {
                 std::size_t xbins, std::size_t ybins) : rh() {
                 bin_data_(first_x, last_x, first_y, last_y, xbins, ybins);
             }
+            ranged_histogram_2d(const ranged_histogram_2d& other) : rh(other.rh), 
+                nbinsx(other.nbinsx), nbinsy(other.nbinsy), xbin_size(other.xbin_size),
+                ybin_size(other.ybin_size) {}
+            ranged_histogram_2d(ranged_histogram_2d&& other) : rh(std::move(other.rh)),
+                nbinsx(std::move(other.nbinsx)), nbinsy(std::move(other.nbinsy)),
+                xbin_size(std::move(other.xbin_size)), ybin_size(std::move(ybin_size)) {}
             // BIN PROPERTIES
             std::size_t xbins() const noexcept { return nbinsx; }
             std::size_t ybins() const noexcept { return nbinsy; }

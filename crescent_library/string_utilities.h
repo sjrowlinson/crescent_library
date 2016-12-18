@@ -37,6 +37,12 @@ namespace crsc {
 			elems.push_back(std::stoi(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<long>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<long>` of split and parsed values.
+	 */
 	std::vector<long> split_stol(const std::string& s, char delim) {
 		std::vector<long> elems;
 		std::stringstream ss(s);
@@ -45,6 +51,12 @@ namespace crsc {
 			elems.push_back(std::stol(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<long long>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<long long>` of split and parsed values.
+	 */
 	std::vector<long long> split_stoll(const std::string& s, char delim) {
 		std::vector<long long> elems;
 		std::stringstream ss(s);
@@ -53,6 +65,12 @@ namespace crsc {
 			elems.push_back(std::stoll(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<unsigned long>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<unsigned long>` of split and parsed values.
+	 */
 	std::vector<unsigned long> split_stoul(const std::string& s, char delim) {
 		std::vector<unsigned long> elems;
 		std::stringstream ss(s);
@@ -61,6 +79,12 @@ namespace crsc {
 			elems.push_back(std::stoul(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<unsigned long long>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<unsigned long long>` of split and parsed values.
+	 */
 	std::vector<unsigned long long> split_stoull(const std::string& s, char delim) {
 		std::vector<unsigned long long> elems;
 		std::stringstream ss(s);
@@ -69,6 +93,12 @@ namespace crsc {
 			elems.push_back(std::stoull(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<float>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<float>` of split and parsed values.
+	 */
 	std::vector<float> split_stof(const std::string& s, char delim) {
 		std::vector<float> elems;
 		std::stringstream ss(s);
@@ -77,6 +107,12 @@ namespace crsc {
 			elems.push_back(std::stof(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<double>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<double>` of split and parsed values.
+	 */
 	std::vector<double> split_stod(const std::string& s, char delim) {
 		std::vector<double> elems;
 		std::stringstream ss(s);
@@ -85,6 +121,12 @@ namespace crsc {
 			elems.push_back(std::stod(item));
 		return elems;
 	}
+    /**
+	 * \brief Splits and parses a `std::string` around delimiters `delim` into a `std::vector<long double>`.
+	 * \param s `std::string` to split and parse.
+	 * \param delim delimiter around which to split `s`.
+	 * \return `std::vector<long double>` of split and parsed values.
+	 */
 	std::vector<long double> split_stold(const std::string& s, char delim) {
 		std::vector<long double> elems;
 		std::stringstream ss(s);
@@ -102,16 +144,6 @@ namespace crsc {
 	 */
 	std::string& prepend(std::string& s, const std::string& pr) {
 		return s.insert(0, pr);
-	}
-	/**
-	 * \brief Concatenates two `std::string` instances into a single `std::string`.
-	 *
-	 * \param _lhs First instance of `std::string`.
-	 * \param _rhs Second instance of `std::string`.
-	 * \return A `std::string` instance containing concatenated `_lhs` and `_rhs`.
-	 */
-	std::string concat(const std::string& lhs, const std::string& rhs) {
-		return lhs + rhs;
 	}
 	/**
 	 * \brief Determines whether a `std::string` instance starts with a given `char`.
