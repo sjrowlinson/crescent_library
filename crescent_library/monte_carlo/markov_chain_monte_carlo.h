@@ -13,7 +13,8 @@ namespace crsc {
 		/**
 		 * \brief Performs a Markov Chain Monte-Carlo analysis in `Dims` dimensions on data in the
 		 *        range `[first, last)` using the Metropolis-Hastings algorithm to decide on jump
-		 *        sampling conditions.
+		 *        sampling conditions. The proposal density used for the jump distributions is 
+         *        a normal distribution, hence the npd acronym.
 		 *
 		 * This function performs random sampling on some functional posterior form `f` using the
 		 * `std::mt19937` engine seeded with a `std::seed_seq` of 8 `std::random_device` instances.
@@ -30,14 +31,14 @@ namespace crsc {
 		 * \param samples Number of samples to perform.
 		 * \param f Functional form of posterior pdf.
 		 * \param f_args Optional arguments to forward to function `f`.
-		 * \return A `std::vector` containing the `Dims` dimensional posterior pdf data.
+		 * \return A `std::vector` containing the `Dims` dimensional "posterior pdf" data.
 		 */
 		template<class Ty,
 			std::size_t Dims,
 			class InputIt,
 			class... Args,
 			class = std::enable_if_t<std::is_floating_point<Ty>::value>
-		> std::vector<std::array<Ty, Dims>> mcmc_metropolis_hastings(InputIt first, InputIt last, 
+		> std::vector<std::array<Ty, Dims>> mcmc_metropolis_hastings_npd(InputIt first, InputIt last, 
 			const std::array<Ty, Dims>& init, const std::array<std::pair<Ty, Ty>, Dims>& prior, 
 			const std::array<Ty, Dims>& jsigma, std::size_t samples, 
 			std::function<Ty(InputIt, InputIt, const std::array<Ty, Dims>&, Args&&...)> f, Args&&... f_args) {
